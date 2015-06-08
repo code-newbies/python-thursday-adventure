@@ -1,5 +1,5 @@
 # Welcome to the Python Thursday Project! 
-This is the project for the CodeNewbie Python Thursday group. You can join the group [here](https://codenewbie.typeform.com/to/uwsWlZ). To get started, read the following, and if you get stuck, reach out to [INSERT NAME] the host.
+This is the project for the CodeNewbie Python Thursday group. You can join the group [here](https://codenewbie.typeform.com/to/uwsWlZ). To get started, read the following, and if you get stuck, reach out to Phillip (github: @phillipgray, slack: @phillipg) the host.
 
 ### About this project
 To start out, we are building a command line game to help us develop our Python skills (and review OOP principles). We meet weekly [here](https://codenewbie.typeform.com/to/uwsWlZ) in the "python-thursday" channel on Thursday at 9PM EST, so mark your calendars and stop by! There, we'll review the project, look at code together, and share what we learned. 
@@ -39,7 +39,10 @@ We'll be using the Feature Branch Workflow for these projects. This is a great b
 ### Skill requirements
 You're welcome to start contributing at any level, but it's helpful to have some knowledge of Python. To get you started go through the following tutorials first.
 
-
+- [Python 3 cheat sheet](http://learnxinyminutes.com/docs/python3/)
+  If you're coming from another programming language, or you're pretty solid with Python 2.7, this single page has syntax examples to get you up and running fast in Python 3.
+- [How To Think Like A Computer Scientist (Python 3)](http://interactivepython.org/runestone/static/thinkcspy/toc.html)
+- [Dive Into Python 3](http://www.diveintopython3.net)
 
 Once you're done, come back and get your code on!
 
@@ -48,7 +51,7 @@ There's a big gap between the knowledge you gain when you go through the tutoria
 ### How to contribute
 We use pull requests so you can get your code reviewed by others before merging it into the project. Code reviews are a great way to learn and collaborate. Here's how the process works:
 
-1. Join our [Slack community][1] and tell your host [ INSERT HOST HANDLE HERE ] you want to join the project repo
+1. Join our [Slack community][1] and tell your host @phillipg you want to join the project repo
 2. The host will invite you to join as a collaborator. You **MUST** be a collaborator to join the project and pick up features.
 3. Accept invite from Github to join as a collaborator.
 - Look through the issues list and pick a feature you want to work on.
@@ -57,11 +60,11 @@ We use pull requests so you can get your code reviewed by others before merging 
 - Make a feature branch for the issue you're working on. The first part of the branch name should be your initials, like this: `sy-allows-users-to-update-avatar`
 - Push your branch to origin. 
 - When your feature is done and ready to be reviewed, make pull request.
-- Copy and paste your pull request link to the [INSERT GROUP NAME ] Slack channel for review.
-- Once you get some feedback on your pull request and a final thumbs up from a community member, merge to master & the close branch.
+- Copy and paste your pull request link to the \#python-thursday Slack channel for review.
+- Once you get some feedback on your pull request and a final thumbs up from a community member, merge to master & close the branch.
 
-### Come to Ruby Monday!
-Join us at 9PM EST on [ INSERT YOUR DAY ] to review code and talk about the project. Come with questions, code to show, and be ready to share what you're learning!
+### Come to Python Thursday!
+Join us at 9PM EST on Thursday to review code and talk about the project. Come with questions, code to show, and be ready to share what you're learning!
 
 ## Community rules & guidelines
 The purpose of this project is to learn by working on a real-world application. Use the code reviews as a place to ask questions, offer suggestions, and share your thoughts. When giving feedback, particularly on code reviews, please remember our community rules: be nice, be honest, be supportive. We're all learning, so let's make sure to be kind to one another. 
