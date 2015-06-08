@@ -41,6 +41,7 @@ You're welcome to start contributing at any level, but it's helpful to have some
 
 - [Python 3 cheat sheet](http://learnxinyminutes.com/docs/python3/)
   If you're coming from another programming language, or you're pretty solid with Python 2.7, this single page has syntax examples to get you up and running fast in Python 3.
+- [Non-Programmer's Tutorial for Python 3](http://en.wikibooks.org/wiki/Non-Programmer%27s_Tutorial_for_Python_3)
 - [How To Think Like A Computer Scientist (Python 3)](http://interactivepython.org/runestone/static/thinkcspy/toc.html)
 - [Dive Into Python 3](http://www.diveintopython3.net)
 
