@@ -47,7 +47,7 @@ You're welcome to start contributing at any level, but it's helpful to have some
 
 Once you're done, come back and get your code on!
 
-There's a big gap between the knowledge you gain when you go through the tutorials, and the skills you need to be job ready. We hope to help fill that big by working on collaborative projects like this. So if you're tired of doing tutorials and you're looking for some real-world experience, this is for you.
+There's a big gap between the knowledge you gain when you go through the tutorials, and the skills you need to be job ready. We hope to help fill that gap by working on collaborative projects like this. So if you're tired of doing tutorials and you're looking for some real-world experience, this is for you.
 
 ### How to contribute
 We use pull requests so you can get your code reviewed by others before merging it into the project. Code reviews are a great way to learn and collaborate. Here's how the process works:
