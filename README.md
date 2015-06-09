@@ -14,7 +14,7 @@ In particular, we hope to:
 ## Getting Started
 
 ### Tech requirements
-You'll need to have installed Python 3(?) to begin. The tl;dr instructions: head to [python.org](https://www.python.org/downloads/), download and install the latest 3.x.x version for your operating system, ???, profit. For more detailed instructions, links are provided below.
+You'll need to have installed Python 3 to begin. The TL;DR instructions: head to [python.org](https://www.python.org/downloads/), download and install the latest 3.x.x version for your operating system, ???, profit. For more detailed instructions, links are provided below.
 
 - Mac: [here](http://www.diveintopython3.net/installing-python.html#macosx) or [here](http://en.wikibooks.org/wiki/Non-Programmer%27s_Tutorial_for_Python_3/Intro#Mac_users)
 
@@ -43,8 +43,8 @@ We'll be using the Feature Branch Workflow for these projects. This is a great b
 ### Skill requirements
 You're welcome to start contributing at any level, but it's helpful to have some knowledge of Python. To get you started, go through one of the following tutorials first.
 
-- [Python 3 cheat sheet](http://learnxinyminutes.com/docs/python3/)
-  If you're coming from another programming language, or you're pretty solid with Python 2.7, this single page has syntax examples to get you up and running fast in Python 3.
+- [Python 3 Cheat Sheet](http://learnxinyminutes.com/docs/python3/)
+  If you're coming from another programming language, or you're pretty solid with Python 2, this single page has syntax examples to get you up and running fast in Python 3.
 
 - [Non-Programmer's Tutorial for Python 3](http://en.wikibooks.org/wiki/Non-Programmer%27s_Tutorial_for_Python_3)
 
