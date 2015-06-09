@@ -14,11 +14,10 @@ In particular, we hope to:
 ## Getting Started
 
 ### Tech requirements
-You'll need to have installed Python 3(?) to begin. Here's how:
-
-- Mac
-- Windows
-- Linux
+You'll need to have installed Python 3(?) to begin. The tl;dr instructions are: head to (python.org)[https://www.python.org/downloads/], download and install the latest 3.x.x version for your operating system, ???, profit. For more detailed instructions, links are provided below.
+- Mac [here](http://www.diveintopython3.net/installing-python.html#macosx) or [here](http://en.wikibooks.org/wiki/Non-Programmer%27s_Tutorial_for_Python_3/Intro#Mac_users)
+- Linux [here](http://www.diveintopython3.net/installing-python.html#ubuntu) or [here](http://en.wikibooks.org/wiki/Non-Programmer%27s_Tutorial_for_Python_3/Intro#Linux.2C_BSD.2C_and_Unix_users)
+- Windows [here](http://www.diveintopython3.net/installing-python.html#windows) or [here](http://en.wikibooks.org/wiki/Non-Programmer%27s_Tutorial_for_Python_3/Intro#Windows_users) Note: For Windows users, there is the extra step of setting PATH variables. You can either do it from the GUI interface of the Windows installer from Python.org, or using the command line ((instructions))[http://en.wikibooks.org/wiki/Non-Programmer%27s_Tutorial_for_Python_3/Intro#Configuring_your_PATH_environment_variable]
 
 You'll also need a Github account and some knowledge of git. If you're not comfortable using git, that's perfectly fine! Start by looking at the following resources:
 
