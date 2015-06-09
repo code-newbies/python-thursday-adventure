@@ -22,7 +22,7 @@ You'll need to have installed Python 3 to begin. The TL;DR instructions: head to
 
 - Windows: [here](http://www.diveintopython3.net/installing-python.html#windows) or [here](http://en.wikibooks.org/wiki/Non-Programmer%27s_Tutorial_for_Python_3/Intro#Windows_users) 
 
-**Note**: For Windows users, there is the extra step of setting your PATH variable. You can either do it from the GUI interface of the Windows installer from Python.org (recommended!), or using the command line [instructions](http://en.wikibooks.org/wiki/Non-Programmer%27s_Tutorial_for_Python_3/Intro#Configuring_your_PATH_environment_variable).
+**Note**: For Windows users, there is the extra step of setting your PATH variable. You can either do it from the GUI interface of the Windows installer from Python.org (recommended!), or using the command line [(instructions).](http://en.wikibooks.org/wiki/Non-Programmer%27s_Tutorial_for_Python_3/Intro#Configuring_your_PATH_environment_variable)
 
 You'll also need a Github account and some knowledge of git. If you're not comfortable using git, that's perfectly fine! Start by looking at the following resources:
 
