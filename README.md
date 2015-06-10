@@ -14,7 +14,7 @@ In particular, we hope to:
 ## Getting Started
 
 ### Tech requirements
-You'll need to have installed Python 3 to begin. The TL;DR instructions: head to [python.org](https://www.python.org/downloads/), download and install the latest 3.x.x version for your operating system, ???, profit. For more detailed instructions, links are provided below.
+You'll need to have installed Python 3 to begin. The TL;DR instructions: head to [python.org](https://www.python.org/downloads/), download and install the latest 3.x.x version for your operating system. For more detailed instructions, links are provided below.
 
 - Mac: [here](http://www.diveintopython3.net/installing-python.html#macosx) or [here](http://en.wikibooks.org/wiki/Non-Programmer%27s_Tutorial_for_Python_3/Intro#Mac_users)
 
