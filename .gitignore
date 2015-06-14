@@ -2,6 +2,12 @@
 __pycache__/
 *.py[cod]
 
+# Virtual Environment
+venv/
+
+# Temporary Files
+*~
+ 
 # C extensions
 *.so
 
