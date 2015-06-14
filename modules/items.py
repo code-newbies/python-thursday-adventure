@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from functools import reduce
 
 class Item():
@@ -71,3 +72,11 @@ class Bag():
             seen = seen + self.format_item(self.items[item])
 
         return seen
+=======
+# item classes here
+
+class Bag():
+    def isEmpty(self):
+        return True
+
+>>>>>>> ef63672... added first functional test for feature story and first unit test

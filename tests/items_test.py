@@ -1,11 +1,14 @@
 import unittest
 from modules.items import Bag
+<<<<<<< HEAD
 from modules.items import Item
 
 class ItemTest(unittest.TestCase):
     def test_item_accepts_name_on_init(self):
         item = Item("dragonglass")
         self.assertEqual(item.name, "dragonglass")
+=======
+>>>>>>> ef63672... added first functional test for feature story and first unit test
 
 class BagTest(unittest.TestCase):
     def setUp(self):
@@ -15,6 +18,7 @@ class BagTest(unittest.TestCase):
         self.bag = None
 
     def test_can_check_bag_to_see_if_empty(self):
+<<<<<<< HEAD
         self.assertTrue(self.bag.is_empty())
 
     def test_can_return_item_count_when_empty(self):
@@ -123,6 +127,9 @@ class BagTest(unittest.TestCase):
         self.assertEqual(5, removed_count)
         self.assertEqual(0, self.bag.how_many("rhymes"))
         self.assertEqual("rhymes", item.name)
+=======
+        self.assertTrue(self.bag.isEmpty())
+>>>>>>> ef63672... added first functional test for feature story and first unit test
 
 
 if __name__ == '__main__':

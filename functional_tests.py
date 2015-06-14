@@ -1,6 +1,10 @@
 import unittest
 from modules.items import Bag
+<<<<<<< HEAD
 from modules.items import Item
+=======
+
+>>>>>>> ef63672... added first functional test for feature story and first unit test
 
 class InventoryBagTest(unittest.TestCase):
     def setUp(self):
@@ -14,6 +18,7 @@ class InventoryBagTest(unittest.TestCase):
         self.assertIsNotNone(self.bag)
 
         # Her inventory bag is empty and contains no items
+<<<<<<< HEAD
         self.assertTrue(self.bag.is_empty())
         self.assertEqual(self.bag.item_count(), 0)
 
@@ -119,6 +124,21 @@ class InventoryBagTest(unittest.TestCase):
         item = pile["rock"]
         self.assertEqual(item["name"], "rock")
         self.assertEqual(item["count"], 1)
+=======
+        self.assertTrue(self.bag.isEmpty())
+        self.assertEqual(self.bag.itemCount, 0)
+
+        # Inara sees a pile of rocks nearby and lacking any other items decides to put them into her bag
+        self.fail('Finish the test')
+
+        # She puts one rock into her bag
+
+        # She puts two more rocks into her bag
+
+        # Looking into her bag, she sees that it now contains 3 rocks
+
+        # Inara, happy to have something in her bag, starts on her adventure.  Before long she stumbles on something in a dark shadow.  Picking it up she sees that it is a shiny dagger.  After putting it into her bag she checks her bag to ensure that it is safe inside.  She now has 3 rocks and a dagger in her bag.
+>>>>>>> ef63672... added first functional test for feature story and first unit test
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
