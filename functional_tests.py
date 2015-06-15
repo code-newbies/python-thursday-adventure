@@ -1,6 +1,6 @@
 import unittest
 from modules.items import Bag
-
+from modules.items import Item
 
 class InventoryBagTest(unittest.TestCase):
     def setUp(self):
@@ -14,15 +14,25 @@ class InventoryBagTest(unittest.TestCase):
         self.assertIsNotNone(self.bag)
 
         # Her inventory bag is empty and contains no items
-        self.assertTrue(self.bag.isEmpty())
-        self.assertEqual(self.bag.itemCount, 0)
+        self.assertTrue(self.bag.is_empty())
+        self.assertEqual(self.bag.item_count(), 0)
 
-        # Inara sees a pile of rocks nearby and lacking any other items decides to put them into her bag
-        self.fail('Finish the test')
-
-        # She puts one rock into her bag
+        # Inara sees a pile of rocks nearby and lacking any other items decides to put them into her bag. She puts one rock into her bag.  Looking into her bag, it is no longer empty, she has one rock in it.
+        rock = Item("rock")
+        self.bag.add(rock)
+        self.assertFalse(self.bag.is_empty())
+        self.assertEqual(self.bag.item_count(), 1)
+        
+        pile = self.bag.dump()
+        item_list = pile.keys()
+        self.assertEqual(len(item_list), 1)
+        self.assertIn("rock", item_list)
+        item = pile["rock"]
+        self.assertEqual(item["name"], "rock")
+        self.assertEqual(item["count"], 1)
 
         # She puts two more rocks into her bag
+        self.fail('Finish the test')
 
         # Looking into her bag, she sees that it now contains 3 rocks
 
