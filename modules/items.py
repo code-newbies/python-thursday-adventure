@@ -22,3 +22,14 @@ class Bag():
     
     def dump(self):
         return self.items
+
+    def format_item(self, item):
+        return ("{0} {1}\n".format(item['count'], item['name']))
+
+    def look(self):
+        seen = ""
+
+        for item in self.items:
+            seen = seen + self.format_item(self.items[item])
+
+        return seen

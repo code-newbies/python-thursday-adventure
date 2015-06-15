@@ -56,6 +56,12 @@ class BagTest(unittest.TestCase):
         item = amulet['item']
         self.assertIsInstance(item, Item)
 
+    def test_can_look_in_bag(self):
+        stick = Item("stick")
+        self.bag.add(stick)
+        seen = self.bag.look()
+        self.assertIn("1 stick", seen)
+
     # TODO fix total item count with reduce()
 
 
