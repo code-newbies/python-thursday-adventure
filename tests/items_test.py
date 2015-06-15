@@ -61,8 +61,24 @@ class BagTest(unittest.TestCase):
         self.bag.add(stick)
         seen = self.bag.look()
         self.assertIn("1 stick", seen)
+    
+    def test_can_fund_how_many_of_an_item_are_in_bag(self):
+        planet = Item("planet")
+        self.bag.add(planet)
+        self.bag.add(planet)
+        self.assertEqual(2, self.bag.how_many("planet"))
 
-    # TODO fix total item count with reduce()
+    def test_how_many_handles_no_items_of_type(self):
+        self.assertEqual(0, self.bag.how_many("jabberwocky"))
+
+#    def test_adding_multiple_of_the_same_item_increases_item_count(self):
+#        butter = Item("butter")
+#        self.bag.add(butter)
+#        self.bag.add(butter)
+#        self.assertEqual(2, self.bag.item_count())
+#        self.bag.add(butter)
+#        self.assertEqual(3, self.bag.item_count())
+
 
 
 if __name__ == '__main__':
