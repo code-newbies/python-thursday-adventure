@@ -63,11 +63,18 @@ class InventoryBagTest(unittest.TestCase):
         self.assertTrue(self.bag.item_count() >= 14)
 
         # Mary enters the unhappy home with a messy room and tells the kids to tidy up.  The children don't want to tidy up so she starts searching through her bag.  She removes a hatrack but puts it back
-        self.fail("finish the test!")
+        hatrack_count = self.bag.how_many("hatrack")
+        self.bag.remove("hatrack")
+        self.assertEqual(hatrack_count - 1, self.bag.how_many("hatrack"))
+        self.bag.add(Item("hatrack"))
+        self.assertEqual(hatrack_count, self.bag.how_many("hatrack"))
 
         # Mary then removes the medicine.
+        self.bag.remove("medicine")
 
+        self.fail("finish the test!")
         # She tries to remove two teaspoons but only has one. 
+
 
         # She removes the teaspoon
 
