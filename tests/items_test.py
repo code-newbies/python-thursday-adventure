@@ -71,15 +71,19 @@ class BagTest(unittest.TestCase):
     def test_how_many_handles_no_items_of_type(self):
         self.assertEqual(0, self.bag.how_many("jabberwocky"))
 
-#    def test_adding_multiple_of_the_same_item_increases_item_count(self):
-#        butter = Item("butter")
-#        self.bag.add(butter)
-#        self.bag.add(butter)
-#        self.assertEqual(2, self.bag.item_count())
-#        self.bag.add(butter)
-#        self.assertEqual(3, self.bag.item_count())
+    def test_adding_multiple_of_the_same_item_increases_item_count(self):
+        butter = Item("butter")
+        self.bag.add(butter)
+        self.bag.add(butter)
+        self.assertEqual(2, self.bag.item_count())
+        self.bag.add(butter)
+        self.assertEqual(3, self.bag.item_count())
 
-
+    def test_can_add_many(self):
+        turtle = Item("turtle")
+        self.bag.add_many(turtle, 5)
+        self.assertEqual(5, self.bag.how_many("turtle"))
+        self.assertEqual(5, self.bag.item_count())
 
 if __name__ == '__main__':
     unittest.main()
