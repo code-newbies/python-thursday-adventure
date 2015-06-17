@@ -171,7 +171,8 @@ class InventoryBagTest(unittest.TestCase):
         self.bag.add_many(Item("spoonful of sugar"), 3)
 
         # Her bag contains at least 14 items.
-        self.assertTrue(self.bag.item_count() >= 14)
+        total_items = self.bag.item_count()
+        self.assertTrue(total_items >= 14)
 
         # Mary enters the unhappy home with a messy room and tells the kids to tidy up.  The children don't want to tidy up so she starts searching through her bag.  She removes a hatrack but puts it back
         hatrack_count = self.bag.how_many("hatrack")
@@ -187,23 +188,32 @@ class InventoryBagTest(unittest.TestCase):
         self.assertEqual(medicine.name, "medicine")
 
         # She tries to remove two teaspoons but only has one. 
+        # She removes the teaspoon
         teaspoon_count, teaspoon = self.bag.remove_many("teaspoon", 2)
         self.assertEqual(teaspoon_count, 1)
         self.assertEqual(self.bag.how_many("teaspoon"), 0)
         self.assertEqual(teaspoon.name, "teaspoon")
 
-        # She removes the teaspoon
-        self.fail("finish the test!")
-
         # She removes one spoonful of sugar and begins to sing
+        sugar_count, sugar = self.bag.remove("spoonful of sugar")
+        self.assertEqual(1, sugar_count)
 
         # She removes another spoonful of sugar and continues to sing.
+        sugar_count, sugar = self.bag.remove("spoonful of sugar")
+        self.assertEqual(1, sugar_count)
 
         # She removes the third spoonful of sugar smiles to herself and takes her medicine. 
+        sugar_count, sugar = self.bag.remove("spoonful of sugar")
+        self.assertEqual(1, sugar_count)
 
         # Mary now has 5 less items in her bag
+        new_total_items = self.bag.item_count()
+        self.assertEqual(5, total_items - new_total_items)
 
         # She returns the medicine and spoon to her bag and with at least 12 items in her bag continues with her work
+        self.bag.add(teaspoon)
+        self.bag.add(medicine)
+        self.assertTrue(self.bag.item_count() >= 12)
 
     def test_items_are_dumped_into_a_pile(self):
 <<<<<<< HEAD
