@@ -123,20 +123,7 @@ class Bag():
             self.items[item.name] = {'count': quantity, 'name':item.name, 'item': item}
     
     def remove(self, item_name):
-        if item_name in self.items:
-            item_dict = self.items[item_name]
-
-            item = item_dict['item']
-            item_count = item_dict['count']
-            new_item_count = item_count -1
-            item_dict['count'] += new_item_count
-
-            if new_item_count == 0:
-                self.items.pop(item_name)
-
-            return (1, item)
-        else:
-            return (0, None)
+        return self.remove_many(item_name, 1)
 
     def remove_many(self, item_name, quantity):
         if item_name in self.items:
