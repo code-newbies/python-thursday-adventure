@@ -120,6 +120,6 @@ class InventoryBagTest(unittest.TestCase):
         self.assertEqual(item["name"], "rock")
         self.assertEqual(item["count"], 1)
 
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
+#if __name__ == '__main__':
+#    unittest.main(warnings='ignore')
 
