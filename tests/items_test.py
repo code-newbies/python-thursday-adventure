@@ -110,5 +110,20 @@ class BagTest(unittest.TestCase):
         self.assertEqual(0, self.bag.how_many("smoke"))
         self.assertEqual(0, self.bag.item_count())
         
+    def test_remove_many_items_from_bag_at_once(self):
+        self.bag.add_many(Item("blind mouse"), 5)
+        removed_count, item = self.bag.remove_many("blind mouse", 3)
+        self.assertEqual(3, removed_count)
+        self.assertEqual(2, self.bag.how_many("blind mouse"))
+        self.assertEqual("blind mouse", item.name)
+
+    def test_remove_many_items_will_remove_only_as_many_as_exist(self):
+        self.bag.add_many(Item("rhymes"), 5)
+        removed_count, item = self.bag.remove_many("rhymes", 7)
+        self.assertEqual(5, removed_count)
+        self.assertEqual(0, self.bag.how_many("rhymes"))
+        self.assertEqual("rhymes", item.name)
+
+
 if __name__ == '__main__':
     unittest.main()

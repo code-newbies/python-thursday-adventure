@@ -50,6 +50,27 @@ class Bag():
         else:
             return (0, None)
 
+    def remove_many(self, item_name, quantity):
+        if item_name in self.items:
+            item_dict = self.items[item_name]
+
+            item = item_dict['item']
+            item_count = item_dict['count']
+            new_item_count = item_count - quantity
+
+            if item_count >= quantity:
+                item_dict['count'] -= quantity
+                taken = quantity
+            else:
+                taken = item_count
+
+            if new_item_count <= 0:
+                self.items.pop(item_name)
+
+            return (taken, item)
+        else:
+            return (0, None)
+
     def dump(self):
         return self.items
 
