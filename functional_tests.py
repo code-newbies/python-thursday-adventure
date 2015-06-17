@@ -181,13 +181,19 @@ class InventoryBagTest(unittest.TestCase):
         self.assertEqual(hatrack_count, self.bag.how_many("hatrack"))
 
         # Mary then removes the medicine.
-        self.bag.remove("medicine")
+        med_count, medicine = self.bag.remove("medicine")
+        self.assertEqual(med_count, 1)
+        self.assertIsInstance(medicine, Item)
+        self.assertEqual(medicine.name, "medicine")
 
-        self.fail("finish the test!")
         # She tries to remove two teaspoons but only has one. 
-
+        teaspoon_count, teaspoon = self.bag.remove_many("teaspoon", 2)
+        self.assertEqual(teaspoon_count, 1)
+        self.assertEqual(self.bag.how_many("teaspoon"), 0)
+        self.assertEqual(teaspoon.name, "teaspoon")
 
         # She removes the teaspoon
+        self.fail("finish the test!")
 
         # She removes one spoonful of sugar and begins to sing
 
