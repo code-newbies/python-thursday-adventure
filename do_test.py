@@ -31,11 +31,11 @@ if run_unit:
     from tests.engine_test import *
 
 if run_funct:
-    from functional.inventory_tests import *
-    from functional.engine_tests import *
+    from functional.inventory_test import *
+    from functional.engine_test import *
 
 if run_unit or run_funct:
     if __name__ == '__main__':
-        unittest.main(warnings='ignore')
+        unittest.main(module=__name__, buffer=True, exit=False)
 else:
     print(help_text)
