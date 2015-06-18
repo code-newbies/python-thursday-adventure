@@ -36,6 +36,7 @@ if run_funct:
 
 if run_unit or run_funct:
     if __name__ == '__main__':
-        unittest.main(module=__name__, buffer=True, exit=False)
+#        unittest.main(module=__name__, buffer=True, exit=False)
+        unittest.main()
 else:
     print(help_text)
