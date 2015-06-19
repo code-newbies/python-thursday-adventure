@@ -31,8 +31,8 @@ if run_unit:
     from tests.engine_test import *
 
 if run_funct:
-    from functional.inventory_test import *
-    from functional.engine_test import *
+    from tests.functional.inventory_test import *
+    from tests.functional.engine_test import *
 
 if run_unit or run_funct:
     if __name__ == '__main__':
