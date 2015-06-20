@@ -7,6 +7,7 @@ class Engine:
 
     def start(self):
         self.greet()
+        self.main_loop()
     
     def greet(self):
         response = self.prompt("Hello, what is your name: ")
@@ -16,7 +17,22 @@ class Engine:
         play = True
 
         while play:
-            command = self.prompt(self.prompt_char).upper()
+            command = self.prompt(self.prompt_char).lower()
 
-            if command == "Q":
+
+            if command == "q":
                 play = False
+            elif command == "help":
+                self.display_help()
+
+    def display_help(self):
+        help_text = """
+        You asked for help and here it is!
+
+        The commands that you can use are as follows:
+
+        help - Display this help menu
+        Q - Quit
+        """
+        self.display(help_text)
+
