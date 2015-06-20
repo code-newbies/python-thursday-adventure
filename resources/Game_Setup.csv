@@ -1,5 +1,5 @@
-Room Name,Room Size,Locked,Exit
-Start,18,no,left
-Key,27,no,right/left
-Exit,20,yes,forward/right
-Gold,35,no,back
+Room Name,Room Size,Locked,Exit Row,Exit Column
+Start,18,no,17,8
+Key,27,no,0,14
+Exit,20,yes,5,0
+Gold,35,no,31,34
