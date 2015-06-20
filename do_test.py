@@ -32,6 +32,7 @@ if run_unit:
 
 if run_funct:
 <<<<<<< HEAD
+<<<<<<< HEAD
     from tests.functional.inventory_test import *
     from tests.functional.engine_test import *
 
@@ -47,5 +48,13 @@ if run_unit or run_funct:
     if __name__ == '__main__':
         unittest.main(warnings='ignore')
 >>>>>>> fbe2f51... created do_test.py to run unit and functional tests
+=======
+    from functional.inventory_test import *
+    from functional.engine_test import *
+
+if run_unit or run_funct:
+    if __name__ == '__main__':
+        unittest.main(module=__name__, buffer=True, exit=False)
+>>>>>>> 4a69152... created fucntional test that allows stdout to be read and allows input to be passed to the program
 else:
     print(help_text)

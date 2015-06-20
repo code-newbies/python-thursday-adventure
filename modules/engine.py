@@ -1,5 +1,6 @@
 
 class Engine:
+<<<<<<< HEAD
     def __init__(self, prompt_func=input, print_func=print):
         self.prompt = prompt_func
         self.display = print_func
@@ -20,3 +21,11 @@ class Engine:
 
             if command == "Q":
                 play = False
+=======
+    def __init__(self, prompt_func=input):
+        self.prompt = prompt_func
+
+    def start(self):
+        response = self.prompt("Hello, what is your name: ")
+        print("Welcome to text adventure, {0}!".format(response))
+>>>>>>> 4a69152... created fucntional test that allows stdout to be read and allows input to be passed to the program
