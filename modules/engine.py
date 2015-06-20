@@ -19,6 +19,7 @@ class Engine:
 
         while play:
 <<<<<<< HEAD
+<<<<<<< HEAD
             command = self.prompt(self.prompt_char).upper()
 
             if command == "Q":
@@ -41,6 +42,9 @@ class Engine:
 >>>>>>> 579a2d6... Updated to use passed in output function rather than print. This will make for cleaner tests.
 =======
             command = self.prompt(self.prompt_char)
+=======
+            command = self.prompt(self.prompt_char).upper()
+>>>>>>> e0a63b3... Adds main game loop and test helpers
 
             if command == "Q":
                 play = False

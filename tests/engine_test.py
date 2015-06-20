@@ -23,11 +23,17 @@ class EngineTest(BaseTest):
         self.assertIn(prompt, ">")
         self.assertPrinted(prompt, 0)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e0a63b3... Adds main game loop and test helpers
 
     def test_engine_commands_are_not_case_sensitive(self):
         self.say("q")
         self.engine.main_loop()
         self.assertIn(prompt, ">")
         self.assertPrinted(prompt, 0)
+<<<<<<< HEAD
 =======
 >>>>>>> 376ef97... Creates main loop and allows 'Q' to exit the main loop
+=======
+>>>>>>> e0a63b3... Adds main game loop and test helpers
