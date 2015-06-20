@@ -7,7 +7,7 @@ class Room():
 		
 	def get_room_data(self):
 		self.data = {}
-		with open(self.filename, 'rb') as file:
+		with open(self.filename, 'r') as file:
 			reader = csv.DictReader(file)
 			for row in reader:
 				self.data[row['Room Name']] = int(row['Room Size'])
