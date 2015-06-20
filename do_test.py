@@ -54,7 +54,12 @@ if run_unit or run_funct:
 
 if run_unit or run_funct:
     if __name__ == '__main__':
+<<<<<<< HEAD
         unittest.main(module=__name__, buffer=True, exit=False)
 >>>>>>> 4a69152... created fucntional test that allows stdout to be read and allows input to be passed to the program
+=======
+#        unittest.main(module=__name__, buffer=True, exit=False)
+        unittest.main()
+>>>>>>> 579a2d6... Updated to use passed in output function rather than print. This will make for cleaner tests.
 else:
     print(help_text)
