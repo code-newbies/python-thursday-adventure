@@ -1,5 +1,5 @@
 Room Name,Room Size,Locked,Exit
-Start ,18,no,left
+Start,18,no,left
 Key,27,no,right/left
-Exit,45,yes,forward/right
-Gold,36,no,back
+Exit,20,yes,forward/right
+Gold,35,no,back
