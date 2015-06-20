@@ -11,7 +11,16 @@ class BaseTest(unittest.TestCase):
         self.commands.append(command)
 
     def next_command(self):
-        command = self.commands[self.command_count]
+        try:
+            command = self.commands[self.command_count]
+        except IndexError:
+            details = """
+            Game expected command that was not anticpated
+            printed queue: {0}
+            command queue: {1}
+            command_count: {2}
+            """.format(self.printed, self.commands, self.command_count)
+            raise AssertionError(details)
         self.command_count += 1
         return command
 

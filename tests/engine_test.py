@@ -22,3 +22,9 @@ class EngineTest(BaseTest):
         self.engine.main_loop()
         self.assertIn(prompt, ">")
         self.assertPrinted(prompt, 0)
+
+    def test_engine_commands_are_not_case_sensitive(self):
+        self.say("q")
+        self.engine.main_loop()
+        self.assertIn(prompt, ">")
+        self.assertPrinted(prompt, 0)

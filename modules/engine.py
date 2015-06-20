@@ -16,7 +16,7 @@ class Engine:
         play = True
 
         while play:
-            command = self.prompt(self.prompt_char)
+            command = self.prompt(self.prompt_char).upper()
 
             if command == "Q":
                 play = False

@@ -32,3 +32,13 @@ class CanLoopTheMainLoop(BaseTest):
         
         # The text adventure ends 
         self.assertPrinted(">", 0)
+
+    def test_fred_can_stop_the_loop_with_lower_case_q(self):
+        # Fred when closing the game as quickly as possible doesn't have time to press shift 
+        # He sends a lower case 'q' instead
+        # The game closes anyway
+        self.say("q")
+        self.engine.main_loop()
+        
+        # The text adventure ends 
+        self.assertPrinted(">", 0)
