@@ -79,6 +79,9 @@ class BagTest(unittest.TestCase):
         seen = self.bag.look()
         self.assertIn("1 stick", seen)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6793ab1... finished initial functional test that covers adding items and looking at them
     
     def test_can_fund_how_many_of_an_item_are_in_bag(self):
         planet = Item("planet")
@@ -89,6 +92,7 @@ class BagTest(unittest.TestCase):
     def test_how_many_handles_no_items_of_type(self):
         self.assertEqual(0, self.bag.how_many("jabberwocky"))
 
+<<<<<<< HEAD
     def test_adding_multiple_of_the_same_item_increases_item_count(self):
         butter = Item("butter")
         self.bag.add(butter)
@@ -150,6 +154,16 @@ class BagTest(unittest.TestCase):
 >>>>>>> a8c3e9a... changed the functional test from using a dump() function to a look() functionwq
     # TODO fix total item count with reduce()
 >>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
+=======
+#    def test_adding_multiple_of_the_same_item_increases_item_count(self):
+#        butter = Item("butter")
+#        self.bag.add(butter)
+#        self.bag.add(butter)
+#        self.assertEqual(2, self.bag.item_count())
+#        self.bag.add(butter)
+#        self.assertEqual(3, self.bag.item_count())
+
+>>>>>>> 6793ab1... finished initial functional test that covers adding items and looking at them
 
 
 if __name__ == '__main__':

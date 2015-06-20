@@ -35,6 +35,7 @@ class InventoryBagAddAndLookTest(unittest.TestCase):
         self.assertFalse(self.bag.is_empty())
         self.assertEqual(self.bag.item_count(), 1)
 <<<<<<< HEAD
+<<<<<<< HEAD
 
         # note perhaps this should be checking for look() rather than dump()
         seen = self.bag.look()
@@ -130,21 +131,46 @@ class InventoryBagAddAndLookTest(unittest.TestCase):
 <<<<<<< HEAD
 >>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
 =======
+=======
+>>>>>>> 6793ab1... finished initial functional test that covers adding items and looking at them
 
         # note perhaps this should be checking for look() rather than dump()
         seen = self.bag.look()
         self.assertIn("1 rock", seen)
 
         # She puts two more rocks into her bag. Looking into her bag, she sees that it now contains 3 rocks
+        self.bag.add(rock)
+        another_rock = Item("rock")
+        self.bag.add(another_rock)
+        self.assertEqual(self.bag.item_count(), 3)
+
+        seen = self.bag.look()
+        self.assertIn("3 rock", seen)
 
         # Inara, happy to have something in her bag, starts on her adventure.  Before long she stumbles on something in a dark shadow.  Picking it up she sees that it is a shiny dagger.  After putting it into her bag she checks her bag to ensure that it is safe inside.  She now has 3 rocks and a dagger in her bag.
+        dagger = Item("dagger")
+        self.bag.add(dagger)
 
-        self.fail('Finish the test')
+        seen = self.bag.look()
+        self.assertIn("1 dagger", seen)
 
 class InventoryBagDumpTest(unittest.TestCase):
+    def setUp(self):
+        self.bag = Bag()
+
+    def tearDown(self):
+        self.bag = None
+    # Items can be dumped into a pile and sorted through
+    # This is a remnant of my inital version implementation of the InventoryBagAddAndLookTestCase which has since been converted to the look function.  Not sure if I should keep dump()
 
     def test_items_are_dumped_into_a_pile(self):
+<<<<<<< HEAD
 >>>>>>> a8c3e9a... changed the functional test from using a dump() function to a look() functionwq
+=======
+        rock = Item("rock")
+        self.bag.add(rock)
+
+>>>>>>> 6793ab1... finished initial functional test that covers adding items and looking at them
         pile = self.bag.dump()
         item_list = pile.keys()
         self.assertEqual(len(item_list), 1)

@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 from functools import reduce
 
 class Item():
@@ -74,6 +75,9 @@ class Bag():
         return seen
 =======
 # item classes here
+=======
+from functools import reduce
+>>>>>>> 6793ab1... finished initial functional test that covers adding items and looking at them
 
 class Item():
     def __init__(self, name):
@@ -87,14 +91,25 @@ class Bag():
         return self.item_count() == 0 
 
     def item_count(self):
-        return len(self.items)
+        total = 0
+
+        for item in self.items.values():
+            total += item['count']
+
+        return total
+
+    def how_many(self, name):
+        if name in self.items:
+            return self.items[name]['count']
+        else:
+            return 0
 
 <<<<<<< HEAD
 >>>>>>> ef63672... added first functional test for feature story and first unit test
 =======
     def add(self, item):
         if item.name in self.items:
-            self.items[item.name][count] += 1
+            self.items[item.name]['count'] += 1
         else:
             self.items[item.name] = {'count': 1, 'name':item.name, 'item': item}
     
