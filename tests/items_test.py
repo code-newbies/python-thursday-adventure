@@ -1,14 +1,20 @@
 import unittest
 from modules.items import Bag
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
 from modules.items import Item
 
 class ItemTest(unittest.TestCase):
     def test_item_accepts_name_on_init(self):
         item = Item("dragonglass")
         self.assertEqual(item.name, "dragonglass")
+<<<<<<< HEAD
 =======
 >>>>>>> ef63672... added first functional test for feature story and first unit test
+=======
+>>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
 
 class BagTest(unittest.TestCase):
     def setUp(self):
@@ -19,6 +25,9 @@ class BagTest(unittest.TestCase):
 
     def test_can_check_bag_to_see_if_empty(self):
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
         self.assertTrue(self.bag.is_empty())
 
     def test_can_return_item_count_when_empty(self):
@@ -60,6 +69,7 @@ class BagTest(unittest.TestCase):
         item = amulet['item']
         self.assertIsInstance(item, Item)
 
+<<<<<<< HEAD
     def test_can_look_in_bag(self):
         stick = Item("stick")
         self.bag.add(stick)
@@ -130,6 +140,9 @@ class BagTest(unittest.TestCase):
 =======
         self.assertTrue(self.bag.isEmpty())
 >>>>>>> ef63672... added first functional test for feature story and first unit test
+=======
+    # TODO fix total item count with reduce()
+>>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
 
 
 if __name__ == '__main__':

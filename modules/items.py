@@ -75,8 +75,29 @@ class Bag():
 =======
 # item classes here
 
-class Bag():
-    def isEmpty(self):
-        return True
+class Item():
+    def __init__(self, name):
+        self.name = name
 
+class Bag():
+    def __init__(self):
+        self.items = {}
+
+    def is_empty(self):
+        return self.item_count() == 0 
+
+    def item_count(self):
+        return len(self.items)
+
+<<<<<<< HEAD
 >>>>>>> ef63672... added first functional test for feature story and first unit test
+=======
+    def add(self, item):
+        if item.name in self.items:
+            self.items[item.name][count] += 1
+        else:
+            self.items[item.name] = {'count': 1, 'name':item.name, 'item': item}
+    
+    def dump(self):
+        return self.items
+>>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection

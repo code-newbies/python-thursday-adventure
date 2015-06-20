@@ -1,10 +1,14 @@
 import unittest
 from modules.items import Bag
 <<<<<<< HEAD
+<<<<<<< HEAD
 from modules.items import Item
 =======
 
 >>>>>>> ef63672... added first functional test for feature story and first unit test
+=======
+from modules.items import Item
+>>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
 
 class InventoryBagTest(unittest.TestCase):
     def setUp(self):
@@ -19,6 +23,9 @@ class InventoryBagTest(unittest.TestCase):
 
         # Her inventory bag is empty and contains no items
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
         self.assertTrue(self.bag.is_empty())
         self.assertEqual(self.bag.item_count(), 0)
 
@@ -27,6 +34,7 @@ class InventoryBagTest(unittest.TestCase):
         self.bag.add(rock)
         self.assertFalse(self.bag.is_empty())
         self.assertEqual(self.bag.item_count(), 1)
+<<<<<<< HEAD
 
         # note perhaps this should be checking for look() rather than dump()
         seen = self.bag.look()
@@ -117,6 +125,9 @@ class InventoryBagTest(unittest.TestCase):
         rock = Item("rock")
         self.bag.add(rock)
 
+=======
+        
+>>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
         pile = self.bag.dump()
         item_list = pile.keys()
         self.assertEqual(len(item_list), 1)
@@ -124,6 +135,7 @@ class InventoryBagTest(unittest.TestCase):
         item = pile["rock"]
         self.assertEqual(item["name"], "rock")
         self.assertEqual(item["count"], 1)
+<<<<<<< HEAD
 =======
         self.assertTrue(self.bag.isEmpty())
         self.assertEqual(self.bag.itemCount, 0)
@@ -132,8 +144,11 @@ class InventoryBagTest(unittest.TestCase):
         self.fail('Finish the test')
 
         # She puts one rock into her bag
+=======
+>>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
 
         # She puts two more rocks into her bag
+        self.fail('Finish the test')
 
         # Looking into her bag, she sees that it now contains 3 rocks
 
