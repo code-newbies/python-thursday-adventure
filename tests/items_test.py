@@ -1,26 +1,11 @@
 import unittest
 from modules.items import Bag
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
-=======
->>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
 from modules.items import Item
 
 class ItemTest(unittest.TestCase):
     def test_item_accepts_name_on_init(self):
         item = Item("dragonglass")
         self.assertEqual(item.name, "dragonglass")
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> ef63672... added first functional test for feature story and first unit test
-=======
->>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
-=======
->>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
 
 class BagTest(unittest.TestCase):
     def setUp(self):
@@ -30,13 +15,6 @@ class BagTest(unittest.TestCase):
         self.bag = None
 
     def test_can_check_bag_to_see_if_empty(self):
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
-=======
->>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
         self.assertTrue(self.bag.is_empty())
 
     def test_can_return_item_count_when_empty(self):
@@ -78,25 +56,11 @@ class BagTest(unittest.TestCase):
         item = amulet['item']
         self.assertIsInstance(item, Item)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a8c3e9a... changed the functional test from using a dump() function to a look() functionwq
-=======
->>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
     def test_can_look_in_bag(self):
         stick = Item("stick")
         self.bag.add(stick)
         seen = self.bag.look()
         self.assertIn("1 stick", seen)
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6793ab1... finished initial functional test that covers adding items and looking at them
-=======
->>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
     
     def test_can_fund_how_many_of_an_item_are_in_bag(self):
         planet = Item("planet")
@@ -107,13 +71,6 @@ class BagTest(unittest.TestCase):
     def test_how_many_handles_no_items_of_type(self):
         self.assertEqual(0, self.bag.how_many("jabberwocky"))
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a444d6f... added Mary Poppins functional test and add_many() function.
-=======
->>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
     def test_adding_multiple_of_the_same_item_increases_item_count(self):
         butter = Item("butter")
         self.bag.add(butter)
@@ -127,8 +84,6 @@ class BagTest(unittest.TestCase):
         self.bag.add_many(turtle, 5)
         self.assertEqual(5, self.bag.how_many("turtle"))
         self.assertEqual(5, self.bag.item_count())
-<<<<<<< HEAD
-<<<<<<< HEAD
 
     def test_can_remove_an_item(self):
         self.bag.add(Item("cheezburger"))
@@ -168,30 +123,15 @@ class BagTest(unittest.TestCase):
         self.assertEqual(5, removed_count)
         self.assertEqual(0, self.bag.how_many("rhymes"))
         self.assertEqual("rhymes", item.name)
-=======
         self.assertTrue(self.bag.isEmpty())
->>>>>>> ef63672... added first functional test for feature story and first unit test
-=======
-=======
 
->>>>>>> a8c3e9a... changed the functional test from using a dump() function to a look() functionwq
-    # TODO fix total item count with reduce()
->>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
-=======
-#    def test_adding_multiple_of_the_same_item_increases_item_count(self):
-#        butter = Item("butter")
-#        self.bag.add(butter)
-#        self.bag.add(butter)
-#        self.assertEqual(2, self.bag.item_count())
-#        self.bag.add(butter)
-#        self.assertEqual(3, self.bag.item_count())
-
->>>>>>> 6793ab1... finished initial functional test that covers adding items and looking at them
-
-=======
->>>>>>> a444d6f... added Mary Poppins functional test and add_many() function.
-=======
->>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
+    def test_adding_multiple_of_the_same_item_increases_item_count(self):
+        butter = Item("butter")
+        self.bag.add(butter)
+        self.bag.add(butter)
+        self.assertEqual(2, self.bag.item_count())
+        self.bag.add(butter)
+        self.assertEqual(3, self.bag.item_count())
 
     def test_can_remove_an_item(self):
         self.bag.add(Item("cheezburger"))

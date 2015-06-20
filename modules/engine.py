@@ -1,10 +1,4 @@
-
 class Engine:
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
     def __init__(self, prompt_func=input, print_func=print):
         self.prompt = prompt_func
         self.display = print_func
@@ -22,59 +16,10 @@ class Engine:
         play = True
 
         while play:
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            command = self.prompt(self.prompt_char).upper()
-=======
             command = self.prompt(self.prompt_char).lower()
->>>>>>> 4647ec3... Adds help menu
-=======
-            command = self.prompt(self.prompt_char).lower()
->>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
-
 
             if command == "q":
                 play = False
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    def __init__(self, prompt_func=input):
-=======
-    def __init__(self, prompt_func=input, print_func=print):
->>>>>>> 579a2d6... Updated to use passed in output function rather than print. This will make for cleaner tests.
-        self.prompt = prompt_func
-        self.display = print_func
-
-    def start(self):
-        response = self.prompt("Hello, what is your name: ")
-<<<<<<< HEAD
-        print("Welcome to text adventure, {0}!".format(response))
->>>>>>> 4a69152... created fucntional test that allows stdout to be read and allows input to be passed to the program
-=======
-        self.display("Welcome to text adventure, {0}!".format(response))
->>>>>>> 579a2d6... Updated to use passed in output function rather than print. This will make for cleaner tests.
-=======
-            command = self.prompt(self.prompt_char)
-=======
-            command = self.prompt(self.prompt_char).upper()
->>>>>>> e0a63b3... Adds main game loop and test helpers
-=======
-            command = self.prompt(self.prompt_char).lower()
->>>>>>> 5f1f848... Adds help menu
-
-
-            if command == "q":
-                play = False
-<<<<<<< HEAD
->>>>>>> 376ef97... Creates main loop and allows 'Q' to exit the main loop
-=======
-=======
->>>>>>> 5f1f848... Adds help menu
-=======
->>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
             elif command == "help":
                 self.display_help()
 
@@ -89,10 +34,3 @@ class Engine:
         """
         self.display(help_text)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 4647ec3... Adds help menu
-=======
->>>>>>> 5f1f848... Adds help menu
-=======
->>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc

@@ -31,46 +31,11 @@ if run_unit:
     from tests.engine_test import *
 
 if run_funct:
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
     from tests.functional.inventory_test import *
     from tests.functional.engine_test import *
 
 if run_unit or run_funct:
     if __name__ == '__main__':
-#        unittest.main(module=__name__, buffer=True, exit=False)
         unittest.main()
-<<<<<<< HEAD
-=======
-    from functional.inventory_tests import *
-    from functional.engine_tests import *
-
-if run_unit or run_funct:
-    if __name__ == '__main__':
-        unittest.main(warnings='ignore')
->>>>>>> fbe2f51... created do_test.py to run unit and functional tests
-=======
-    from functional.inventory_test import *
-    from functional.engine_test import *
-=======
-    from tests.functional.inventory_test import *
-    from tests.functional.engine_test import *
->>>>>>> 376ef97... Creates main loop and allows 'Q' to exit the main loop
-
-if run_unit or run_funct:
-    if __name__ == '__main__':
-<<<<<<< HEAD
-        unittest.main(module=__name__, buffer=True, exit=False)
->>>>>>> 4a69152... created fucntional test that allows stdout to be read and allows input to be passed to the program
-=======
-#        unittest.main(module=__name__, buffer=True, exit=False)
-        unittest.main()
->>>>>>> 579a2d6... Updated to use passed in output function rather than print. This will make for cleaner tests.
-=======
->>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
 else:
     print(help_text)
