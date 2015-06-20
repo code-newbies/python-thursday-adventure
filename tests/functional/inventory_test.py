@@ -263,7 +263,12 @@ class InventoryBagTest(unittest.TestCase):
 >>>>>>> a8c3e9a... changed the functional test from using a dump() function to a look() functionwq
 =======
 
+<<<<<<< HEAD:functional_tests.py
 >>>>>>> a444d6f... added Mary Poppins functional test and add_many() function.
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
+=======
+#if __name__ == '__main__':
+#    unittest.main(warnings='ignore')
+>>>>>>> 1108f4e... Adds main loop and some test helpers:tests/functional/inventory_test.py
 
