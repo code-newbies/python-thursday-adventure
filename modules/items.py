@@ -100,4 +100,18 @@ class Bag():
     
     def dump(self):
         return self.items
+<<<<<<< HEAD
 >>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
+=======
+
+    def format_item(self, item):
+        return ("{0} {1}\n".format(item['count'], item['name']))
+
+    def look(self):
+        seen = ""
+
+        for item in self.items:
+            seen = seen + self.format_item(self.items[item])
+
+        return seen
+>>>>>>> a8c3e9a... changed the functional test from using a dump() function to a look() functionwq

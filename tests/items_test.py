@@ -70,11 +70,15 @@ class BagTest(unittest.TestCase):
         self.assertIsInstance(item, Item)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a8c3e9a... changed the functional test from using a dump() function to a look() functionwq
     def test_can_look_in_bag(self):
         stick = Item("stick")
         self.bag.add(stick)
         seen = self.bag.look()
         self.assertIn("1 stick", seen)
+<<<<<<< HEAD
     
     def test_can_fund_how_many_of_an_item_are_in_bag(self):
         planet = Item("planet")
@@ -141,6 +145,9 @@ class BagTest(unittest.TestCase):
         self.assertTrue(self.bag.isEmpty())
 >>>>>>> ef63672... added first functional test for feature story and first unit test
 =======
+=======
+
+>>>>>>> a8c3e9a... changed the functional test from using a dump() function to a look() functionwq
     # TODO fix total item count with reduce()
 >>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
 
