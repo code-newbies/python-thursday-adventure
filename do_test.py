@@ -31,6 +31,7 @@ if run_unit:
     from tests.engine_test import *
 
 if run_funct:
+<<<<<<< HEAD
     from tests.functional.inventory_test import *
     from tests.functional.engine_test import *
 
@@ -38,5 +39,13 @@ if run_unit or run_funct:
     if __name__ == '__main__':
 #        unittest.main(module=__name__, buffer=True, exit=False)
         unittest.main()
+=======
+    from functional.inventory_tests import *
+    from functional.engine_tests import *
+
+if run_unit or run_funct:
+    if __name__ == '__main__':
+        unittest.main(warnings='ignore')
+>>>>>>> fbe2f51... created do_test.py to run unit and functional tests
 else:
     print(help_text)
