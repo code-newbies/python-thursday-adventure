@@ -172,5 +172,30 @@ class BagTest(unittest.TestCase):
 =======
 >>>>>>> a444d6f... added Mary Poppins functional test and add_many() function.
 
+    def test_can_remove_an_item(self):
+        self.bag.add(Item("cheezburger"))
+        removed_count, item = self.bag.remove("cheezburger")
+        self.assertEqual(1, removed_count)
+        self.assertEqual("cheezburger", item.name)
+        self.assertIsInstance(item, Item)
+        self.assertEqual(0, self.bag.how_many("cheezburger"))
+    
+    def test_cannot_remove_an_item_that_is_not_there(self):
+        removed_count, item = self.bag.remove("Kaiser Soze")
+        self.assertEqual(0, removed_count)
+        self.assertIsNone(item)
+        self.assertEqual(0, self.bag.how_many("Kaiser Soze"))
+
+    def test_removed_items_behave_like_items_that_never_existed(self):
+        self.bag.add(Item("smoke"))
+        removed_count, item = self.bag.remove("smoke")
+        self.assertEqual(1, removed_count)
+
+        removed_count, item = self.bag.remove("smoke")
+        self.assertEqual(0, removed_count)
+        self.assertIsNone(item)
+        self.assertEqual(0, self.bag.how_many("smoke"))
+        self.assertEqual(0, self.bag.item_count())
+        
 if __name__ == '__main__':
     unittest.main()
