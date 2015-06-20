@@ -1,5 +1,8 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
 from functools import reduce
 
 class Item():
@@ -30,6 +33,9 @@ class Bag():
     def add(self, item):
         self.add_many(item, 1)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
 
     def add_many(self, item, quantity):
         if item.name in self.items:
@@ -74,6 +80,7 @@ class Bag():
             seen = seen + self.format_item(self.items[item])
 
         return seen
+<<<<<<< HEAD
 =======
 # item classes here
 =======
@@ -163,3 +170,5 @@ class Bag():
 
         return seen
 >>>>>>> a8c3e9a... changed the functional test from using a dump() function to a look() functionwq
+=======
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc

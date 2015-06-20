@@ -24,14 +24,18 @@ class EngineTest(BaseTest):
         self.assertPrinted(prompt, 0)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> e0a63b3... Adds main game loop and test helpers
+=======
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
 
     def test_engine_commands_are_not_case_sensitive(self):
         self.say("q")
         self.engine.main_loop()
         self.assertIn(prompt, ">")
         self.assertPrinted(prompt, 0)
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -42,6 +46,8 @@ class EngineTest(BaseTest):
 =======
 =======
 >>>>>>> 5f1f848... Adds help menu
+=======
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
 
     def test_help_will_be_printed_when_asked_for(self):
         self.say("help")
@@ -49,6 +55,9 @@ class EngineTest(BaseTest):
         self.engine.main_loop()
         self.assertPrinted("help", 1)
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4647ec3... Adds help menu
 =======
 >>>>>>> 5f1f848... Adds help menu
+=======
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc

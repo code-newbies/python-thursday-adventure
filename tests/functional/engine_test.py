@@ -34,8 +34,11 @@ class CanLoopTheMainLoop(BaseTest):
         self.assertPrinted(">", 0)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> e0a63b3... Adds main game loop and test helpers
+=======
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
 
     def test_fred_can_stop_the_loop_with_lower_case_q(self):
         # Fred when closing the game as quickly as possible doesn't have time to press shift 
@@ -49,6 +52,7 @@ class CanLoopTheMainLoop(BaseTest):
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 376ef97... Creates main loop and allows 'Q' to exit the main loop
 =======
@@ -56,6 +60,8 @@ class CanLoopTheMainLoop(BaseTest):
 =======
 =======
 >>>>>>> 5f1f848... Adds help menu
+=======
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
 
     def test_jaime_can_get_help(self):
         # Jamie has heard from Fred that this new Python powered CodeNewbie text adventure game
@@ -71,6 +77,9 @@ class CanLoopTheMainLoop(BaseTest):
         # Jamie can then quit the game and tell her friends all the ease of use.
         self.assertPrinted("help", 1)
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4647ec3... Adds help menu
 =======
 >>>>>>> 5f1f848... Adds help menu
+=======
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc

@@ -2,6 +2,9 @@
 class Engine:
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
     def __init__(self, prompt_func=input, print_func=print):
         self.prompt = prompt_func
         self.display = print_func
@@ -23,14 +26,19 @@ class Engine:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             command = self.prompt(self.prompt_char).upper()
 =======
             command = self.prompt(self.prompt_char).lower()
 >>>>>>> 4647ec3... Adds help menu
+=======
+            command = self.prompt(self.prompt_char).lower()
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
 
 
             if command == "q":
                 play = False
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     def __init__(self, prompt_func=input):
@@ -65,6 +73,8 @@ class Engine:
 =======
 =======
 >>>>>>> 5f1f848... Adds help menu
+=======
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
             elif command == "help":
                 self.display_help()
 
@@ -80,6 +90,9 @@ class Engine:
         self.display(help_text)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 4647ec3... Adds help menu
 =======
 >>>>>>> 5f1f848... Adds help menu
+=======
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc

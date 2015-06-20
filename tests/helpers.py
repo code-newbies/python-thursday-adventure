@@ -13,8 +13,11 @@ class BaseTest(unittest.TestCase):
     def next_command(self):
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> e0a63b3... Adds main game loop and test helpers
+=======
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
         try:
             command = self.commands[self.command_count]
         except IndexError:
@@ -26,11 +29,14 @@ class BaseTest(unittest.TestCase):
             """.format(self.printed, self.commands, self.command_count)
             raise AssertionError(details)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         command = self.commands[self.command_count]
 >>>>>>> 376ef97... Creates main loop and allows 'Q' to exit the main loop
 =======
 >>>>>>> e0a63b3... Adds main game loop and test helpers
+=======
+>>>>>>> 7dc09d9b4c73aa5e5294425bf2eead0caed827dc
         self.command_count += 1
         return command
 
