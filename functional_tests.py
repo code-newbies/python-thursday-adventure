@@ -10,7 +10,7 @@ from modules.items import Item
 from modules.items import Item
 >>>>>>> e573a31... added item class and the ability to add an item to the bag, also the the ability to dump the bag into a dictionary for inspection
 
-class InventoryBagAddAndLookTest(unittest.TestCase):
+class InventoryBagTest(unittest.TestCase):
     def setUp(self):
         self.bag = Bag()
 
@@ -154,19 +154,55 @@ class InventoryBagAddAndLookTest(unittest.TestCase):
         seen = self.bag.look()
         self.assertIn("1 dagger", seen)
 
-class InventoryBagDumpTest(unittest.TestCase):
-    def setUp(self):
-        self.bag = Bag()
+    def test_items_are_removed_from_bag(self):
+        # Mary Poppins is summoned by the children to bring joy to their lives.  She is holding a bag.  It contains a hatrack, a carpet, two lollipops and 5 brooms.  It also contains medicine, a teaspoon and a few spoonfulls of sugar.
+        self.bag.add(Item("hatrack"))
+        self.bag.add(Item("carpet"))
+        self.bag.add(Item("Thing 1"))
+        self.bag.add(Item("Thing 2"))
+        self.bag.add(Item("Cat"))
+        self.bag.add(Item("Hat"))
+        self.bag.add(Item("lollipop"))
+        self.bag.add(Item("lollipop"))
+        self.bag.add(Item("lollipop"))
+        self.bag.add_many(Item("lollipop"), 5)
+        self.bag.add(Item("medicine"))
+        self.bag.add(Item("teaspoon"))
+        self.bag.add_many(Item("spoonful of sugar"), 3)
 
-    def tearDown(self):
-        self.bag = None
-    # Items can be dumped into a pile and sorted through
-    # This is a remnant of my inital version implementation of the InventoryBagAddAndLookTestCase which has since been converted to the look function.  Not sure if I should keep dump()
+        # Her bag contains at least 14 items.
+        self.assertTrue(self.bag.item_count() >= 14)
+
+        # Mary enters the unhappy home with a messy room and tells the kids to tidy up.  The children don't want to tidy up so she starts searching through her bag.  She removes a hatrack but puts it back
+        self.fail("finish the test!")
+
+        # Mary then removes the medicine.
+
+        # She tries to remove two teaspoons but only has one. 
+
+        # She removes the teaspoon
+
+        # She removes one spoonful of sugar and begins to sing
+
+        # She removes another spoonful of sugar and continues to sing.
+
+        # She removes the third spoonful of sugar smiles to herself and takes her medicine. 
+
+        # Mary now has 5 less items in her bag
+
+        # She returns the medicine and spoon to her bag and with at least 12 items in her bag continues with her work
 
     def test_items_are_dumped_into_a_pile(self):
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> a8c3e9a... changed the functional test from using a dump() function to a look() functionwq
 =======
+=======
+
+        # Items can be dumped into a pile and sorted through
+        # This is a remnant of my inital version implementation of the InventoryBagAddAndLookTestCase which has since been converted to the look function.  Not sure if I should keep dump()
+        # This may be useful in the future for saving the state of the bag
+>>>>>>> a444d6f... added Mary Poppins functional test and add_many() function.
         rock = Item("rock")
         self.bag.add(rock)
 
@@ -178,6 +214,7 @@ class InventoryBagDumpTest(unittest.TestCase):
         item = pile["rock"]
         self.assertEqual(item["name"], "rock")
         self.assertEqual(item["count"], 1)
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -201,6 +238,9 @@ class InventoryBagDumpTest(unittest.TestCase):
 
 =======
 >>>>>>> a8c3e9a... changed the functional test from using a dump() function to a look() functionwq
+=======
+
+>>>>>>> a444d6f... added Mary Poppins functional test and add_many() function.
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
 

@@ -112,6 +112,12 @@ class Bag():
             self.items[item.name]['count'] += 1
         else:
             self.items[item.name] = {'count': 1, 'name':item.name, 'item': item}
+
+    def add_many(self, item, quantity):
+        if item.name in self.items:
+            self.items[item.name]['count'] += quantity
+        else:
+            self.items[item.name] = {'count': quantity, 'name':item.name, 'item': item}
     
     def dump(self):
         return self.items

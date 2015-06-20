@@ -93,6 +93,9 @@ class BagTest(unittest.TestCase):
         self.assertEqual(0, self.bag.how_many("jabberwocky"))
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a444d6f... added Mary Poppins functional test and add_many() function.
     def test_adding_multiple_of_the_same_item_increases_item_count(self):
         butter = Item("butter")
         self.bag.add(butter)
@@ -106,6 +109,7 @@ class BagTest(unittest.TestCase):
         self.bag.add_many(turtle, 5)
         self.assertEqual(5, self.bag.how_many("turtle"))
         self.assertEqual(5, self.bag.item_count())
+<<<<<<< HEAD
 
     def test_can_remove_an_item(self):
         self.bag.add(Item("cheezburger"))
@@ -165,6 +169,8 @@ class BagTest(unittest.TestCase):
 
 >>>>>>> 6793ab1... finished initial functional test that covers adding items and looking at them
 
+=======
+>>>>>>> a444d6f... added Mary Poppins functional test and add_many() function.
 
 if __name__ == '__main__':
     unittest.main()
