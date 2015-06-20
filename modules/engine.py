@@ -18,6 +18,7 @@ class Engine:
         play = True
 
         while play:
+<<<<<<< HEAD
             command = self.prompt(self.prompt_char).upper()
 
             if command == "Q":
@@ -38,3 +39,9 @@ class Engine:
 =======
         self.display("Welcome to text adventure, {0}!".format(response))
 >>>>>>> 579a2d6... Updated to use passed in output function rather than print. This will make for cleaner tests.
+=======
+            command = self.prompt(self.prompt_char)
+
+            if command == "Q":
+                play = False
+>>>>>>> 376ef97... Creates main loop and allows 'Q' to exit the main loop

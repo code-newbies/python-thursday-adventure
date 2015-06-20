@@ -11,6 +11,7 @@ class BaseTest(unittest.TestCase):
         self.commands.append(command)
 
     def next_command(self):
+<<<<<<< HEAD
         try:
             command = self.commands[self.command_count]
         except IndexError:
@@ -21,6 +22,9 @@ class BaseTest(unittest.TestCase):
             command_count: {2}
             """.format(self.printed, self.commands, self.command_count)
             raise AssertionError(details)
+=======
+        command = self.commands[self.command_count]
+>>>>>>> 376ef97... Creates main loop and allows 'Q' to exit the main loop
         self.command_count += 1
         return command
 

@@ -33,6 +33,7 @@ if run_unit:
 if run_funct:
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     from tests.functional.inventory_test import *
     from tests.functional.engine_test import *
 
@@ -51,6 +52,10 @@ if run_unit or run_funct:
 =======
     from functional.inventory_test import *
     from functional.engine_test import *
+=======
+    from tests.functional.inventory_test import *
+    from tests.functional.engine_test import *
+>>>>>>> 376ef97... Creates main loop and allows 'Q' to exit the main loop
 
 if run_unit or run_funct:
     if __name__ == '__main__':
