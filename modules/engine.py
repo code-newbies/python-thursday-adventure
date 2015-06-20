@@ -22,6 +22,7 @@ class Engine:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             command = self.prompt(self.prompt_char).upper()
 =======
             command = self.prompt(self.prompt_char).lower()
@@ -52,11 +53,18 @@ class Engine:
 =======
             command = self.prompt(self.prompt_char).upper()
 >>>>>>> e0a63b3... Adds main game loop and test helpers
+=======
+            command = self.prompt(self.prompt_char).lower()
+>>>>>>> 5f1f848... Adds help menu
 
-            if command == "Q":
+
+            if command == "q":
                 play = False
+<<<<<<< HEAD
 >>>>>>> 376ef97... Creates main loop and allows 'Q' to exit the main loop
 =======
+=======
+>>>>>>> 5f1f848... Adds help menu
             elif command == "help":
                 self.display_help()
 
@@ -71,4 +79,7 @@ class Engine:
         """
         self.display(help_text)
 
+<<<<<<< HEAD
 >>>>>>> 4647ec3... Adds help menu
+=======
+>>>>>>> 5f1f848... Adds help menu
