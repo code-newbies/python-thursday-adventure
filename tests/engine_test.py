@@ -33,7 +33,16 @@ class EngineTest(BaseTest):
         self.assertIn(prompt, ">")
         self.assertPrinted(prompt, 0)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 376ef97... Creates main loop and allows 'Q' to exit the main loop
 =======
 >>>>>>> e0a63b3... Adds main game loop and test helpers
+=======
+
+    def test_help_will_be_printed_when_asked_for(self):
+        self.say("help")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrinted("help", 1)
+>>>>>>> 4647ec3... Adds help menu

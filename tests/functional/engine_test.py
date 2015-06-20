@@ -47,7 +47,24 @@ class CanLoopTheMainLoop(BaseTest):
         # The text adventure ends 
         self.assertPrinted(">", 0)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 376ef97... Creates main loop and allows 'Q' to exit the main loop
 =======
 >>>>>>> e0a63b3... Adds main game loop and test helpers
+=======
+
+    def test_jaime_can_get_help(self):
+        # Jamie has heard from Fred that this new Python powered CodeNewbie text adventure game
+        # is not only the cause of his loss of job and sleep, but is also relitively easy for
+        # beginners to enjoy because the help functionality is so easy to use.  All she needs to
+        # do to check the help is start the main loop.
+        # Type 'help' and press enter.
+        self.say("help")
+        self.say("q")
+        self.engine.main_loop()
+
+        # A list of commands will display
+        # Jamie can then quit the game and tell her friends all the ease of use.
+        self.assertPrinted("help", 1)
+>>>>>>> 4647ec3... Adds help menu
