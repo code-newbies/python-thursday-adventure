@@ -1,3 +1,4 @@
+import modules.world
 class Engine:
     def __init__(self, prompt_func=input, print_func=print):
         self.prompt = prompt_func
@@ -22,6 +23,14 @@ class Engine:
                 play = False
             elif command == "help":
                 self.display_help()
+            elif command == "begin":
+                game = modules.world.Room('resources\Game_Setup.csv')
+                game.get_room_data()
+                print ("Let us begin!")
+                game.start_tile_create()
+                """
+                Code here to initiate player movement on the start tile.
+                """
 
     def display_help(self):
         help_text = """
@@ -29,6 +38,7 @@ class Engine:
 
         The commands that you can use are as follows:
 
+        begin - Starts the game.
         help - Display this help menu
         Q - Quit
         """
