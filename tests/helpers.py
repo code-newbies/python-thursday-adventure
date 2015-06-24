@@ -1,5 +1,7 @@
 import sys
 import unittest
+from os import getcwd
+from os.path import join
 
 class BaseTest(unittest.TestCase):
     def init(self):
@@ -43,3 +45,5 @@ class BaseTest(unittest.TestCase):
             """.format(text, index, self.printed)
             raise AssertionError(details)
 
+    def build_fixture_path(self, filename):
+        return join(join(join(getcwd(), "tests"), "fixtures"), filename)

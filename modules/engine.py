@@ -1,5 +1,9 @@
+from os import getcwd
+from os.path import join
+
 class Engine:
-    def __init__(self, prompt_func=input, print_func=print):
+    def __init__(self, base_path, prompt_func=input, print_func=print):
+        self.base_path = base_path
         self.prompt = prompt_func
         self.display = print_func
         self.prompt_char = ">"
@@ -8,6 +12,14 @@ class Engine:
         self.greet()
         self.main_loop()
     
+    def get_rel_path(self, file_n_path):
+        if type(file_n_path) is list:
+            output = join(self.base_path, *file_n_path)
+        else:
+            output = join(self.base_path, file_n_path)
+
+        return output
+
     def greet(self):
         response = self.prompt("Hello, what is your name: ")
         self.display("Welcome to text adventure, {0}!".format(response))
