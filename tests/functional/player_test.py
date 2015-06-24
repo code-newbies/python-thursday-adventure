@@ -1,7 +1,6 @@
 import sys
 import unittest
-from modules.engine import Engine
-from modules.world import Room 
+from modules.world import Room, Engine
 from modules.player import Player
 from tests.helpers import BaseTest
 from os import getcwd
@@ -10,18 +9,18 @@ from os.path import join
 class PlayerCanMoveTest(BaseTest):
     def setUp(self):
         self.init()
-        self.engine = Engine(self.fake_input, self.fake_print)
+        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
 
     def test_alexander_can_enter_a_room_and_travel_to_the_exit(self):
         # Alexander, a great fan of text adventures, has entered a new room and seeking fame
         # and glory.  He starts at tile (5,5)
-        alexander_test_room = self.build_fixture_path("alexander_room.csv")
+        alexander_test_room = self.build_path(["tests","fixtures", "alexander_room.csv"])
         self.engine.room = Room(alexander_test_room)
         alexander = Player("Alexander")
         self.engine.load_player(alexander)
-        self.engine.enter_room(room, "entrance")
+        self.engine.room.enter(self.engine.player, "entrance")
 
-        x, y = self.engine.locate(player)
+        x, y = self.engine.room.locate(player)
         self.assertEqual(5, x)
         self.assertEqual(5, y)
 

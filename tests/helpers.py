@@ -8,6 +8,7 @@ class BaseTest(unittest.TestCase):
         self.commands = []
         self.command_count = 0
         self.printed = []
+        self.base_path = getcwd()
   
     def say(self,command):
         self.commands.append(command)
@@ -45,5 +46,5 @@ class BaseTest(unittest.TestCase):
             """.format(text, index, self.printed)
             raise AssertionError(details)
 
-    def build_fixture_path(self, filename):
-        return join(join(join(getcwd(), "tests"), "fixtures"), filename)
+    def build_path(self, file_n_path):
+        return join(self.base_path, *file_n_path)

@@ -28,12 +28,12 @@ elif len(argv) == 2:
 
 if run_unit:
     from tests.items_test import *
-    from tests.engine_test import *
     from tests.player_test import *
+    from tests.world_test import *
 
 if run_funct:
     from tests.functional.inventory_test import *
-    from tests.functional.engine_test import *
+    from tests.functional.world_test import *
     from tests.functional.player_test import *
 
 if run_unit or run_funct:
