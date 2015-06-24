@@ -1,5 +1,5 @@
 from modules.world import Room
-from os import path
+from os.path import join
 class Engine:
     def __init__(self, prompt_func=input, print_func=print):
         self.prompt = prompt_func
@@ -25,7 +25,7 @@ class Engine:
             elif command == "help":
                 self.display_help()
             elif command == "begin":
-                self.room = Room(path.join("resources", "Game_Setup.csv"))
+                self.room = Room(join("resources", "Game_Setup.csv"))
                 self.room.get_room_data()
                 self.room.start_tile_create()
                 """
