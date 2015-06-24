@@ -1,5 +1,7 @@
 # main game loop goes here
-from modules.engine import Engine
+from modules.world import Engine
+from os import getcwd
 
-flux_capacitor = Engine()
-flux_capacitor.start()
+base_path = getcwd()
+flux_capacitor = Engine(base_path)
+flux_capacitor.main_loop()

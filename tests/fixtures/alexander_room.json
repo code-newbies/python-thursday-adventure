@@ -1,0 +1,17 @@
+{   
+    "room": "alexander room",
+    "size": 18,
+    "locations":
+    { 
+        "entrance": 
+        { 
+            "x": 5,
+            "y": 6
+        },
+        "exit": 
+        { 
+            "x": 4,
+            "y": 8
+        }
+    }
+}
