@@ -2,20 +2,44 @@ import sys
 import unittest
 from tests.helpers import BaseTest
 from modules.engine import Engine
+from modules.world import Room
+from os import getcwd
 
 prompt = ">"
+path = getcwd()
 
-class EngineTest(BaseTest):
+class EngineInitTest(BaseTest):
     def setUp(self):
         self.init()
-        self.engine = Engine(self.fake_input, self.fake_print)
+
+    def test_engine_accepts_base_path(self):
+        self.engine = Engine('foo', self.fake_input, self.fake_print)
+        rel_path = self.engine.get_rel_path('bar.baz')
+        self.assertIn('foo', rel_path)
+        self.assertIn('bar.baz', rel_path)
+
+    def test_rel_path_builds_path_from_list(self):
+        path = ['a','quick', 'brown', 'fox', 'jumped', 'over', 'the', 'lazy', 'dog']
+        self.engine = Engine('foo', self.fake_input, self.fake_print)
+        rel_path = self.engine.get_rel_path(path)
+        self.assertIn('foo', rel_path)
+        for location in path:
+            self.assertIn(location, rel_path)
+        
 
     def test_engine_enters_main_loop(self):
+        self.engine = Engine(path, self.fake_input, self.fake_print)
         try:
             self.say("Q")
             self.engine.main_loop()
         except AttributeError:
             self.fail("Engine does not have a main_loop() method")
+
+
+class EngineTest(BaseTest):
+    def setUp(self):
+        self.init()
+        self.engine = Engine(path, self.fake_input, self.fake_print)
 
     def test_engine_will_prompt_and_exit_with_q(self):
         self.say("Q")

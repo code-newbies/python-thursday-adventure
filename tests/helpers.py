@@ -1,11 +1,14 @@
 import sys
 import unittest
+from os import getcwd
+from os.path import join
 
 class BaseTest(unittest.TestCase):
     def init(self):
         self.commands = []
         self.command_count = 0
         self.printed = []
+        self.base_path = getcwd()
   
     def say(self,command):
         self.commands.append(command)
@@ -56,3 +59,11 @@ class BaseTest(unittest.TestCase):
             {1}
             """.format(text, self.printed)
             raise AssertionError(details)
+
+    def build_path(self, file_n_path):
+        return join(self.base_path, *file_n_path)
+
+    def assertLocation(self, room, item, expected_x, expected_y):
+        x, y = room.locate(item)
+        self.assertEqual(expected_x, x)
+        self.assertEqual(expected_y, y)

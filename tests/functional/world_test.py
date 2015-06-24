@@ -1,7 +1,9 @@
 import sys
 import unittest
-from modules.engine import Engine
 from tests.helpers import BaseTest
+from modules.world import Room, Engine
+from os import getcwd
+from os.path import join
 
 class CanReadStdOutAndMockPrompt(BaseTest):
     def setUp(self):
@@ -9,7 +11,7 @@ class CanReadStdOutAndMockPrompt(BaseTest):
 
     def test_can_get_output_from_stdout_and_input_to_stdin(self):
         self.say("Hero")
-        engine = Engine(self.fake_input, self.fake_print)
+        engine = Engine(self.base_path, self.fake_input, self.fake_print)
         engine.greet()
         self.assertEqual("Hello, what is your name: ", self.printed[0])
         self.assertEqual("Welcome to text adventure, Hero!", self.printed[1])
@@ -17,7 +19,7 @@ class CanReadStdOutAndMockPrompt(BaseTest):
 class CanLoopTheMainLoop(BaseTest):
     def setUp(self):
         self.init()
-        self.engine = Engine(self.fake_input, self.fake_print)
+        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
     
     def test_fred_can_start_and_stop_the_loop_with_ease(self):
         # Fred is an avid gamer, some would say that he is a compulsive gamer
@@ -56,3 +58,54 @@ class CanLoopTheMainLoop(BaseTest):
         # A list of commands will display
         # Jamie can then quit the game and tell her friends all the ease of use.
         self.assertPrinted("help", 1)
+
+
+
+class PlayerCanMoveTest(BaseTest):
+    def setUp(self):
+        self.init()
+        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+
+    def test_alexander_can_enter_a_room_and_travel_to_the_exit(self):
+        # Alexander, a great fan of text adventures, has entered a new room and seeking fame
+        # and glory.  He starts at tile (5,6)
+        alexander_test_room = self.build_path(["tests","fixtures", "alexander_room.json"])
+        self.engine.init_level(alexander_test_room)
+        self.assertLocation(self.engine.room, 'player', 5,6)
+
+        # Alexander moves north and enters tile (5,7)
+        self.engine.north()
+        self.assertLocation(self.engine.room, 'player', 5,7)
+
+        # Alexander moves east and enters tile (6,7)
+        self.engine.east()
+        self.assertLocation(self.engine.room, 'player', 6,7)
+
+        # Alexander moves north 5 times and enters tile (6, 12)
+        self.engine.north()
+        self.engine.north()
+        self.engine.north()
+        self.engine.north()
+        self.engine.north()
+        self.assertLocation(self.engine.room, 'player', 6,12)
+
+        # Alexander moves west twice and enters tile (4, 12)
+        self.engine.west()
+        self.engine.west()
+        self.assertLocation(self.engine.room, 'player', 4, 12)
+
+        # Alexander moves south 4 times and enters time (4, 8)
+        self.engine.south()
+        self.engine.south()
+        self.engine.south()
+        self.engine.south()
+        self.assertLocation(self.engine.room, 'player', 4, 8)
+
+        # Alexander now shares a tile with the exit and exits the level.
+        exit_x, exit_y = self.engine.room.locate("exit")
+        player_x, player_y = self.engine.room.locate("player")
+
+        self.assertEqual(exit_x, player_x)
+        self.assertEqual(exit_y, player_y)
+        result = self.engine.exit()
+        self.assertTrue(result)

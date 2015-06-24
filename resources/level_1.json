@@ -1,0 +1,28 @@
+{   
+    "room": "test room",
+    "size": 18,
+    "locations":
+    { 
+        "entrance": 
+        { 
+            "x": 5,
+            "y": 6
+        },
+        "key": 
+        { 
+            "x": 5,
+            "y": 6
+        },
+        "gold": 
+        { 
+            "x": 5,
+            "y": 6
+        },
+        "exit": 
+        { 
+            "x": 5,
+            "y": 6
+        }
+    }
+}
+
