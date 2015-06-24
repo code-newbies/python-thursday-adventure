@@ -1,4 +1,5 @@
-import modules.world
+from modules.world import Room
+from os import path
 class Engine:
     def __init__(self, prompt_func=input, print_func=print):
         self.prompt = prompt_func
@@ -12,7 +13,7 @@ class Engine:
     def greet(self):
         response = self.prompt("Hello, what is your name: ")
         self.display("Welcome to text adventure, {0}!".format(response))
-
+        self.display("Let us begin!")
     def main_loop(self):
         play = True
 
@@ -24,10 +25,9 @@ class Engine:
             elif command == "help":
                 self.display_help()
             elif command == "begin":
-                game = modules.world.Room('resources\Game_Setup.csv')
-                game.get_room_data()
-                print ("Let us begin!")
-                game.start_tile_create()
+                self.room = Room(path.join("resources", "Game_Setup.csv"))
+                self.room.get_room_data()
+                self.room.start_tile_create()
                 """
                 Code here to initiate player movement on the start tile.
                 """
