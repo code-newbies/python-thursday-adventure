@@ -1,6 +1,6 @@
 from os import getcwd
 from os.path import join
-import jsonpickle 
+import json 
 from modules.player import Player
 
 class Room():
@@ -58,11 +58,9 @@ class Room():
         self.data[item]['x'] -= 1
 
     def get_room_data(self):
-        f = open(self.filename, 'r')
-        contents = f.read()
+        f = open(self.filename, "r")
+        data = json.load(f)
         f.close()
-
-        data = jsonpickle.decode(contents)
         self.data = data['locations']
         self.name = data['room']
         self.size = data['size']
@@ -96,15 +94,16 @@ class Engine:
         self.prompt = prompt_func
         self.display = print_func
         self.prompt_char = ">"
-
+        self.map_path_n_file = self.get_rel_path(["resources", "level_1.json"])
 
     def start(self):
         player_name = self.greet()
         self.player = Player(player_name)
 
-        level_file = self.get_rel_path(["resources", "level_1.json"])
-        self.init_level(level_file)
+        self.init_level(self.map_path_n_file)
 
+    def set_map(self, path_n_file):
+        self.map_path_n_file = path_n_file
 
     def init_level(self, level_file):
         self.room = Room(level_file)
@@ -165,9 +164,16 @@ class Engine:
 
         The commands that you can use are as follows:
 
-        begin - Starts the game.
-        help - Display this help menu
-        Q - Quit
+        begin - start the game
+        help - display this help menu
+        q - quit the game
+
+        h - west
+        j - south
+        k - north
+        l - east
+        e - exit
+        x - display co-ordinates
         """
         self.display(help_text)
 

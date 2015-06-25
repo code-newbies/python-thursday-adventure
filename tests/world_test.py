@@ -131,6 +131,16 @@ class EngineInitTest(BaseTest):
         for location in path:
             self.assertIn(location, rel_path)
 
+    def test_can_pass_map_file_to_engine(self):
+        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+        map_path = self.engine.get_rel_path(["tests", "fixtures", "test_room.json"])
+        self.engine.set_map(map_path)
+        self.say("begin")
+        self.say("test bot")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertEqual("test room", self.engine.room.name)
+
     def test_engine_enters_main_loop(self):
         self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
         try:
@@ -140,10 +150,12 @@ class EngineInitTest(BaseTest):
             self.fail("Engine does not have a main_loop() method")
 
 
-class EngineMenuTest(BaseTest):
+class EngineMenuAndCommandTest(BaseTest):
     def setUp(self):
         self.init()
         self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+        map_path = self.engine.get_rel_path(["tests", "fixtures", "test_room.json"])
+        self.engine.set_map(map_path)
 
     def test_engine_will_prompt_and_exit_with_q(self):
         self.say("Q")
@@ -167,7 +179,24 @@ class EngineMenuTest(BaseTest):
         self.say("help")
         self.say("q")
         self.engine.main_loop()
-        self.assertPrinted("help", 1)
+        self.assertPrintedOnAnyLine("quit")
+        self.assertPrintedOnAnyLine("begin")
+        self.assertPrintedOnAnyLine("help")
+        self.assertPrintedOnAnyLine("north")
+        self.assertPrintedOnAnyLine("south")
+        self.assertPrintedOnAnyLine("east")
+        self.assertPrintedOnAnyLine("west")
+        self.assertPrintedOnAnyLine("exit")
+        self.assertPrintedOnAnyLine("co-ordinates")
+
+    def test_h_moves_player_west(self):
+        self.say("begin")
+        self.say("test bot")
+        self.say("h")
+        self.say("x")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrintedOnAnyLine("(4,6)")
 
     def test_begin_will_start_game(self):
         self.say("begin")
