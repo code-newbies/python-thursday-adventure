@@ -9,9 +9,13 @@ prompt = ">"
 class RoomTest(BaseTest):
     def setUp(self):
         self.init()
+        self.old_max_diff = self.maxDiff
         room_path = self.build_path(["tests", "fixtures", "test_room.json"])
         self.room = Room(room_path)
         self.room.get_room_data()
+
+    def tearDown(self):
+        self.maxDiff = self.old_max_diff
 
     def test_that_room_has_a_name(self):
         self.assertEqual("test room", self.room.name)
@@ -22,6 +26,16 @@ class RoomTest(BaseTest):
     def test_that_room_can_list_locations_in_it(self):
         objects = self.room.get_objects()
         self.assertIn("entrance", objects)
+    
+    def test_that_room_can_return_items_at_location(self):
+        items = self.room.items(5,6)
+        self.assertIn("entrance", items)
+
+        items = self.room.items(3,12)
+        self.assertIn("exit", items)
+
+        items = self.room.items(1,1)
+        self.assertEqual(0, len(items))
 
     def test_that_entrance_location_can_be_loaded_from_file(self):
         x,y = self.room.locate("entrance")
@@ -72,7 +86,33 @@ class RoomTest(BaseTest):
     def test_that_player_cannot_exit_from_entrance(self):
         self.room.enter("entrance")
         self.assertFalse(self.room.exit())
+
+    def test_that_room_will_print(self):
+        self.maxDiff = None
+
+        expected = [ 
+            "..................",
+            "..................",
+            "..................",
+            "............<.....",
+            "..................",
+            "......>...........",
+            "..................",
+            "..................",
+            "..................",
+            "..................",
+            "..................",
+            "..................",
+            "..................",
+            "..................",
+            "..................",
+            "..................",
+            "..................",
+            ".................."]
         
+        actual = self.room.build_map()
+        self.assertEqual("\n".join(expected), actual)  
+
 class EngineInitTest(BaseTest):
     def setUp(self):
         self.init()

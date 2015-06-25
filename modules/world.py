@@ -25,6 +25,15 @@ class Room():
 
     def get_objects(self):
         return self.data.keys()
+    
+    def items(self, x, y):
+        found = []
+
+        objects = self.get_objects()
+        for item in objects:
+            if self.data[item]['x'] == x and self.data[item]['y'] == y:
+                found.append(item)
+        return found
 
     def exit(self):
         player_x, player_y = self.locate("player")
@@ -57,6 +66,28 @@ class Room():
         self.name = data['room']
         self.size = data['size']
     
+    def build_map(self):
+        lines = []
+
+        for x in range(0, self.size):
+            map = ""
+
+            for y in range(0, self.size):
+                items = self.items(x, y)
+
+                if 'exit' in items:
+                    char = "<"
+                elif 'entrance' in items:
+                    char = ">"
+                else:
+                    char = "."
+
+                map += char
+
+            lines.append(map)
+        map = ""
+
+        return "\n".join(lines)
 
 class Engine:
     def __init__(self, base_path, prompt_func=input, print_func=print):
