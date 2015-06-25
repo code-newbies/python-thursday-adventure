@@ -34,7 +34,6 @@ if run_unit:
 if run_funct:
     from tests.functional.inventory_test import *
     from tests.functional.world_test import *
-    from tests.functional.player_test import *
 
 if run_unit or run_funct:
     if __name__ == '__main__':

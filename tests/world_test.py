@@ -1,6 +1,7 @@
 import sys
 import unittest
 from modules.world import Room, Engine
+from modules.player import Player
 from tests.helpers import BaseTest
 
 prompt = ">"
@@ -8,15 +9,35 @@ prompt = ">"
 class RoomTest(BaseTest):
     def setUp(self):
         self.init()
-
-    def test_that_entrance_can_be_loaded_from_file(self):
-        room_path = self.build_path(["tests", "fixtures", "test_room.csv"])
+        room_path = self.build_path(["tests", "fixtures", "test_room.json"])
         self.room = Room(room_path)
-        x,y = self.room.location("entrance")
+        self.room.get_room_data()
+
+    def test_that_room_has_a_name(self):
+        self.assertEqual("test room", self.room.name)
+
+    def test_that_room_has_a_size(self):
+        self.assertEqual(18, self.room.size)
+
+    def test_that_room_can_list_locations_in_it(self):
+        objects = self.room.get_objects()
+        self.assertIn("entrance", objects)
+
+    def test_that_entrance_location_can_be_loaded_from_file(self):
+        x,y = self.room.locate("entrance")
         self.assertEqual(5, x)
-        self.assertEqual(5, y)
+        self.assertEqual(6, y)
 
+    def test_that_player_can_enter_room(self):
+        self.room.enter("entrance")
+        objects = self.room.get_objects()
+        self.assertIn("player", objects)
 
+    def test_that_player_can_be_located(self):
+        self.room.enter("entrance")
+        x,y = self.room.locate("player")
+        self.assertEqual(5, x)
+        self.assertEqual(6, y)
 
 class EngineInitTest(BaseTest):
     def setUp(self):
@@ -35,7 +56,6 @@ class EngineInitTest(BaseTest):
         self.assertIn('foo', rel_path)
         for location in path:
             self.assertIn(location, rel_path)
-        
 
     def test_engine_enters_main_loop(self):
         self.engine = Engine(self.base_path, self.fake_input, self.fake_print)

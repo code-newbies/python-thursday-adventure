@@ -1,7 +1,9 @@
 import sys
 import unittest
-from modules.world import Engine
 from tests.helpers import BaseTest
+from modules.world import Room, Engine
+from os import getcwd
+from os.path import join
 
 class CanReadStdOutAndMockPrompt(BaseTest):
     def setUp(self):
@@ -56,3 +58,35 @@ class CanLoopTheMainLoop(BaseTest):
         # A list of commands will display
         # Jamie can then quit the game and tell her friends all the ease of use.
         self.assertPrinted("help", 1)
+
+
+
+class PlayerCanMoveTest(BaseTest):
+    def setUp(self):
+        self.init()
+        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+
+    def test_alexander_can_enter_a_room_and_travel_to_the_exit(self):
+        # Alexander, a great fan of text adventures, has entered a new room and seeking fame
+        # and glory.  He starts at tile (5,5)
+        alexander_test_room = self.build_path(["tests","fixtures", "alexander_room.json"])
+        self.engine.init_level(alexander_test_room)
+
+        x, y = self.engine.room.locate('player')
+        self.assertEqual(5, x)
+        self.assertEqual(6, y)
+
+        # Alexander moves north and enters tile (5,6)
+        self.fail("Finish the test!")
+
+        # Alexander moves east and enters tile (6,6)
+
+        # Alexander moves north 5 times and enters tile (6, 11)
+
+        # Alexander moves west twice and enters tile (4, 11)
+
+        # Alexander moves south 4 times and enters time (4, 7)
+
+        # Alexander now shares a tile with the exit and exits the level.
+
+

@@ -1,0 +1,12 @@
+{   
+    "room": "test room",
+    "size": 18,
+    "locations":
+    { 
+        "entrance": 
+        { 
+            "x": 5,
+            "y": 6
+        }
+    }
+}
