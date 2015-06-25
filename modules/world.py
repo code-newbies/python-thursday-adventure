@@ -3,9 +3,8 @@ from os.path import join
 import jsonpickle 
 
 class Room():
-    def __init__(self, filename, print_func=print):
+    def __init__(self, filename):
         self.filename = filename
-        self.display = print_func
 		
     def enter(self, entrance_name):
         x, y = self.locate(entrance_name)
