@@ -26,6 +26,27 @@ class Room():
     def get_objects(self):
         return self.data.keys()
 
+    def exit(self):
+        player_x, player_y = self.locate("player")
+        exit_x, exit_y = self.locate("exit")
+
+        if player_x == exit_x and player_y == exit_y:
+            return True
+        else:
+            return False
+
+    def north(self, item):
+        self.data[item]['y'] += 1
+
+    def south(self, item):
+        self.data[item]['y'] -= 1
+
+    def east(self, item):
+        self.data[item]['x'] += 1
+
+    def west(self, item):
+        self.data[item]['x'] -= 1
+
     def get_room_data(self):
         f = open(self.filename, 'r')
         contents = f.read()
@@ -36,6 +57,7 @@ class Room():
         self.name = data['room']
         self.size = data['size']
     
+
 class Engine:
     def __init__(self, base_path, prompt_func=input, print_func=print):
         self.base_path = base_path
@@ -73,6 +95,21 @@ class Engine:
         response = self.prompt("Hello, what is your name: ")
         self.display("Welcome to text adventure, {0}!".format(response))
         return response
+
+    def north(self):
+        self.room.north('player')
+
+    def south(self):
+        self.room.south('player')
+
+    def east(self):
+        self.room.east('player')
+
+    def west(self):
+        self.room.west('player')
+
+    def exit(self):
+        return self.room.exit()
 
     def main_loop(self):
         play = True

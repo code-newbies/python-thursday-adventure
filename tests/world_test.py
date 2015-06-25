@@ -39,6 +39,40 @@ class RoomTest(BaseTest):
         self.assertEqual(5, x)
         self.assertEqual(6, y)
 
+    def test_that_player_enters_at_location(self):
+        self.room.enter("exit")
+        x,y = self.room.locate("player")
+        self.assertEqual(3, x)
+        self.assertEqual(12, y)
+
+    def test_that_player_can_move_north(self):
+        self.room.enter("entrance")
+        self.room.north("player")
+        self.assertLocation(self.room, "player", 5, 7)        
+
+    def test_that_player_can_move_south(self):
+        self.room.enter("entrance")
+        self.room.south("player")
+        self.assertLocation(self.room, "player", 5, 5)        
+
+    def test_that_player_can_move_east(self):
+        self.room.enter("entrance")
+        self.room.east("player")
+        self.assertLocation(self.room, "player", 6, 6)        
+
+    def test_that_player_can_move_west(self):
+        self.room.enter("entrance")
+        self.room.west("player")
+        self.assertLocation(self.room, "player", 4, 6)        
+
+    def test_that_player_can_exit(self):
+        self.room.enter("exit")
+        self.assertTrue(self.room.exit())
+
+    def test_that_player_cannot_exit_from_entrance(self):
+        self.room.enter("entrance")
+        self.assertFalse(self.room.exit())
+        
 class EngineInitTest(BaseTest):
     def setUp(self):
         self.init()

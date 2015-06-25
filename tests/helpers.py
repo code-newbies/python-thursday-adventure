@@ -48,3 +48,8 @@ class BaseTest(unittest.TestCase):
 
     def build_path(self, file_n_path):
         return join(self.base_path, *file_n_path)
+
+    def assertLocation(self, room, item, expected_x, expected_y):
+        x, y = room.locate(item)
+        self.assertEqual(expected_x, x)
+        self.assertEqual(expected_y, y)
