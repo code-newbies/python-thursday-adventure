@@ -25,7 +25,7 @@ class Engine:
             elif command == "help":
                 self.display_help()
             elif command == "begin":
-                self.room = Room(join("resources", "Game_Setup.csv"))
+                self.room = Room(join("resources", "Game_Setup.csv"), self.display)
                 self.room.get_room_data()
                 self.room.start_tile_create()
                 """

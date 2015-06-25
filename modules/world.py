@@ -2,8 +2,9 @@
 import csv
 
 class Room():
-    def __init__(self, filename):
+    def __init__(self, filename, print_func=print):
         self.filename = filename
+        self.display = print_func
 		
     def get_room_data(self):
         self.data = {}
@@ -20,8 +21,8 @@ class Room():
             self.startboard.append(["[]"] * v)
             def start_tile_print(self):		
                 for row in self.startboard:
-                    print(" ".join(row))
-        print("\n")			
+                    self.display(" ".join(row))
+        self.display("\n")			
         return start_tile_print(self)
 	
     def key_tile_create(self):
@@ -31,8 +32,8 @@ class Room():
             self.keyboard.append(["[]"] * v)
             def key_tile_print(self):
                 for row in self.keyboard:
-                    print (" ".join(row))
-        print("\n")		
+                    self.display (" ".join(row))
+        self.display("\n")		
         return key_tile_print(self)
 	
     def gold_tile_create(self):
@@ -42,8 +43,8 @@ class Room():
             self.goldboard.append(["[]"] * v)
             def gold_tile_print(self):
                 for row in self.goldboard:
-                    print (" ".join(row))
-        print("\n")			
+                    self.display (" ".join(row))
+        self.display("\n")			
         return gold_tile_print(self)
 	
     def exit_tile_create(self):
@@ -53,6 +54,6 @@ class Room():
             self.exitboard.append(["[]"] * v)
             def exit_tile_print(self):
                 for row in self.exitboard:
-                    print (" ".join(row))
-        print("\n")
+                    self.display (" ".join(row))
+        self.display("\n")
         return exit_tile_print(self)

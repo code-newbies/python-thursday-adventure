@@ -39,4 +39,4 @@ class EngineTest(BaseTest):
         self.say("begin")
         self.say("q")
         self.engine.main_loop()
-        self.assertPrinted("begin", 1)
+        self.assertPrintedOnAnyLine("[]")

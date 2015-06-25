@@ -43,3 +43,16 @@ class BaseTest(unittest.TestCase):
             """.format(text, index, self.printed)
             raise AssertionError(details)
 
+    def assertPrintedOnAnyLine(self, text):
+        was_printed = False
+
+        for output in self.printed:
+            if text in output:
+                was_printed = True
+
+        if not was_printed:
+            details = """
+            Expected '{0}' to be printed on any line, but it wasn't below is what was printed
+            {1}
+            """.format(text, self.printed)
+            raise AssertionError(details)
