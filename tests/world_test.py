@@ -198,6 +198,33 @@ class EngineMenuAndCommandTest(BaseTest):
         self.engine.main_loop()
         self.assertPrintedOnAnyLine("(4,6)")
 
+    def test_j_moves_player_south(self):
+        self.say("begin")
+        self.say("test bot")
+        self.say("j")
+        self.say("x")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrintedOnAnyLine("(5,5)")
+
+    def test_k_moves_player_north(self):
+        self.say("begin")
+        self.say("test bot")
+        self.say("k")
+        self.say("x")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrintedOnAnyLine("(5,7)")
+
+    def test_l_moves_player_east(self):
+        self.say("begin")
+        self.say("test bot")
+        self.say("l")
+        self.say("x")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrintedOnAnyLine("(6,6)")
+
     def test_begin_will_start_game(self):
         self.say("begin")
         self.say("test bot")

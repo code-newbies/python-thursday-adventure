@@ -155,6 +155,17 @@ class Engine:
                 self.start()
                 map_ = self.room.build_map()
                 self.display(map_)
+            elif command == "h":
+                self.west()
+            elif command == "j":
+                self.south()
+            elif command == "k":
+                self.north()
+            elif command == "l":
+                self.east()
+            elif command == "x":
+                x, y = self.room.locate("player")
+                self.display("Your co-ordinates are: ({0},{1})".format(x,y))
             else:
                 self.display("Sorry that command is not valid, please type 'help' and press enter for a menu.")
 
