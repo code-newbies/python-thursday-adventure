@@ -34,3 +34,9 @@ class EngineTest(BaseTest):
         self.say("q")
         self.engine.main_loop()
         self.assertPrinted("help", 1)
+    
+    def test_begin_will_start_game(self):
+        self.say("begin")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrinted("begin", 1)
