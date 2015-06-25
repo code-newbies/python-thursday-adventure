@@ -68,44 +68,35 @@ class PlayerCanMoveTest(BaseTest):
 
     def test_alexander_can_enter_a_room_and_travel_to_the_exit(self):
         # Alexander, a great fan of text adventures, has entered a new room and seeking fame
-        # and glory.  He starts at tile (5,6)
-        alexander_test_room = self.build_path(["tests","fixtures", "alexander_room.json"])
-        self.engine.init_level(alexander_test_room)
-        self.assertLocation(self.engine.room, 'player', 5,6)
+        # and glory.
+        self.say("begin")
+        self.say("Alexander")
 
         # Alexander moves north and enters tile (5,7)
-        self.engine.north()
-        self.assertLocation(self.engine.room, 'player', 5,7)
+        self.say("k")
 
         # Alexander moves east and enters tile (6,7)
-        self.engine.east()
-        self.assertLocation(self.engine.room, 'player', 6,7)
+        self.say("l")
 
         # Alexander moves north 5 times and enters tile (6, 12)
-        self.engine.north()
-        self.engine.north()
-        self.engine.north()
-        self.engine.north()
-        self.engine.north()
-        self.assertLocation(self.engine.room, 'player', 6,12)
+        self.say("k")
+        self.say("k")
+        self.say("k")
+        self.say("k")
+        self.say("k")
 
         # Alexander moves west twice and enters tile (4, 12)
-        self.engine.west()
-        self.engine.west()
-        self.assertLocation(self.engine.room, 'player', 4, 12)
+        self.say("h")
+        self.say("h")
 
         # Alexander moves south 4 times and enters time (4, 8)
-        self.engine.south()
-        self.engine.south()
-        self.engine.south()
-        self.engine.south()
-        self.assertLocation(self.engine.room, 'player', 4, 8)
+        self.say("j")
+        self.say("j")
+        self.say("j")
+        self.say("j")
 
         # Alexander now shares a tile with the exit and exits the level.
-        exit_x, exit_y = self.engine.room.locate("exit")
-        player_x, player_y = self.engine.room.locate("player")
-
-        self.assertEqual(exit_x, player_x)
-        self.assertEqual(exit_y, player_y)
-        result = self.engine.exit()
-        self.assertTrue(result)
+        self.say("e")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrintedOnAnyLine("exited level 1")

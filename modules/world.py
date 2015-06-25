@@ -1,6 +1,7 @@
 from os import getcwd
 from os.path import join
 import jsonpickle 
+from modules.player import Player
 
 class Room():
     def __init__(self, filename):
@@ -99,11 +100,10 @@ class Engine:
 
     def start(self):
         player_name = self.greet()
-        self.player = Player(response)
+        self.player = Player(player_name)
 
-        level_file = get_rel_path("level1.json")
-        init_level(level_file)
-        self.main_loop()
+        level_file = self.get_rel_path(["resources", "level_1.json"])
+        self.init_level(level_file)
 
 
     def init_level(self, level_file):
@@ -152,6 +152,12 @@ class Engine:
                 play = False
             elif command == "help":
                 self.display_help()
+            elif command == "begin":
+                self.start()
+                map_ = self.room.build_map()
+                self.display(map_)
+            else:
+                self.display("Sorry that command is not valid, please type 'help' and press enter for a menu.")
 
     def display_help(self):
         help_text = """
@@ -159,8 +165,10 @@ class Engine:
 
         The commands that you can use are as follows:
 
+        begin - Starts the game.
         help - Display this help menu
         Q - Quit
         """
         self.display(help_text)
+
 
