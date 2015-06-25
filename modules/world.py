@@ -4,9 +4,8 @@ import json
 from modules.player import Player
 
 class Room():
-    def __init__(self, filename, print_func=print):
+    def __init__(self, filename):
         self.filename = filename
-        self.display = print_func
 		
     def enter(self, entrance_name):
         x, y = self.locate(entrance_name)
@@ -62,63 +61,6 @@ class Room():
         f = open(self.filename, "r")
         data = json.load(f)
         f.close()
-        self.data = data['locations']
-        self.name = data['room']
-        self.size = data['size']
-    
-    def build_map(self):
-        lines = []
-
-        for x in range(0, self.size):
-            map = ""
-
-            for y in range(0, self.size):
-                items = self.items(x, y)
-
-                if 'exit' in items:
-                    char = "<"
-                elif 'entrance' in items:
-                    char = ">"
-                else:
-                    char = "."
-
-                map += char
-
-            lines.append(map)
-        map = ""
-
-        return "\n".join(lines)
-
-    def get_objects(self):
-        return self.data.keys()
-
-    def exit(self):
-        player_x, player_y = self.locate("player")
-        exit_x, exit_y = self.locate("exit")
-
-        if player_x == exit_x and player_y == exit_y:
-            return True
-        else:
-            return False
-
-    def north(self, item):
-        self.data[item]['y'] += 1
-
-    def south(self, item):
-        self.data[item]['y'] -= 1
-
-    def east(self, item):
-        self.data[item]['x'] += 1
-
-    def west(self, item):
-        self.data[item]['x'] -= 1
-
-    def get_room_data(self):
-        f = open(self.filename, 'r')
-        contents = f.read()
-        f.close()
-
-        data = jsonpickle.decode(contents)
         self.data = data['locations']
         self.name = data['room']
         self.size = data['size']
