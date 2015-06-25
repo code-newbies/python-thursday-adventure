@@ -166,6 +166,12 @@ class Engine:
             elif command == "x":
                 x, y = self.room.locate("player")
                 self.display("Your co-ordinates are: ({0},{1})".format(x,y))
+            elif command == "e":
+                if self.room.exit():
+                    self.display("You have exited {0}".format(self.room.name))
+                else:
+                    self.display("Sorry, you cannot exit {0} because you are not at an exit".format(self.room.name))
+                    
             else:
                 self.display("Sorry that command is not valid, please type 'help' and press enter for a menu.")
 

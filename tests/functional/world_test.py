@@ -69,6 +69,8 @@ class PlayerCanMoveTest(BaseTest):
     def test_alexander_can_enter_a_room_and_travel_to_the_exit(self):
         # Alexander, a great fan of text adventures, has entered a new room and seeking fame
         # and glory.
+        room_file = self.engine.get_rel_path(["tests", "fixtures", "alexander_room.json"])
+        self.engine.set_map(room_file)
         self.say("begin")
         self.say("Alexander")
 
@@ -89,14 +91,15 @@ class PlayerCanMoveTest(BaseTest):
         self.say("h")
         self.say("h")
 
-        # Alexander moves south 4 times and enters time (4, 8)
+        # Alexander moves south 4 times and enters tile (4, 8)
         self.say("j")
         self.say("j")
         self.say("j")
         self.say("j")
 
+        self.say("x")
         # Alexander now shares a tile with the exit and exits the level.
         self.say("e")
         self.say("q")
         self.engine.main_loop()
-        self.assertPrintedOnAnyLine("exited level 1")
+        self.assertPrintedOnAnyLine("exited alexander room")

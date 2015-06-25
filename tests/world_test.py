@@ -232,6 +232,32 @@ class EngineMenuAndCommandTest(BaseTest):
         self.engine.main_loop()
         self.assertPrintedOnAnyLine(".................")
 
+    def test_exit_will_exit_level_at_exit(self):
+        self.say("begin")
+        self.say("test bot")
+        self.say("h")
+        self.say("h")
+        self.say("k")
+        self.say("k")
+        self.say("k")
+        self.say("k")
+        self.say("k")
+        self.say("k")
+
+        self.say("e")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrintedOnAnyLine("exited test room")
+
+    def test_exit_will_not_exit_level_when_not_at_exit(self):
+        self.say("begin")
+        self.say("test bot")
+        self.say("h")
+        self.say("e")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrintedOnAnyLine("cannot exit test room because you are not at an exit")
+
 
 class PlayerCanMoveTest(BaseTest):
     def setUp(self):
