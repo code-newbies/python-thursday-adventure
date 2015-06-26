@@ -149,6 +149,26 @@ class EngineInitTest(BaseTest):
         except AttributeError:
             self.fail("Engine does not have a main_loop() method")
 
+class EngineHelperTest(BaseTest):
+    def setUp(self):
+        self.init()
+        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+
+    def test_tuple_values_will_return_first_values(self):
+        input_list = [(1, 'a'), (2, 'b'), (3, 'c')]
+        expected_output = [1, 2, 3]
+        output = list(self.engine.tuple_values(0, input_list))
+
+        for i in list(range(len(expected_output))):
+           self.assertEqual(expected_output[i], output[i])
+
+    def test_tuple_values_will_return_second_values(self):
+        input_list = [(1, 'a'), (2, 'b'), (3, 'c')]
+        expected_output = ['a', 'b', 'c']
+        output = list(self.engine.tuple_values(1, input_list))
+
+        for i in list(range(len(expected_output))):
+           self.assertEqual(expected_output[i], output[i])
 
 class EngineMenuAndCommandTest(BaseTest):
     def setUp(self):

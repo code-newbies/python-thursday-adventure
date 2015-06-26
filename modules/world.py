@@ -95,6 +95,28 @@ class Engine:
         self.display = print_func
         self.prompt_char = ">"
         self.map_path_n_file = self.get_rel_path(["resources", "level_1.json"])
+        self.command_list = [
+            ("help", self.display_help, "start the game"),
+            ("begin", self.begin, "display this help menu"),
+            ("h", self.west, "move west"),
+            ("j", self.south, "move south"),
+            ("k", self.north, "move north"),
+            ("l", self.east, "move east"),
+            ("x", self.coordinates, "display current tile co-ordinates"),
+            ("e", self.exit, "exit the map")
+            ]
+
+    def display_help(self):
+        help_text = """
+You asked for help and here it is!
+
+The commands that you can use are as follows:
+
+q - quit the game"""
+
+        self.display(help_text)
+        for command in self.command_list:
+            self.display("{0} - {1}".format(command[0], command[2]))
 
     def start(self):
         player_name = self.greet()
@@ -139,7 +161,28 @@ class Engine:
         self.room.west('player')
 
     def exit(self):
-        return self.room.exit()
+        can_exit = self.room.exit()
+
+        if can_exit:
+            self.display("You have exited {0}".format(self.room.name))
+        else:
+            self.display("Sorry, you cannot exit {0} because you are not at an exit".format(self.room.name))
+        return can_exit
+
+    def coordinates(self):
+        x, y = self.room.locate("player")
+        self.display("Your co-ordinates are: ({0},{1})".format(x,y))
+
+    def begin(self):
+        self.start()
+        map_ = self.room.build_map()
+        self.display(map_)
+
+    def invalid_command(self):
+        self.display("Sorry that command is not valid, please type 'help' and press enter for a menu.")
+
+    def tuple_values(self, pos, command_list):
+        return list(map(lambda x: x[pos], command_list))
 
     def main_loop(self):
         play = True
@@ -149,49 +192,10 @@ class Engine:
 
             if command == "q":
                 play = False
-            elif command == "help":
-                self.display_help()
-            elif command == "begin":
-                self.start()
-                map_ = self.room.build_map()
-                self.display(map_)
-            elif command == "h":
-                self.west()
-            elif command == "j":
-                self.south()
-            elif command == "k":
-                self.north()
-            elif command == "l":
-                self.east()
-            elif command == "x":
-                x, y = self.room.locate("player")
-                self.display("Your co-ordinates are: ({0},{1})".format(x,y))
-            elif command == "e":
-                if self.room.exit():
-                    self.display("You have exited {0}".format(self.room.name))
-                else:
-                    self.display("Sorry, you cannot exit {0} because you are not at an exit".format(self.room.name))
-                    
+            elif command in (self.tuple_values(0, self.command_list)):
+                command_tuple = list(filter(lambda x: x[0] == command, self.command_list))[0]
+                command_tuple[1]()
             else:
-                self.display("Sorry that command is not valid, please type 'help' and press enter for a menu.")
-
-    def display_help(self):
-        help_text = """
-        You asked for help and here it is!
-
-        The commands that you can use are as follows:
-
-        begin - start the game
-        help - display this help menu
-        q - quit the game
-
-        h - west
-        j - south
-        k - north
-        l - east
-        e - exit
-        x - display co-ordinates
-        """
-        self.display(help_text)
+                self.invalid_command()
 
 
