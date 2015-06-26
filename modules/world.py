@@ -10,9 +10,11 @@ class Room:
     This class encapsulates the concepts of maps, tiles and co-ordinates.  You can load external json
     files and then add a player and move items around within the room. 
     """
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, library_path, first_file):
+        self.room_file = first_file
+        self.library_path = library_path
         self.exit_text = None
+        self.next_level = None
 		
     def enter(self, entrance_name):
         x, y = self.locate(entrance_name)
@@ -89,7 +91,8 @@ class Room:
         return possible
 
     def get_room_data(self):
-        f = open(self.filename, "r")
+        path_n_file = join(self.library_path, self.room_file)
+        f = open(path_n_file, "r")
         data = json.load(f)
         f.close()
         self.data = data['locations']
@@ -98,6 +101,10 @@ class Room:
 
         if 'exit_text' in data.keys():
             self.exit_text = data['exit_text']
+
+        if 'next_level' in data.keys():
+            self.next_level = data['next_level']
+    
     
     def build_map(self):
         lines = []
@@ -130,12 +137,12 @@ class Engine:
     in an MVC framework. 
 
     """
-    def __init__(self, base_path, prompt_func=input, print_func=print):
-        self.base_path = base_path
+    def __init__(self, library_path, prompt_func=input, print_func=print):
         self.prompt = prompt_func
         self.display = print_func
         self.prompt_char = ">"
-        self.map_path_n_file = self.get_rel_path(["resources", "level_1.json"])
+        self.library_path = library_path 
+        self.room_file = "level_1.json"
         self.player_in_room = False
 
         # tuple is (command, function, description, valid_outside_room)
@@ -174,24 +181,13 @@ q - quit the game"""
         player_name = self.greet()
         self.player = Player(player_name)
 
-        self.init_level(self.map_path_n_file)
+        self.init_level()
 
-    def set_map(self, path_n_file):
-        self.map_path_n_file = path_n_file
-
-    def init_level(self, level_file):
-        self.room = Room(level_file)
+    def init_level(self):
+        self.room = Room(self.library_path, self.room_file)
         self.room.get_room_data()
         self.room.enter("entrance")
         self.player_in_room = True
-
-    def get_rel_path(self, file_n_path):
-        if type(file_n_path) is list:
-            output = join(self.base_path, *file_n_path)
-        else:
-            output = join(self.base_path, file_n_path)
-
-        return output
 
     def load_player(self, player):
         self.player = player

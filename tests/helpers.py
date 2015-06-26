@@ -9,6 +9,7 @@ class BaseTest(unittest.TestCase):
         self.command_count = 0
         self.printed = []
         self.base_path = getcwd()
+        self.library_path = join(self.base_path, "tests", "fixtures")
   
     def say(self,command):
         self.commands.append(command)

@@ -1,8 +1,8 @@
 {   
-    "room": "tiny room",
+    "room": "tiny room too",
     "size": 2,
-    "exit_text": "You have escaped the harrowed and tiny halls of doom!",
-    "next_level": "tiny_room_too.json",
+    "exit_text": "You have escaped the second of three tiny rooms",
+    "next_level": "tiny_room_three.json",
     "locations":
     { 
         "entrance": 

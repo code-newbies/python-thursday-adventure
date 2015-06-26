@@ -2,7 +2,6 @@
     "room": "level 1",
     "size": 18,
     "exit_text": "You have unlocked the exit and proceed through it into a dark and ominous hallway",
-    "next_level": "level_2.json",
     "locations":
     { 
         "entrance": 
