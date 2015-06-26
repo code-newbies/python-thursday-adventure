@@ -151,8 +151,8 @@ class CanDrawAMapTest(BaseTest):
         # the cool map.
         self.say("q")
         self.engine.main_loop()
-        self.assertPrintedOnAnyLine("@.~$.")
-        self.assertPrintedOnAnyLine("<....")
-        self.assertPrintedOnAnyLine(".....")
-        self.assertPrintedOnAnyLine("....*")
         self.assertPrintedOnAnyLine("....G")
+        self.assertPrintedOnAnyLine("$...*")
+        self.assertPrintedOnAnyLine("~....")
+        self.assertPrintedOnAnyLine("<....")
+        self.assertPrintedOnAnyLine("@....")

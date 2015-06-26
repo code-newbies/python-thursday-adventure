@@ -113,6 +113,57 @@ class RoomTest(BaseTest):
         actual = self.room.build_map()
         self.assertEqual("\n".join(expected), actual)  
 
+class RoomDrawsAllItemsInRoomTest(BaseTest):
+    def setUp(self):
+        self.init()
+        self.old_max_diff = self.maxDiff
+        self.maxDiff = None
+        room_path = self.build_path(["tests", "fixtures", "item_room.json"])
+        self.room = Room(room_path)
+        self.room.get_room_data()
+
+    def tearDown(self):
+        self.maxDiff = self.old_max_diff
+
+    def test_player_displays_in_room_as_at(self):
+        self.room.enter("entrance")
+        actual = self.room.build_map()
+        self.assertIn("@", actual)  
+
+    def test_items_in_room_display(self):
+        expected = [ 
+            "....G",
+            "$...*",
+            "~....",
+            "<....",
+            ">...."]
+        actual = self.room.build_map()
+        self.assertEqual("\n".join(expected), actual)  
+
+    def test_player_and_items_in_room_display(self):
+        expected = [ 
+            "....G",
+            "$...*",
+            "~....",
+            "<....",
+            "@...."]
+        self.room.enter("entrance")
+        actual = self.room.build_map()
+        self.assertEqual("\n".join(expected), actual)  
+
+    def test_moved_player_and_items_in_room_display(self):
+        expected = [ 
+            "....G",
+            "$...*",
+            "~....",
+            "<....",
+            ">@..."]
+        self.room.enter("entrance")
+        self.room.east("player")
+        actual = self.room.build_map()
+        self.assertEqual("\n".join(expected), actual)  
+
+
 class EngineInitTest(BaseTest):
     def setUp(self):
         self.init()

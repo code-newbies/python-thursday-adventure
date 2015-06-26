@@ -6,12 +6,14 @@
         "entrance": 
         { 
             "x": 5,
-            "y": 6
+            "y": 6,
+            "display": ">"
         },
         "exit": 
         { 
             "x": 4,
-            "y": 8
+            "y": 8,
+            "display": "<"
         }
     }
 }

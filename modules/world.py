@@ -80,10 +80,10 @@ class Room:
             for x in range(0, self.size):
                 items = self.items(x, y)
 
-                if 'exit' in items:
-                    char = "<"
-                elif 'entrance' in items:
-                    char = ">"
+                if 'player' in items:
+                    char = "@"
+                elif len(items) > 0:
+                    char = self.data[items[0]]["display"] 
                 else:
                     char = "."
 

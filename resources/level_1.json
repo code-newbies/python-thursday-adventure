@@ -6,22 +6,26 @@
         "entrance": 
         { 
             "x": 5,
-            "y": 6
+            "y": 6,
+            "display": ">"
         },
         "key": 
         { 
             "x": 4,
-            "y": 3
+            "y": 3,
+            "display": "~"
         },
         "gold": 
         { 
             "x": 8,
-            "y": 1
+            "y": 1,
+            "display": "$"
         },
         "exit": 
         { 
             "x": 12,
-            "y": 9
+            "y": 9,
+            "display": "<"
         }
     }
 }
