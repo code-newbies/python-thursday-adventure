@@ -10,13 +10,25 @@ class Room:
     This class encapsulates the concepts of maps, tiles and co-ordinates.  You can load external json
     files and then add a player and move items around within the room. 
     """
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, library_path, first_file):
+        self.room_file = first_file
+        self.library_path = library_path
         self.exit_text = None
-		
+        self.next_level = None
+    
     def enter(self, entrance_name):
+        self.get_room_data()
         x, y = self.locate(entrance_name)
         self.add_item("player", x, y)
+
+    def enter_next_level(self):
+        has_next_level = self.next_level != None
+
+        if has_next_level:
+            self.room_file = self.next_level
+            self.enter("entrance")    
+
+        return has_next_level
 
     def add_item(self, name, x, y):
         item = {}
@@ -89,7 +101,8 @@ class Room:
         return possible
 
     def get_room_data(self):
-        f = open(self.filename, "r")
+        path_n_file = join(self.library_path, self.room_file)
+        f = open(path_n_file, "r")
         data = json.load(f)
         f.close()
         self.data = data['locations']
@@ -98,6 +111,11 @@ class Room:
 
         if 'exit_text' in data.keys():
             self.exit_text = data['exit_text']
+
+        if 'next_level' in data.keys():
+            self.next_level = data['next_level']
+        else:
+            self.next_level = None
     
     def build_map(self):
         lines = []
@@ -130,12 +148,12 @@ class Engine:
     in an MVC framework. 
 
     """
-    def __init__(self, base_path, prompt_func=input, print_func=print):
-        self.base_path = base_path
+    def __init__(self, library_path, prompt_func=input, print_func=print):
         self.prompt = prompt_func
         self.display = print_func
         self.prompt_char = ">"
-        self.map_path_n_file = self.get_rel_path(["resources", "level_1.json"])
+        self.library_path = library_path 
+        self.room_file = "level_1.json"
         self.player_in_room = False
 
         # tuple is (command, function, description, valid_outside_room)
@@ -150,11 +168,16 @@ class Engine:
             ("e", self.exit, "exit the map", False)
             ]
 
-    def display_help(self):
+    def current_commands(self):
         if self.in_room():
-            current_commands = self.command_list
+            commands = self.command_list
         else:
-            current_commands = list(filter(lambda x: x[3] == True, self.command_list))
+            commands = list(filter(lambda x: x[3] == True, self.command_list))
+
+        return commands
+
+    def display_help(self):
+        possible_commands = self.current_commands()
 
         help_text = """
 You asked for help and here it is!
@@ -164,7 +187,7 @@ The commands that you can use are as follows:
 q - quit the game"""
 
         self.display(help_text)
-        for command in current_commands:
+        for command in possible_commands:
             self.display("{0} - {1}".format(command[0], command[2]))
 
     def in_room(self):
@@ -174,24 +197,12 @@ q - quit the game"""
         player_name = self.greet()
         self.player = Player(player_name)
 
-        self.init_level(self.map_path_n_file)
+        self.init_level()
 
-    def set_map(self, path_n_file):
-        self.map_path_n_file = path_n_file
-
-    def init_level(self, level_file):
-        self.room = Room(level_file)
-        self.room.get_room_data()
+    def init_level(self):
+        self.room = Room(self.library_path, self.room_file)
         self.room.enter("entrance")
         self.player_in_room = True
-
-    def get_rel_path(self, file_n_path):
-        if type(file_n_path) is list:
-            output = join(self.base_path, *file_n_path)
-        else:
-            output = join(self.base_path, file_n_path)
-
-        return output
 
     def load_player(self, player):
         self.player = player
@@ -221,12 +232,15 @@ q - quit the game"""
         can_exit = self.room.exit()
 
         if can_exit:
-            self.player_in_room = False
 
             if self.room.exit_text == None:
                 self.display("You have exited {0}".format(self.room.name))
             else:
                 self.display(self.room.exit_text)
+
+            if not self.room.enter_next_level():
+                self.player_in_room = False
+                self.display("Congratulations! You have completed the game.")
         else:
             self.display("Sorry, you cannot exit {0} because you are not at an exit".format(self.room.name))
         return can_exit
@@ -251,11 +265,12 @@ q - quit the game"""
 
         while play:
             command = self.prompt(self.prompt_char).lower()
+            possible_commands = self.current_commands()
 
             if command == "q":
                 play = False
-            elif command in (self.tuple_values(0, self.command_list)):
-                command_tuple = list(filter(lambda x: x[0] == command, self.command_list))[0]
+            elif command in (self.tuple_values(0, possible_commands)):
+                command_tuple = list(filter(lambda x: x[0] == command, possible_commands))[0]
                 command_tuple[1]()
             else:
                 self.invalid_command()

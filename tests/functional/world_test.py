@@ -11,7 +11,7 @@ class CanReadStdOutAndMockPrompt(BaseTest):
 
     def test_can_get_output_from_stdout_and_input_to_stdin(self):
         self.say("Hero")
-        engine = Engine(self.base_path, self.fake_input, self.fake_print)
+        engine = Engine(self.library_path, self.fake_input, self.fake_print)
         engine.greet()
         self.assertEqual("Hello, what is your name: ", self.printed[0])
         self.assertEqual("Welcome to text adventure, Hero!", self.printed[1])
@@ -19,7 +19,7 @@ class CanReadStdOutAndMockPrompt(BaseTest):
 class CanLoopTheMainLoop(BaseTest):
     def setUp(self):
         self.init()
-        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+        self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
     
     def test_fred_can_start_and_stop_the_loop_with_ease(self):
         # Fred is an avid gamer, some would say that he is a compulsive gamer
@@ -62,9 +62,8 @@ class CanLoopTheMainLoop(BaseTest):
 class LiteralLinusWantsLovelyMenuLists(BaseTest):
     def setUp(self):
         self.init()
-        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
-        room_file = self.engine.get_rel_path(["tests", "fixtures", "test_room.json"])
-        self.engine.set_map(room_file)
+        self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
+        self.engine.room_file = "test_room.json"
 
     def test_linus_sees_quit_begin_and_help_in_menu_but_no_other_commands_before_entering_a_room(self):
         # Linus plays the game for the first time, he has never seen a game like this
@@ -87,13 +86,12 @@ class LiteralLinusWantsLovelyMenuLists(BaseTest):
 class PlayerCanMoveTest(BaseTest):
     def setUp(self):
         self.init()
-        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+        self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
 
     def test_alexander_can_enter_a_room_and_travel_to_the_exit(self):
         # Alexander, a great fan of text adventures, has entered a new room and seeking fame
         # and glory.
-        room_file = self.engine.get_rel_path(["tests", "fixtures", "alexander_room.json"])
-        self.engine.set_map(room_file)
+        self.engine.room_file = "alexander_room.json"
         self.say("begin")
         self.say("Alexander")
 
@@ -130,11 +128,10 @@ class PlayerCanMoveTest(BaseTest):
 class PlayerCannotTravelThroughEdgesOfRoom(BaseTest):
     def setUp(self):
         self.init()
-        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+        self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
 
     def test_ghastly_cannot_travel_through_room_boundaries(self):
-        room_file = self.engine.get_rel_path(["tests", "fixtures", "tiny_room.json"])
-        self.engine.set_map(room_file)
+        self.engine.room_file = "tiny_room.json"
         # Ghastly thinks that he can travel though wall and room boundaries
         # as it turns out, he cannot, but that won't stop him from trying.
         # He will try to walk through all 4 room boundaries of the 2 x 2 room.
@@ -171,11 +168,10 @@ class PlayerCannotTravelThroughEdgesOfRoom(BaseTest):
 class GameHasBeautifulAndConfigurableDescriptions(BaseTest):
     def setUp(self):
         self.init()
-        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+        self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
 
     def test_literary_leslie_loves_lots_of_lively_loquaciousness(self):
-        room_file = self.engine.get_rel_path(["tests", "fixtures", "tiny_room.json"])
-        self.engine.set_map(room_file)
+        self.engine.room_file = "tiny_room.json"
         # Literary Leslie likes her games to have nice descriptions of things
         # She would like to see life breathed into this text adventure with wonderous words
         self.say("begin")
@@ -191,15 +187,46 @@ class GameHasBeautifulAndConfigurableDescriptions(BaseTest):
         self.engine.main_loop()
         self.assertPrintedOnAnyLine("harrowed and tiny halls of doom")
 
+class GameHasMultipleLevels(BaseTest):
+    def setUp(self):
+        self.init()
+        self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
+
+    def travel_to_the_next_level(self):
+        # She travels to the next level
+        self.say("k")
+        self.say("l")
+        self.say("e")
+
+    def test_power_leveling_paula_delves_deeply(self):
+        self.engine.room_file = "tiny_room.json"
+        # Power leveling Paula likes to get through a game as quickly as possible.
+        # She will be overjoyed to travel through three levels to complete the game as quickly 
+        # as possible
+        self.say("begin")
+        self.say("Paula")
+
+        self.travel_to_the_next_level()
+        self.travel_to_the_next_level()
+        self.travel_to_the_next_level()
+        
+        # Impressed by the game's literary acumen Leslie quits and writes a 5 star review 
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrintedOnAnyLine("harrowed and tiny halls of doom")
+        self.assertPrintedOnAnyLine("second of three tiny rooms")
+        self.assertPrintedOnAnyLine("third and final tiny room")
+
+        self.assertPrintedOnAnyLine("completed the game")
+
 class CanDrawAMapTest(BaseTest):
     def setUp(self):
         self.init()
-        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+        self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
 
     def test_ian_inventory_can_see_all_items_on_map(self):
         # Ian walks into a room filled with lots of stuff and he wants to see the map
-        room_file = self.engine.get_rel_path(["tests", "fixtures", "item_room.json"])
-        self.engine.set_map(room_file)
+        self.engine.room_file = "item_room.json"
         # Ian wants to know all of the stuff in the room and definately wants to see everything
         # on the map
         # He types begin and enters the game
