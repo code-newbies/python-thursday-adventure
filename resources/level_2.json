@@ -1,8 +1,7 @@
 {   
-    "room": "tiny room",
-    "size": 2,
-    "exit_text": "You have escaped the harrowed and tiny halls of doom!",
-    "next_level": "tiny_room_too.json",
+    "room": "level 2",
+    "size": 4,
+    "exit_text": "You have unlocked the exit and proceed through it into a dark and ominous hallway",
     "locations":
     { 
         "entrance": 
@@ -13,7 +12,7 @@
         },
         "exit": 
         { 
-            "x": 1,
+            "x": 0,
             "y": 1,
             "display": "<"
         }

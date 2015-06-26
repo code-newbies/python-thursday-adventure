@@ -1,12 +1,13 @@
 # main game loop goes here
 from modules.world import Engine
 from os import getcwd
+from os.path import join
 
 """
 This script launches the game:
 
 > python game.py
 """
-base_path = getcwd()
-flux_capacitor = Engine(base_path)
+library_path = join(getcwd(), "resources")
+flux_capacitor = Engine(library_path)
 flux_capacitor.main_loop()

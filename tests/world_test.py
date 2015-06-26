@@ -10,8 +10,9 @@ class RoomTest(BaseTest):
     def setUp(self):
         self.init()
         self.old_max_diff = self.maxDiff
-        room_path = self.build_path(["tests", "fixtures", "test_room.json"])
-        self.room = Room(room_path)
+        room_path = self.build_path(["tests", "fixtures"])
+        room_file = "test_room.json"
+        self.room = Room(room_path, room_file)
         self.room.get_room_data()
 
     def tearDown(self):
@@ -23,8 +24,11 @@ class RoomTest(BaseTest):
     def test_that_room_has_a_size(self):
         self.assertEqual(18, self.room.size)
 
-    def test_that_room_without_exit_description_has_none(self):
+    def test_that_room_without_exit_text_has_none(self):
         self.assertNone(self.room.exit_text)
+
+    def test_that_room_without_next_level_has_none(self):
+        self.assertNone(self.room.next_level)
 
     def test_that_room_can_list_locations_in_it(self):
         objects = self.room.get_objects()
@@ -119,8 +123,9 @@ class RoomTest(BaseTest):
 class RoomTest(BaseTest):
     def setUp(self):
         self.init()
-        room_path = self.build_path(["tests", "fixtures", "tiny_room.json"])
-        self.room = Room(room_path)
+        room_path = self.build_path(["tests", "fixtures"])
+        room_file = "tiny_room.json"
+        self.room = Room(room_path, room_file)
         self.room.get_room_data()
 
     def test_that_room_with_exit_description_has_text(self):
@@ -151,8 +156,9 @@ class RoomDrawsAllItemsInRoomTest(BaseTest):
         self.init()
         self.old_max_diff = self.maxDiff
         self.maxDiff = None
-        room_path = self.build_path(["tests", "fixtures", "item_room.json"])
-        self.room = Room(room_path)
+        room_path = self.build_path(["tests", "fixtures"])
+        room_file = "item_room.json"
+        self.room = Room(room_path, room_file)
         self.room.get_room_data()
 
     def tearDown(self):
@@ -201,24 +207,9 @@ class EngineInitTest(BaseTest):
     def setUp(self):
         self.init()
 
-    def test_engine_accepts_base_path(self):
-        self.engine = Engine('foo', self.fake_input, self.fake_print)
-        rel_path = self.engine.get_rel_path('bar.baz')
-        self.assertIn('foo', rel_path)
-        self.assertIn('bar.baz', rel_path)
-
-    def test_rel_path_builds_path_from_list(self):
-        path = ['a','quick', 'brown', 'fox', 'jumped', 'over', 'the', 'lazy', 'dog']
-        self.engine = Engine('foo', self.fake_input, self.fake_print)
-        rel_path = self.engine.get_rel_path(path)
-        self.assertIn('foo', rel_path)
-        for location in path:
-            self.assertIn(location, rel_path)
-
     def load_test_room(self):
-        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
-        map_path = self.engine.get_rel_path(["tests", "fixtures", "test_room.json"])
-        self.engine.set_map(map_path)
+        self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
+        self.engine.room_file = "test_room.json"
 
     def test_can_pass_map_file_to_engine(self):
         self.load_test_room()
@@ -261,7 +252,7 @@ class EngineInitTest(BaseTest):
         self.assertFalse(self.engine.in_room())
 
     def test_engine_enters_main_loop(self):
-        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+        self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
         try:
             self.say("Q")
             self.engine.main_loop()
@@ -271,7 +262,7 @@ class EngineInitTest(BaseTest):
 class EngineHelperTest(BaseTest):
     def setUp(self):
         self.init()
-        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+        self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
 
     def test_tuple_values_will_return_first_values(self):
         input_list = [(1, 'a'), (2, 'b'), (3, 'c')]
@@ -292,9 +283,8 @@ class EngineHelperTest(BaseTest):
 class EngineMenuAndCommandTest(BaseTest):
     def setUp(self):
         self.init()
-        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
-        map_path = self.engine.get_rel_path(["tests", "fixtures", "test_room.json"])
-        self.engine.set_map(map_path)
+        self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
+        self.engine.room_file = "test_room.json"
 
     def test_engine_will_prompt_and_exit_with_q(self):
         self.say("Q")
@@ -402,13 +392,13 @@ class EngineMenuAndCommandTest(BaseTest):
 class PlayerCanMoveTest(BaseTest):
     def setUp(self):
         self.init()
-        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+        self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
 
     def test_alexander_can_enter_a_room_and_travel_to_the_exit(self):
         # Alexander, a great fan of text adventures, has entered a new room and seeking fame
         # and glory.  He starts at tile (5,6)
-        alexander_test_room = self.build_path(["tests","fixtures", "alexander_room.json"])
-        self.engine.init_level(alexander_test_room)
+        self.engine.room_file = "alexander_room.json"
+        self.engine.init_level()
         self.assertLocation(self.engine.room, 'player', 5,6)
 
         # Alexander moves north and enters tile (5,7)
@@ -447,3 +437,48 @@ class PlayerCanMoveTest(BaseTest):
         self.assertEqual(exit_y, player_y)
         result = self.engine.exit()
         self.assertTrue(result)
+
+class EngineLevelingTest(BaseTest):
+    def setUp(self):
+        self.init()
+        self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
+        self.engine.room_file = "tiny_room.json"
+        self.engine.init_level()
+
+    def test_that_room_with_next_level_populates(self):
+        self.assertIn("tiny_room_too.json", self.engine.room.next_level)
+
+    def test_room_will_move_to_next_level_when_enter_next_level_called(self):
+        self.engine.room.enter_next_level()
+        self.assertEqual("tiny room too", self.engine.room.name)
+
+    def test_engine_will_move_to_next_level_when_exited(self):
+        self.engine.north()
+        self.engine.east()
+        self.engine.exit()
+        self.assertEqual("tiny room too", self.engine.room.name)
+        self.assertTrue(self.engine.in_room())
+
+    def test_having_moved_to_the_next_level_the_player_can_move_and_exit_the_following_exit(self):
+        self.engine.north()
+        self.engine.east()
+        self.engine.exit()
+        self.engine.north()
+        self.engine.east()
+        self.engine.exit()
+        self.assertEqual("tiny room three", self.engine.room.name)
+        self.assertTrue(self.engine.in_room())
+
+    def test_having_exited_the_final_level_the_player_exits_and_recieved_a_completion_message(self):
+        self.engine.north()
+        self.engine.east()
+        self.engine.exit()
+        self.engine.north()
+        self.engine.east()
+        self.engine.exit()
+        self.engine.north()
+        self.engine.east()
+        self.engine.exit()
+        self.assertIsNone(self.engine.room.next_level)
+        self.assertFalse(self.engine.in_room())
+        self.assertPrintedOnAnyLine("have completed the game")
