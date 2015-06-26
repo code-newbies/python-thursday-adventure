@@ -1,10 +1,20 @@
 from functools import reduce
 
 class Item():
+    """
+    Item
+
+    This is the base class for items
+    """
     def __init__(self, name):
         self.name = name
 
 class Bag():
+    """
+    Bag
+
+    This class is the incredible inventory bag.  Like the one from Mary Poppins, only cooler.
+    """
     def __init__(self):
         self.items = {}
 

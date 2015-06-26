@@ -131,15 +131,50 @@ class EngineInitTest(BaseTest):
         for location in path:
             self.assertIn(location, rel_path)
 
-    def test_can_pass_map_file_to_engine(self):
+    def load_test_room(self):
         self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
         map_path = self.engine.get_rel_path(["tests", "fixtures", "test_room.json"])
         self.engine.set_map(map_path)
+
+    def test_can_pass_map_file_to_engine(self):
+        self.load_test_room()
         self.say("begin")
         self.say("test bot")
         self.say("q")
         self.engine.main_loop()
         self.assertEqual("test room", self.engine.room.name)
+
+    def test_in_room_returns_false_when_not_in_room(self):
+        self.load_test_room()
+        self.say("q")
+        self.engine.main_loop()
+        self.assertFalse(self.engine.in_room())
+
+    def test_in_room_returns_true_when_in_room(self):
+        self.load_test_room()
+        self.say("begin")
+        self.say("test bot")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertTrue(self.engine.in_room())
+
+    def test_in_room_returns_false_after_exiting_Room(self):
+        self.load_test_room()
+        self.say("begin")
+        self.say("test bot")
+        self.say("h")
+        self.say("h")
+        self.say("k")
+        self.say("k")
+        self.say("k")
+        self.say("k")
+        self.say("k")
+        self.say("k")
+
+        self.say("e")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertFalse(self.engine.in_room())
 
     def test_engine_enters_main_loop(self):
         self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
@@ -149,6 +184,26 @@ class EngineInitTest(BaseTest):
         except AttributeError:
             self.fail("Engine does not have a main_loop() method")
 
+class EngineHelperTest(BaseTest):
+    def setUp(self):
+        self.init()
+        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+
+    def test_tuple_values_will_return_first_values(self):
+        input_list = [(1, 'a'), (2, 'b'), (3, 'c')]
+        expected_output = [1, 2, 3]
+        output = list(self.engine.tuple_values(0, input_list))
+
+        for i in list(range(len(expected_output))):
+           self.assertEqual(expected_output[i], output[i])
+
+    def test_tuple_values_will_return_second_values(self):
+        input_list = [(1, 'a'), (2, 'b'), (3, 'c')]
+        expected_output = ['a', 'b', 'c']
+        output = list(self.engine.tuple_values(1, input_list))
+
+        for i in list(range(len(expected_output))):
+           self.assertEqual(expected_output[i], output[i])
 
 class EngineMenuAndCommandTest(BaseTest):
     def setUp(self):
@@ -176,6 +231,8 @@ class EngineMenuAndCommandTest(BaseTest):
         self.assertPrintedOnAnyLine("not valid, please type 'help' and press enter for a menu.")
 
     def test_help_will_be_printed_when_asked_for(self):
+        self.say("begin")
+        self.say("test bot")
         self.say("help")
         self.say("q")
         self.engine.main_loop()
@@ -257,7 +314,6 @@ class EngineMenuAndCommandTest(BaseTest):
         self.say("q")
         self.engine.main_loop()
         self.assertPrintedOnAnyLine("cannot exit test room because you are not at an exit")
-
 
 class PlayerCanMoveTest(BaseTest):
     def setUp(self):

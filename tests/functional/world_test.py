@@ -59,7 +59,30 @@ class CanLoopTheMainLoop(BaseTest):
         # Jamie can then quit the game and tell her friends all the ease of use.
         self.assertPrinted("help", 1)
 
+class LiteralLinusWantsLovelyMenuLists(BaseTest):
+    def setUp(self):
+        self.init()
+        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+        room_file = self.engine.get_rel_path(["tests", "fixtures", "test_room.json"])
+        self.engine.set_map(room_file)
 
+    def test_linus_sees_quit_begin_and_help_in_menu_but_no_other_commands_before_entering_a_room(self):
+        # Linus plays the game for the first time, he has never seen a game like this
+        # He wants to use the help menu heavily and try all of the commands he can.
+        # He doesn't want any commands that aren't valid for teh state of the game. 
+        # For instance he doesn't want to move his character when  he isn't in a room
+        # He still wants to be able to start a game, quit and of course get help
+        self.say("help")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrintedOnAnyLine("help -")
+        self.assertPrintedOnAnyLine("q -")
+        self.assertPrintedOnAnyLine("begin -")
+        self.assertNotPrintedOnAnyLine("h -")
+        self.assertNotPrintedOnAnyLine("j -")
+        self.assertNotPrintedOnAnyLine("k -")
+        self.assertNotPrintedOnAnyLine("l -")
+        self.assertNotPrintedOnAnyLine("x -")
 
 class PlayerCanMoveTest(BaseTest):
     def setUp(self):
@@ -103,3 +126,5 @@ class PlayerCanMoveTest(BaseTest):
         self.say("q")
         self.engine.main_loop()
         self.assertPrintedOnAnyLine("exited alexander room")
+        
+

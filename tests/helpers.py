@@ -47,18 +47,25 @@ class BaseTest(unittest.TestCase):
             raise AssertionError(details)
 
     def assertPrintedOnAnyLine(self, text):
+        self.assertWasPrinted(text, True)
+
+    def assertNotPrintedOnAnyLine(self, text):
+        self.assertWasPrinted(text, False)
+
+    def assertWasPrinted(self, text, look_for_printed):
         was_printed = False
 
         for output in self.printed:
             if text in output:
                 was_printed = True
 
-        if not was_printed:
-            details = """
-            Expected '{0}' to be printed on any line, but it wasn't below is what was printed
-            {1}
-            """.format(text, self.printed)
-            raise AssertionError(details)
+        if was_printed ^ look_for_printed:
+            if look_for_printed:
+                details = "Expected '{0}' to be printed on any line. Below is what was printed\n {1}"
+            else:           
+                details = "'{0}' should not be printed on any line. It was printed\n {1}"
+            
+            raise AssertionError(details.format(text, self.printed))
 
     def build_path(self, file_n_path):
         return join(self.base_path, *file_n_path)
