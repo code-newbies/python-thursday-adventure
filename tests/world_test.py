@@ -448,8 +448,37 @@ class EngineLevelingTest(BaseTest):
     def test_that_room_with_next_level_populates(self):
         self.assertIn("tiny_room_too.json", self.engine.room.next_level)
 
+    def test_room_will_move_to_next_level_when_enter_next_level_called(self):
+        self.engine.room.enter_next_level()
+        self.assertEqual("tiny room too", self.engine.room.name)
+
     def test_engine_will_move_to_next_level_when_exited(self):
         self.engine.north()
         self.engine.east()
         self.engine.exit()
         self.assertEqual("tiny room too", self.engine.room.name)
+        self.assertTrue(self.engine.in_room())
+
+    def test_having_moved_to_the_next_level_the_player_can_move_and_exit_the_following_exit(self):
+        self.engine.north()
+        self.engine.east()
+        self.engine.exit()
+        self.engine.north()
+        self.engine.east()
+        self.engine.exit()
+        self.assertEqual("tiny room three", self.engine.room.name)
+        self.assertTrue(self.engine.in_room())
+
+    def test_having_exited_the_final_level_the_player_exits_and_recieved_a_completion_message(self):
+        self.engine.north()
+        self.engine.east()
+        self.engine.exit()
+        self.engine.north()
+        self.engine.east()
+        self.engine.exit()
+        self.engine.north()
+        self.engine.east()
+        self.engine.exit()
+        self.assertIsNone(self.engine.room.next_level)
+        self.assertFalse(self.engine.in_room())
+        self.assertPrintedOnAnyLine("have completed the game")

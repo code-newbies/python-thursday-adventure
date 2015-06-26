@@ -207,6 +207,8 @@ class GameHasMultipleLevels(BaseTest):
         self.say("Paula")
 
         self.travel_to_the_next_level()
+        self.travel_to_the_next_level()
+        self.travel_to_the_next_level()
         
         # Impressed by the game's literary acumen Leslie quits and writes a 5 star review 
         self.say("q")
