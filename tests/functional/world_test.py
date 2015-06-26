@@ -127,6 +127,48 @@ class PlayerCanMoveTest(BaseTest):
         self.engine.main_loop()
         self.assertPrintedOnAnyLine("exited alexander room")
 
+class PlayerCannotTravelThroughEdgesOfRoom(BaseTest):
+    def setUp(self):
+        self.init()
+        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+
+    def test_ghastly_cannot_travel_through_room_boundaries(self):
+        room_file = self.engine.get_rel_path(["tests", "fixtures", "tiny_room.json"])
+        self.engine.set_map(room_file)
+        # Ghastly thinks that he can travel though wall and room boundaries
+        # as it turns out, he cannot, but that won't stop him from trying.
+        # He will try to walk through all 4 room boundaries of the 2 x 2 room.
+        self.say("begin")
+        self.say("Ghastly")
+        
+        # He starts in tile 0,0 and tries to go west through a wall
+        self.say("h")
+
+        # Then he tries to go south through a wall
+        self.say("j")
+
+        # These walls are solid and prevent me from travelling there.  So he travels north twice.
+        # The second movement is prevented by a wall
+        self.say("k")
+        self.say("k")
+
+        # Now he tries the last wall by travelling east twice.  But cannot travel through the east wall
+        self.say("l")
+        self.say("l")
+
+        # Completely frustrated, Ghastly exits the level.
+        self.say("e")
+
+        # Having seen all there is to see, he quits the game and tells all of his friends about
+        # the cool map.
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrintedOnAnyLine("You cannot go north")
+        self.assertPrintedOnAnyLine("You cannot go south")
+        self.assertPrintedOnAnyLine("You cannot go east")
+        self.assertPrintedOnAnyLine("You cannot go west")
+
+
 class CanDrawAMapTest(BaseTest):
     def setUp(self):
         self.init()

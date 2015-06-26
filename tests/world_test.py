@@ -113,6 +113,33 @@ class RoomTest(BaseTest):
         actual = self.room.build_map()
         self.assertEqual("\n".join(expected), actual)  
 
+class RoomTest(BaseTest):
+    def setUp(self):
+        self.init()
+        room_path = self.build_path(["tests", "fixtures", "tiny_room.json"])
+        self.room = Room(room_path)
+        self.room.get_room_data()
+
+    def test_that_player_cannot_move_north_through_the_room_boundary(self):
+        self.room.enter("entrance")
+        self.assertTrue(self.room.north("player"))
+        self.assertFalse(self.room.north("player"))
+
+    def test_that_player_cannot_move_south_through_the_room_boundary(self):
+        self.room.enter("exit")
+        self.assertTrue(self.room.south("player"))
+        self.assertFalse(self.room.south("player"))
+
+    def test_that_player_cannot_move_east_through_the_room_boundary(self):
+        self.room.enter("entrance")
+        self.assertTrue(self.room.east("player"))
+        self.assertFalse(self.room.east("player"))
+
+    def test_that_player_cannot_move_west_through_the_room_boundary(self):
+        self.room.enter("exit")
+        self.assertTrue(self.room.west("player"))
+        self.assertFalse(self.room.west("player"))
+
 class RoomDrawsAllItemsInRoomTest(BaseTest):
     def setUp(self):
         self.init()

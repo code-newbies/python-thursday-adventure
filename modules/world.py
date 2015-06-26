@@ -52,16 +52,40 @@ class Room:
             return False
 
     def north(self, item):
-        self.data[item]['y'] += 1
+        x,y = self.locate(item)
+        possible = y + 1 < self.size
+
+        if possible:
+            self.data[item]['y'] += 1
+
+        return possible
 
     def south(self, item):
-        self.data[item]['y'] -= 1
+        x,y = self.locate(item)
+        possible = y > 0
+
+        if possible:
+            self.data[item]['y'] -= 1
+
+        return possible
 
     def east(self, item):
-        self.data[item]['x'] += 1
+        x,y = self.locate(item)
+        possible = x + 1 < self.size
+
+        if possible:
+            self.data[item]['x'] += 1
+
+        return possible
 
     def west(self, item):
-        self.data[item]['x'] -= 1
+        x,y = self.locate(item)
+        possible = x > 0
+
+        if possible:
+            self.data[item]['x'] -= 1
+
+        return possible
 
     def get_room_data(self):
         f = open(self.filename, "r")
@@ -174,16 +198,20 @@ q - quit the game"""
         return response
 
     def north(self):
-        self.room.north('player')
+        if not self.room.north('player'):
+            self.display("You cannot go north")
 
     def south(self):
-        self.room.south('player')
+        if not self.room.south('player'):
+            self.display("You cannot go south")
 
     def east(self):
-        self.room.east('player')
+        if not self.room.east('player'):
+            self.display("You cannot go east")
 
     def west(self):
-        self.room.west('player')
+        if not self.room.west('player'):
+            self.display("You cannot go west")
 
     def exit(self):
         can_exit = self.room.exit()

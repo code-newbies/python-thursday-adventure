@@ -1,0 +1,20 @@
+{   
+    "room": "tiny room",
+    "size": 2,
+    "locations":
+    { 
+        "entrance": 
+        { 
+            "x": 0,
+            "y": 0,
+            "display": ">"
+        },
+        "exit": 
+        { 
+            "x": 1,
+            "y": 1,
+            "display": "<"
+        }
+    }
+}
+
