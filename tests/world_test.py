@@ -131,15 +131,50 @@ class EngineInitTest(BaseTest):
         for location in path:
             self.assertIn(location, rel_path)
 
-    def test_can_pass_map_file_to_engine(self):
+    def load_test_room(self):
         self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
         map_path = self.engine.get_rel_path(["tests", "fixtures", "test_room.json"])
         self.engine.set_map(map_path)
+
+    def test_can_pass_map_file_to_engine(self):
+        self.load_test_room()
         self.say("begin")
         self.say("test bot")
         self.say("q")
         self.engine.main_loop()
         self.assertEqual("test room", self.engine.room.name)
+
+    def test_in_room_returns_false_when_not_in_room(self):
+        self.load_test_room()
+        self.say("q")
+        self.engine.main_loop()
+        self.assertFalse(self.engine.in_room())
+
+    def test_in_room_returns_true_when_in_room(self):
+        self.load_test_room()
+        self.say("begin")
+        self.say("test bot")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertTrue(self.engine.in_room())
+
+    def test_in_room_returns_false_after_exiting_Room(self):
+        self.load_test_room()
+        self.say("begin")
+        self.say("test bot")
+        self.say("h")
+        self.say("h")
+        self.say("k")
+        self.say("k")
+        self.say("k")
+        self.say("k")
+        self.say("k")
+        self.say("k")
+
+        self.say("e")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertFalse(self.engine.in_room())
 
     def test_engine_enters_main_loop(self):
         self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
@@ -196,6 +231,8 @@ class EngineMenuAndCommandTest(BaseTest):
         self.assertPrintedOnAnyLine("not valid, please type 'help' and press enter for a menu.")
 
     def test_help_will_be_printed_when_asked_for(self):
+        self.say("begin")
+        self.say("test bot")
         self.say("help")
         self.say("q")
         self.engine.main_loop()
@@ -277,7 +314,6 @@ class EngineMenuAndCommandTest(BaseTest):
         self.say("q")
         self.engine.main_loop()
         self.assertPrintedOnAnyLine("cannot exit test room because you are not at an exit")
-
 
 class PlayerCanMoveTest(BaseTest):
     def setUp(self):

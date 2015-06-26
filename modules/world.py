@@ -108,18 +108,26 @@ class Engine:
         self.display = print_func
         self.prompt_char = ">"
         self.map_path_n_file = self.get_rel_path(["resources", "level_1.json"])
+        self.player_in_room = False
+
+        # tuple is (command, function, description, valid_outside_room)
         self.command_list = [
-            ("help", self.display_help, "display this help menu"),
-            ("begin", self.begin, "start the game"),
-            ("h", self.west, "move west"),
-            ("j", self.south, "move south"),
-            ("k", self.north, "move north"),
-            ("l", self.east, "move east"),
-            ("x", self.coordinates, "display current tile co-ordinates"),
-            ("e", self.exit, "exit the map")
+            ("help", self.display_help, "display this help menu", True),
+            ("begin", self.begin, "start the game", True),
+            ("h", self.west, "move west", False),
+            ("j", self.south, "move south", False),
+            ("k", self.north, "move north", False),
+            ("l", self.east, "move east", False),
+            ("x", self.coordinates, "display current tile co-ordinates", False),
+            ("e", self.exit, "exit the map", False)
             ]
 
     def display_help(self):
+        if self.in_room():
+            current_commands = self.command_list
+        else:
+            current_commands = list(filter(lambda x: x[3] == True, self.command_list))
+
         help_text = """
 You asked for help and here it is!
 
@@ -128,8 +136,11 @@ The commands that you can use are as follows:
 q - quit the game"""
 
         self.display(help_text)
-        for command in self.command_list:
+        for command in current_commands:
             self.display("{0} - {1}".format(command[0], command[2]))
+
+    def in_room(self):
+        return self.player_in_room
 
     def start(self):
         player_name = self.greet()
@@ -144,6 +155,7 @@ q - quit the game"""
         self.room = Room(level_file)
         self.room.get_room_data()
         self.room.enter("entrance")
+        self.player_in_room = True
 
     def get_rel_path(self, file_n_path):
         if type(file_n_path) is list:
@@ -177,6 +189,7 @@ q - quit the game"""
         can_exit = self.room.exit()
 
         if can_exit:
+            self.player_in_room = False
             self.display("You have exited {0}".format(self.room.name))
         else:
             self.display("Sorry, you cannot exit {0} because you are not at an exit".format(self.room.name))
