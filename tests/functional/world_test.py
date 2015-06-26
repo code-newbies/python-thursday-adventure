@@ -128,3 +128,32 @@ class PlayerCanMoveTest(BaseTest):
         self.assertPrintedOnAnyLine("exited alexander room")
         
 
+class CanDrawAMapTest(BaseTest):
+    def setUp(self):
+        self.init()
+        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+
+    def test_ian_inventory_can_see_all_items_on_map(self):
+        # Ian walks into a room filled with lots of stuff and he wants to see the map
+        room_file = self.engine.get_rel_path(["tests", "fixtures", "item_room.json"])
+        self.engine.set_map(room_file)
+        # Ian wants to know all of the stuff in the room and definately wants to see everything
+        # on the map
+        # He types begin and enters the game
+        self.say("begin")
+        self.say("Ian")
+        
+        # The map displays all items in the room.  Ian sees the exit is one square south.
+        # He moves there and exits
+        self.say("k")
+        self.say("e")
+
+        # Having seen all there is to see, he quits the game and tells all of his friends about
+        # the cool map.
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrintedOnAnyLine("@.~$.")
+        self.assertPrintedOnAnyLine("<....")
+        self.assertPrintedOnAnyLine(".....")
+        self.assertPrintedOnAnyLine("....*")
+        self.assertPrintedOnAnyLine("....G")
