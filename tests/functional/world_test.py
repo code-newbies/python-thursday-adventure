@@ -126,7 +126,6 @@ class PlayerCanMoveTest(BaseTest):
         self.say("q")
         self.engine.main_loop()
         self.assertPrintedOnAnyLine("exited alexander room")
-        
 
 class CanDrawAMapTest(BaseTest):
     def setUp(self):
