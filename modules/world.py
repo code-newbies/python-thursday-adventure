@@ -68,10 +68,10 @@ class Room():
     def build_map(self):
         lines = []
 
-        for x in range(0, self.size):
+        for y in range(0, self.size):
             map = ""
 
-            for y in range(0, self.size):
+            for x in range(0, self.size):
                 items = self.items(x, y)
 
                 if 'exit' in items:
@@ -86,7 +86,7 @@ class Room():
             lines.append(map)
         map = ""
 
-        return "\n".join(lines)
+        return "\n".join(reversed(lines))
 
 class Engine:
     def __init__(self, base_path, prompt_func=input, print_func=print):
