@@ -1,0 +1,44 @@
+{   
+    "room": "item room",
+    "size": 5,
+    "locations":
+    { 
+        "entrance": 
+        { 
+            "x": 0,
+            "y": 0,
+            "display": ">"
+        },
+        "key": 
+        { 
+            "x": 0,
+            "y": 2,
+            "display": "~"
+        },
+        "goat": 
+        { 
+            "x": 4,
+            "y": 4,
+            "display": "G"
+        },
+        "lamp":
+        { 
+            "x": 4,
+            "y": 3,
+            "display": "*"
+        },
+        "gold": 
+        { 
+            "x": 0,
+            "y": 3,
+            "display": "$"
+        },
+        "exit": 
+        { 
+            "x": 0,
+            "y": 1,
+            "display": "<"
+        }
+    }
+}
+
