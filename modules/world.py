@@ -12,6 +12,7 @@ class Room:
     """
     def __init__(self, filename):
         self.filename = filename
+        self.exit_text = None
 		
     def enter(self, entrance_name):
         x, y = self.locate(entrance_name)
@@ -94,6 +95,9 @@ class Room:
         self.data = data['locations']
         self.name = data['room']
         self.size = data['size']
+
+        if 'exit_text' in data.keys():
+            self.exit_text = data['exit_text']
     
     def build_map(self):
         lines = []
@@ -218,7 +222,11 @@ q - quit the game"""
 
         if can_exit:
             self.player_in_room = False
-            self.display("You have exited {0}".format(self.room.name))
+
+            if self.room.exit_text == None:
+                self.display("You have exited {0}".format(self.room.name))
+            else:
+                self.display(self.room.exit_text)
         else:
             self.display("Sorry, you cannot exit {0} because you are not at an exit".format(self.room.name))
         return can_exit

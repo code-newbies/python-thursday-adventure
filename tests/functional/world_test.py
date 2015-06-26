@@ -168,6 +168,28 @@ class PlayerCannotTravelThroughEdgesOfRoom(BaseTest):
         self.assertPrintedOnAnyLine("You cannot go east")
         self.assertPrintedOnAnyLine("You cannot go west")
 
+class GameHasBeautifulAndConfigurableDescriptions(BaseTest):
+    def setUp(self):
+        self.init()
+        self.engine = Engine(self.base_path, self.fake_input, self.fake_print)
+
+    def test_literary_leslie_loves_lots_of_lively_loquaciousness(self):
+        room_file = self.engine.get_rel_path(["tests", "fixtures", "tiny_room.json"])
+        self.engine.set_map(room_file)
+        # Literary Leslie likes her games to have nice descriptions of things
+        # She would like to see life breathed into this text adventure with wonderous words
+        self.say("begin")
+        self.say("Literary")
+        
+        # She travels to the exit searching for words 
+        self.say("k")
+        self.say("l")
+        self.say("e")
+
+        # Impressed by the game's literary acumen Leslie quits and writes a 5 star review 
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrintedOnAnyLine("harrowed and tiny halls of doom")
 
 class CanDrawAMapTest(BaseTest):
     def setUp(self):

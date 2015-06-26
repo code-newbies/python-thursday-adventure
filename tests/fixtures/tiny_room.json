@@ -1,6 +1,7 @@
 {   
     "room": "tiny room",
     "size": 2,
+    "exit_text": "You have escaped the harrowed and tiny halls of doom!",
     "locations":
     { 
         "entrance": 

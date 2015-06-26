@@ -23,6 +23,9 @@ class RoomTest(BaseTest):
     def test_that_room_has_a_size(self):
         self.assertEqual(18, self.room.size)
 
+    def test_that_room_without_exit_description_has_none(self):
+        self.assertNone(self.room.exit_text)
+
     def test_that_room_can_list_locations_in_it(self):
         objects = self.room.get_objects()
         self.assertIn("entrance", objects)
@@ -119,6 +122,9 @@ class RoomTest(BaseTest):
         room_path = self.build_path(["tests", "fixtures", "tiny_room.json"])
         self.room = Room(room_path)
         self.room.get_room_data()
+
+    def test_that_room_with_exit_description_has_text(self):
+        self.assertIn("harrowed and tiny halls of doom", self.room.exit_text)
 
     def test_that_player_cannot_move_north_through_the_room_boundary(self):
         self.room.enter("entrance")
