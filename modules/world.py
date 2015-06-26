@@ -3,7 +3,13 @@ from os.path import join
 import json 
 from modules.player import Player
 
-class Room():
+class Room:
+    """
+    Room
+
+    This class encapsulates the concepts of maps, tiles and co-ordinates.  You can load external json
+    files and then add a player and move items around within the room. 
+    """
     def __init__(self, filename):
         self.filename = filename
 		
@@ -89,6 +95,13 @@ class Room():
         return "\n".join(lines)
 
 class Engine:
+    """
+    Engine
+
+    This class ties it all together and might be viewed as soemthing somewhat akin to a controller
+    in an MVC framework. 
+
+    """
     def __init__(self, base_path, prompt_func=input, print_func=print):
         self.base_path = base_path
         self.prompt = prompt_func
@@ -96,8 +109,8 @@ class Engine:
         self.prompt_char = ">"
         self.map_path_n_file = self.get_rel_path(["resources", "level_1.json"])
         self.command_list = [
-            ("help", self.display_help, "start the game"),
-            ("begin", self.begin, "display this help menu"),
+            ("help", self.display_help, "display this help menu"),
+            ("begin", self.begin, "start the game"),
             ("h", self.west, "move west"),
             ("j", self.south, "move south"),
             ("k", self.north, "move north"),
