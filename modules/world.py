@@ -264,7 +264,9 @@ q - quit the game"""
             self.display("Sorry, you cannot exit {0} because you are not at an exit".format(self.room.name))
         return can_exit
     def item_count(self):
-        self.display("You have %d items." % self.room.bag.item_count())
+        key_amount = self.room.bag.how_many("key")
+        gold_amount = self.room.bag.how_many("gold")
+        self.display("You have %d key and %d gold." % (key_amount, gold_amount))
 
     def coordinates(self):
         x, y = self.room.locate("player")
