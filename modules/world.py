@@ -2,7 +2,8 @@ from os import getcwd
 from os.path import join
 import json 
 from modules.player import Player
-
+from modules.items import Item
+from modules.items import Bag
 class Room:
     """
     Room
@@ -10,11 +11,13 @@ class Room:
     This class encapsulates the concepts of maps, tiles and co-ordinates.  You can load external json
     files and then add a player and move items around within the room. 
     """
-    def __init__(self, library_path, first_file):
+    def __init__(self, library_path, first_file, print_func=print):
         self.room_file = first_file
         self.library_path = library_path
         self.exit_text = None
         self.next_level = None
+        self.display = print_func
+        self.bag = Bag()
     
     def enter(self, entrance_name):
         self.get_room_data()
@@ -63,6 +66,21 @@ class Room:
             return True
         else:
             return False
+			
+    def pick_up_item(self):
+        key_x = self.data["key"]['x']
+        key_y = self.data["key"]['y']
+        gold_x = self.data["gold"]['x']
+        gold_y = self.data["gold"]['y']
+        x, y = self.locate("player")		
+               
+        
+        if key_x == x and key_y == y:
+           self.bag.add(Item("key"))
+           return self.display("You picked up the key!")
+        elif gold_x == x and gold_y == y:
+           self.bag.add(Item("gold"))
+           return self.display("You picked up gold!")
 
     def north(self, item):
         x,y = self.locate(item)
@@ -165,7 +183,8 @@ class Engine:
             ("k", self.north, "move north", False),
             ("l", self.east, "move east", False),
             ("x", self.coordinates, "display current tile co-ordinates", False),
-            ("e", self.exit, "exit the map", False)
+            ("e", self.exit, "exit the map", False),
+            ("a", self.item_count, "returns item count", False)
             ]
 
     def current_commands(self):
@@ -244,6 +263,8 @@ q - quit the game"""
         else:
             self.display("Sorry, you cannot exit {0} because you are not at an exit".format(self.room.name))
         return can_exit
+    def item_count(self):
+        self.display("You have %d items." % self.room.bag.item_count())
 
     def coordinates(self):
         x, y = self.room.locate("player")
@@ -251,8 +272,7 @@ q - quit the game"""
 
     def begin(self):
         self.start()
-        map_ = self.room.build_map()
-        self.display(map_)
+        
 
     def invalid_command(self):
         self.display("Sorry that command is not valid, please type 'help' and press enter for a menu.")
@@ -274,5 +294,8 @@ q - quit the game"""
                 command_tuple[1]()
             else:
                 self.invalid_command()
+            if self.in_room():
+                self.display(self.room.build_map())
+                self.room.pick_up_item()
 
 
