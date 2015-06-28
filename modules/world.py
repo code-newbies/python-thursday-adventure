@@ -2,7 +2,8 @@ from os import getcwd
 from os.path import join
 import json 
 from modules.player import Player
-
+from modules.items import Item
+from modules.items import Bag
 class Room:
     """
     Room
@@ -10,11 +11,13 @@ class Room:
     This class encapsulates the concepts of maps, tiles and co-ordinates.  You can load external json
     files and then add a player and move items around within the room. 
     """
-    def __init__(self, library_path, first_file):
+    def __init__(self, library_path, first_file, print_func=print):
         self.room_file = first_file
         self.library_path = library_path
         self.exit_text = None
         self.next_level = None
+        self.display = print_func
+        self.bag = Bag()
     
     def enter(self, entrance_name):
         self.get_room_data()
@@ -63,7 +66,16 @@ class Room:
             return True
         else:
             return False
-
+			
+    def pick_up_item(self):
+        if "key" in self.get_objects() and "gold" in self.get_objects():
+            if self.locate("player") == self.locate("key"):
+                self.bag.add(Item("key"))
+                return self.display("You picked up the key!")
+            elif self.locate("player") == self.locate("gold"):
+                self.bag.add(Item("gold"))
+                return self.display("You picked up gold!")
+    
     def north(self, item):
         x,y = self.locate(item)
         possible = y + 1 < self.size
@@ -144,7 +156,7 @@ class Engine:
     """
     Engine
 
-    This class ties it all together and might be viewed as soemthing somewhat akin to a controller
+    This class ties it all together and might be viewed as something somewhat akin to a controller
     in an MVC framework. 
 
     """
@@ -165,7 +177,9 @@ class Engine:
             ("k", self.north, "move north", False),
             ("l", self.east, "move east", False),
             ("x", self.coordinates, "display current tile co-ordinates", False),
-            ("e", self.exit, "exit the map", False)
+            ("e", self.exit, "exit the map", False),
+            ("a", self.item_count, "returns item count", False),
+            ("m", self.map_key, "display map key", True)
             ]
 
     def current_commands(self):
@@ -244,6 +258,20 @@ q - quit the game"""
         else:
             self.display("Sorry, you cannot exit {0} because you are not at an exit".format(self.room.name))
         return can_exit
+    def item_count(self):
+        key_amount = self.room.bag.how_many("key")
+        gold_amount = self.room.bag.how_many("gold")
+        self.display("You have %d key and %d gold." % (key_amount, gold_amount))
+
+    def map_key(self):
+        return self.display("""
+        Map Key\n
+        %s: Entrance\n
+        %s: Key\n
+        %s: Exit\n
+        %s: Player\n
+        %s: Gold
+        """ % (">", "~", "<", "@", "$"))
 
     def coordinates(self):
         x, y = self.room.locate("player")
@@ -251,8 +279,7 @@ q - quit the game"""
 
     def begin(self):
         self.start()
-        map_ = self.room.build_map()
-        self.display(map_)
+        
 
     def invalid_command(self):
         self.display("Sorry that command is not valid, please type 'help' and press enter for a menu.")
@@ -274,5 +301,8 @@ q - quit the game"""
                 command_tuple[1]()
             else:
                 self.invalid_command()
+            if self.in_room():
+                self.display(self.room.build_map())
+                self.room.pick_up_item()
 
 
