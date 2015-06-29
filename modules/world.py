@@ -68,20 +68,14 @@ class Room:
             return False
 			
     def pick_up_item(self):
-        key_x = self.data["key"]['x']
-        key_y = self.data["key"]['y']
-        gold_x = self.data["gold"]['x']
-        gold_y = self.data["gold"]['y']
-        x, y = self.locate("player")		
-               
-        
-        if key_x == x and key_y == y:
-           self.bag.add(Item("key"))
-           return self.display("You picked up the key!")
-        elif gold_x == x and gold_y == y:
-           self.bag.add(Item("gold"))
-           return self.display("You picked up gold!")
-
+        if "key" in self.get_objects() and "gold" in self.get_objects():
+            if self.locate("player") == self.locate("key"):
+                self.bag.add(Item("key"))
+                return self.display("You picked up the key!")
+            elif self.locate("player") == self.locate("gold"):
+                self.bag.add(Item("gold"))
+                return self.display("You picked up gold!")
+    
     def north(self, item):
         x,y = self.locate(item)
         possible = y + 1 < self.size
