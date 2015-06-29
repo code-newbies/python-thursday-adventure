@@ -156,7 +156,7 @@ class Engine:
     """
     Engine
 
-    This class ties it all together and might be viewed as soemthing somewhat akin to a controller
+    This class ties it all together and might be viewed as something somewhat akin to a controller
     in an MVC framework. 
 
     """
@@ -178,7 +178,8 @@ class Engine:
             ("l", self.east, "move east", False),
             ("x", self.coordinates, "display current tile co-ordinates", False),
             ("e", self.exit, "exit the map", False),
-            ("a", self.item_count, "returns item count", False)
+            ("a", self.item_count, "returns item count", False),
+            ("m", self.map_key, "display map key", True)
             ]
 
     def current_commands(self):
@@ -261,6 +262,16 @@ q - quit the game"""
         key_amount = self.room.bag.how_many("key")
         gold_amount = self.room.bag.how_many("gold")
         self.display("You have %d key and %d gold." % (key_amount, gold_amount))
+
+    def map_key(self):
+        return self.display("""
+        Map Key\n
+        %s: Entrance\n
+        %s: Key\n
+        %s: Exit\n
+        %s: Player\n
+        %s: Gold
+        """ % (">", "~", "<", "@", "$"))
 
     def coordinates(self):
         x, y = self.room.locate("player")
