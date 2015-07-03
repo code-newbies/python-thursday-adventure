@@ -210,6 +210,7 @@ q - quit the game"""
     def start(self):
         player_name = self.greet()
         self.player = Player(player_name)
+        self.display(self.initial_narration())
 
         self.init_level()
 
@@ -305,4 +306,21 @@ q - quit the game"""
                 self.display(self.room.build_map())
                 self.room.pick_up_item()
 
+    def initial_narration(self):
+        text = """
+        Once a very very long time ago an intrepid hero dared to stand up
+        against the low-sodium cartel.  Our hero knew that the shortage of
+        pork belly could only have been caused by their brand of devious
+        evil. 
+
+        The low-sodium cartel had reportedly been hoarding pork belly in 
+        their underground lair.  There could only be one reason for this, 
+        they wanted to cause a bacon shortage.
+
+        Now you must go and enter the dark and moss covered room filled
+        with evil in order to rescue the big pile of bacon. 
+
+        It is dark and you light a torch...
+        """
+        return text 
 

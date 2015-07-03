@@ -259,6 +259,24 @@ class EngineInitTest(BaseTest):
         except AttributeError:
             self.fail("Engine does not have a main_loop() method")
 
+    def test_engine_has_initial_narration_method(self):
+        self.load_test_room()
+        intro = self.engine.initial_narration()
+        self.assertIn("bacon", intro)
+
+    def test_engine_narration_returns_a_long_description(self):
+        self.load_test_room()
+        intro = self.engine.initial_narration()
+        self.assertTrue(250 < len(intro))
+
+    def test_in_room_returns_false_after_exiting_Room(self):
+        self.load_test_room()
+        self.say("begin")
+        self.say("test bot")
+        self.say("q")
+        self.engine.main_loop()
+        self.assertPrintedOnAnyLine("pork belly")
+
 class EngineHelperTest(BaseTest):
     def setUp(self):
         self.init()

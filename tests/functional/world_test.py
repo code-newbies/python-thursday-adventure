@@ -247,3 +247,32 @@ class CanDrawAMapTest(BaseTest):
         self.assertPrintedOnAnyLine("~....")
         self.assertPrintedOnAnyLine("<....")
         self.assertPrintedOnAnyLine("@....")
+
+class SeesAIntriguingIntroToTheGameTest(BaseTest):
+    def setUp(self):
+        self.init()
+        self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
+
+    def test_galaxy_man_satisfies_his_need_for_literary_immersion(self):
+        # Galaxy Man tries out the text adventure abd wants to see a 
+        # very interesting and immersive introduction to the game
+        self.engine.room_file = "item_room.json"
+
+        # He starts it up and enters his name when prompted
+        self.say("begin")
+        self.say("Galaxy Man")
+        self.say("q")
+
+        # Then he recieves a really spectacular introduction
+        # describing the purpose of the game and includes an
+        # indepth view of the game world.
+        self.engine.main_loop()
+        self.assertPrintedOnAnyLine("pork belly")
+        self.assertPrintedOnAnyLine("to rescue the big pile of bacon")
+        self.assertPrintedOnAnyLine("dark and moss covered room")
+        self.assertPrintedOnAnyLine("with evil")
+        self.assertPrintedOnAnyLine("the low-sodium cartel")
+
+        # Satisfied Galaxy Man tells all his friends about how awesome 
+        # the text adventure is
+
