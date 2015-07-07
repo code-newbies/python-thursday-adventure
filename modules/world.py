@@ -63,7 +63,8 @@ class Room:
         exit_x, exit_y = self.locate("exit")
 
         if player_x == exit_x and player_y == exit_y:
-            return True
+            
+            return True 
         else:
             return False
 			
@@ -79,6 +80,10 @@ class Room:
                 return self.display("You picked up gold!")
             elif self.locate("player") == self.locate("gold") and ("gold" in self.bag.dump()):
                 return self.display("Wait! You already picked that up.")
+    
+    def remove_item(self):
+        if self.locate("player") == self.locate("exit"):
+            self.bag.remove("key")   		
     
     def north(self, item):
         x,y = self.locate(item)
@@ -253,6 +258,7 @@ q - quit the game"""
         if can_exit:
 
             if self.room.exit_text == None:
+               
                 self.display("You have exited {0}".format(self.room.name))
             else:
                 self.display(self.room.exit_text)
@@ -309,7 +315,7 @@ q - quit the game"""
             if self.in_room():
                 self.display(self.room.build_map())
                 self.room.pick_up_item()
-
+                self.room.remove_item()
     def initial_narration(self):
         text = """
         Once a very very long time ago an intrepid hero dared to stand up
