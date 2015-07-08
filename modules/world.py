@@ -72,17 +72,17 @@ class Room:
             return False
 			
     def pick_up_item(self):
-        if "key" in self.get_objects() and "gold" in self.get_objects():
-            if self.locate("player") == self.locate("key") and ("key" not in self.bag.dump()):
+        if "key" in self.get_objects():
+            if self.locate("player") == self.locate("key"):
                 self.bag.add(Item("key"))
+                self.remove("key")
                 return self.display("You picked up the key!")
-            elif self.locate("player") == self.locate("key") and ("key" in self.bag.dump()):
-                return self.display("Wait! You already picked that up.")
-            elif self.locate("player") == self.locate("gold") and ("gold" not in self.bag.dump()):
+        if "gold" in self.get_objects():    
+            if self.locate("player") == self.locate("gold"):
                 self.bag.add(Item("gold"))
+                self.remove("gold")
                 return self.display("You picked up gold!")
-            elif self.locate("player") == self.locate("gold") and ("gold" in self.bag.dump()):
-                return self.display("Wait! You already picked that up.")
+            
     
     def remove_item(self):
         if self.locate("player") == self.locate("exit"):
