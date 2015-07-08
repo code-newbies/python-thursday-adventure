@@ -41,6 +41,9 @@ class Room:
 
         self.data[name] = item
 
+    def remove(self, name):
+        self.data.pop(name)
+
     def locate(self, location_name):
         x = self.data[location_name]['x']  
         y = self.data[location_name]['y']  

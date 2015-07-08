@@ -151,6 +151,21 @@ class RoomTest(BaseTest):
         self.assertTrue(self.room.west("player"))
         self.assertFalse(self.room.west("player"))
 
+class RoomCanHaveItemsRemoved(BaseTest):
+    def setUp(self):
+        self.init()
+        room_path = self.build_path(["tests", "fixtures"])
+        room_file = "item_room.json"
+        self.room = Room(room_path, room_file)
+        self.room.get_room_data()
+
+    def test_can_remove_item_from_room(self):
+        objects = self.room.get_objects()
+        self.assertIn("key", objects)
+        self.room.remove("key")
+        objects = self.room.get_objects()
+        self.assertNotIn("key", objects)
+
 class RoomDrawsAllItemsInRoomTest(BaseTest):
     def setUp(self):
         self.init()
