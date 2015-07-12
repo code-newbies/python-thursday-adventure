@@ -1,5 +1,5 @@
 import unittest
-from modules.items import Bag
+from modules.items import Bag, Weapon
 from modules.items import Item
 
 class ItemTest(unittest.TestCase):
@@ -171,6 +171,12 @@ class BagTest(unittest.TestCase):
         self.assertEqual(5, removed_count)
         self.assertEqual(0, self.bag.how_many("rhymes"))
         self.assertEqual("rhymes", item.name)
+
+class WeaponTest(unittest.TestCase):
+    def test_weapon_has_name_and_damage_on_init(self):
+        dagger = Weapon("dagger", 10)
+        self.assertEqual(dagger.name, "dagger")
+        self.assertEqual(dagger.damage, 10)
 
 
 if __name__ == '__main__':
