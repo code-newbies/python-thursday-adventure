@@ -84,6 +84,8 @@ class Bag():
 
 class Weapon():
     """
+    This is the base class for a weapon. Each weapon instance takes
+    a name as a string and damage as an int.
     """
     def __init__(self, name, damage):
         self.name = name
