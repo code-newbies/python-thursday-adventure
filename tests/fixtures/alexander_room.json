@@ -1,7 +1,7 @@
 {   
     "room": "alexander room",
     "size": 18,
-	"description": "This is alexander's room. It is quite neat, and smells of lilac."
+	"description": "This is alexander's room. It is quite neat, and smells of lilac.",
     "locations":
     { 
         "entrance": 
