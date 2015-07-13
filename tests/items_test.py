@@ -14,6 +14,18 @@ class BagTest(unittest.TestCase):
     def tearDown(self):
         self.bag = None
 
+    def test_check_if_bag_object(self):
+        self.assertIsInstance(self.bag, Bag)
+
+    def test_check_if_item_object(self):
+        self.assertIsInstance(self.bag, Item)
+
+    def test_check_if_name_description_can_be_assigned(self):
+        self.bag.name = "The Bag"
+        self.bag.description = "for carrying"
+        self.assertEqual(self.bag.name, "The Bag")
+        self.assertEqual(self.bag.description, "for carrying")
+
     def test_can_check_bag_to_see_if_empty(self):
         self.assertTrue(self.bag.is_empty())
 
@@ -174,10 +186,11 @@ class BagTest(unittest.TestCase):
 
 class WeaponTest(unittest.TestCase):
     def test_weapon_has_name_and_damage_on_init(self):
-        dagger = Weapon("dagger", 10)
-        self.assertEqual(dagger.name, "dagger")
+        dagger = Weapon(10)
+        self.assertIsNone(dagger.name)
         self.assertEqual(dagger.damage, 10)
-
+        dagger.name = "sharp"
+        self.assertEqual(dagger.name, "sharp")
 
 if __name__ == '__main__':
     unittest.main()
