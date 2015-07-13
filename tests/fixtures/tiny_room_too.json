@@ -1,6 +1,7 @@
 {   
     "room": "tiny room too",
     "size": 2,
+	"description": "You have entered another tiny room. The smell of the bacon is strong in this room.",
     "exit_text": "You have escaped the second of three tiny rooms",
     "next_level": "tiny_room_three.json",
     "locations":

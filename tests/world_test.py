@@ -128,6 +128,9 @@ class RoomTest(BaseTest):
         self.room = Room(room_path, room_file)
         self.room.get_room_data()
 
+    def test_that_room_with_room_description_has_text(self):
+        self.assertIn("tiniest of halls", self.room.description)
+		
     def test_that_room_with_exit_description_has_text(self):
         self.assertIn("harrowed and tiny halls of doom", self.room.exit_text)
 

@@ -15,7 +15,7 @@ class CanReadStdOutAndMockPrompt(BaseTest):
         engine.greet()
         self.assertEqual("Hello, what is your name: ", self.printed[0])
         self.assertEqual("Welcome to text adventure, Hero!", self.printed[1])
-
+        
 class CanLoopTheMainLoop(BaseTest):
     def setUp(self):
         self.init()
@@ -175,8 +175,9 @@ class GameHasBeautifulAndConfigurableDescriptions(BaseTest):
         # Literary Leslie likes her games to have nice descriptions of things
         # She would like to see life breathed into this text adventure with wonderous words
         self.say("begin")
-        self.say("Literary")
         
+        self.say("Literary")
+        self.assertNotPrintedOnAnyLine("dark and cramped")
         # She travels to the exit searching for words 
         self.say("k")
         self.say("l")
@@ -186,7 +187,8 @@ class GameHasBeautifulAndConfigurableDescriptions(BaseTest):
         self.say("q")
         self.engine.main_loop()
         self.assertPrintedOnAnyLine("harrowed and tiny halls of doom")
-
+        self.engine.init_level()
+        
 class GameHasMultipleLevels(BaseTest):
     def setUp(self):
         self.init()
@@ -272,7 +274,7 @@ class SeesAIntriguingIntroToTheGameTest(BaseTest):
         self.assertPrintedOnAnyLine("dark and moss covered room")
         self.assertPrintedOnAnyLine("with evil")
         self.assertPrintedOnAnyLine("the low-sodium cartel")
-
+        
         # Satisfied Galaxy Man tells all his friends about how awesome 
         # the text adventure is
 

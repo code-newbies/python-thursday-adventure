@@ -1,6 +1,7 @@
 {   
     "room": "test room",
     "size": 18,
+	"description": "Just a test.",
     "locations":
     { 
         "entrance": 
