@@ -125,8 +125,7 @@ class Room:
         return possible
 		
     def room_description(self):
-        if self.locate("player") == self.locate("entrance"):
-            return self.display(self.description)
+        return self.display(self.description)
 
     def get_room_data(self):
         path_n_file = join(self.library_path, self.room_file)
