@@ -23,7 +23,7 @@ class Room:
         self.get_room_data()
         x, y = self.locate(entrance_name)
         self.add_item("player", x, y)
-
+        self.room_description()
     def enter_next_level(self):
         has_next_level = self.next_level != None
 
@@ -123,6 +123,10 @@ class Room:
             self.data[item]['x'] -= 1
 
         return possible
+		
+    def room_description(self):
+        if self.locate("player") == self.locate("entrance"):
+            return self.display(self.description)
 
     def get_room_data(self):
         path_n_file = join(self.library_path, self.room_file)
@@ -132,7 +136,7 @@ class Room:
         self.data = data['locations']
         self.name = data['room']
         self.size = data['size']
-
+        self.description = data['description']
         if 'exit_text' in data.keys():
             self.exit_text = data['exit_text']
 
@@ -223,7 +227,7 @@ q - quit the game"""
         player_name = self.greet()
         self.player = Player(player_name)
         self.display(self.initial_narration())
-
+        
         self.init_level()
 
     def init_level(self):
@@ -303,8 +307,9 @@ q - quit the game"""
 
     def main_loop(self):
         play = True
-
+        
         while play:
+            
             command = self.prompt(self.prompt_char).lower()
             possible_commands = self.current_commands()
 
@@ -316,6 +321,7 @@ q - quit the game"""
             else:
                 self.invalid_command()
             if self.in_room():
+                
                 self.display(self.room.build_map())
                 self.room.pick_up_item()
                 self.room.remove_item()
