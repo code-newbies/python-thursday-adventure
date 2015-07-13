@@ -6,10 +6,11 @@ class Item():
 
     This is the base class for items
     """
-    def __init__(self, name):
+    def __init__(self, name=None, description=None):
         self.name = name
+        self.description = description
 
-class Bag():
+class Bag(Item):
     """
     Bag
 
@@ -82,11 +83,11 @@ class Bag():
 
         return seen
 
-class Weapon():
+class Weapon(Item):
     """
     This is the base class for a weapon. Each weapon instance takes
     a name as a string and damage as an int.
     """
-    def __init__(self, name, damage):
-        self.name = name
+    def __init__(self, damage):
+        super().__init__()
         self.damage = damage
