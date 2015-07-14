@@ -1,7 +1,7 @@
 {   
     "room": "item room",
     "size": 5,
-	"description": "You wander in noticing the goat protecting very valuable objects.",
+    "description": "You wander in noticing the goat protecting very valuable objects.",
     "locations":
     { 
         "entrance": 
