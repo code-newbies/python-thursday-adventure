@@ -13,7 +13,9 @@ venv/
 
 # vim tempfiles
 *~
-
+/Include
+/Scripts
+/pip-selfcheck.json
 # virtualenv
 venv/
 
