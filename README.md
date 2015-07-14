@@ -63,16 +63,36 @@ Tests are found in the /tests directory
     /tests
         |- unit_tests.py
         |- helpers.py
-        |- /functional
-            |- functional_tests.py
+    /functional
+        |- functional_tests.py
 ```
-To run tests, a script has been added in the root directory you can run either unit or functional tests. 
+This project is using py.test [[Docs](https://pytest.org/latest/assert.html)] to run tests. 
+
+To install py.test and any other requirements that this game may have, you can use the following:
+```
+pip install -r /path/to/requirements.txt
+```
+
+#### Test setup
+There is a little setup to do the first time per this [good practices doc](https://pytest.org/latest/goodpractises.html).  To avoid the __init__.py files in test directories, run the following to prep your project for testing:
 
 ```
-> python do_test.py u  <---- run unit tests
-
-> python do_test.py f  <---- run functional tests
+pip install -e .
 ```
+#### Run tests
+Unit tests are in the tests/ folder, run them with:
+```
+py.test tests/
+```
+
+Functional tests are in the functional/ folder, run them with:
+```
+py.test functional/
+```
+
+#### Test issues
+If you have performed the test setup above and get a [bad number error](http://stackoverflow.com/questions/514371/whats-the-bad-magic-number-error), try clearing your .pyc files and re-running tests.
+
 ### How to contribute
 We use pull requests so you can get your code reviewed by others before merging it into the project. Code reviews are a great way to learn and collaborate. Here's how the process works:
 
