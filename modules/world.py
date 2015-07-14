@@ -23,7 +23,7 @@ class Room:
         self.get_room_data()
         x, y = self.locate(entrance_name)
         self.add_item("player", x, y)
-        self.room_description()
+        
     def enter_next_level(self):
         has_next_level = self.next_level != None
 
@@ -125,7 +125,8 @@ class Room:
         return possible
 		
     def room_description(self):
-        return self.display(self.description)
+        if self.locate("player") == self.locate("entrance"):
+            return self.description
 
     def get_room_data(self):
         path_n_file = join(self.library_path, self.room_file)
@@ -182,7 +183,7 @@ class Engine:
         self.library_path = library_path 
         self.room_file = "level_1.json"
         self.player_in_room = False
-
+        
         # tuple is (command, function, description, valid_outside_room)
         self.command_list = [
             ("help", self.display_help, "display this help menu", True),
@@ -233,7 +234,7 @@ q - quit the game"""
         self.room = Room(self.library_path, self.room_file)
         self.room.enter("entrance")
         self.player_in_room = True
-
+        self.display(self.room.room_description())
     def load_player(self, player):
         self.player = player
 
@@ -269,7 +270,9 @@ q - quit the game"""
             else:
                 self.display(self.room.exit_text)
 
-            if not self.room.enter_next_level():
+            if self.room.enter_next_level():
+                self.display(self.room.room_description())
+            else:    
                 self.player_in_room = False
                 self.display("Congratulations! You have completed the game.")
         else:
