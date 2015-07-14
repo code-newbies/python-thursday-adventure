@@ -1,7 +1,7 @@
 {   
     "room": "tiny room three",
     "size": 2,
-	"description": "You have entered the last tiny room. The small cramped space induces claustrophobia, and you begin to run.",
+    "description": "You have entered the last tiny room. The small cramped space induces claustrophobia, and you begin to run.",
     "exit_text": "You have escaped the third and final tiny room",
     "locations":
     { 
