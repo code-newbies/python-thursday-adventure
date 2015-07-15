@@ -1,98 +1,44 @@
 import sys
 import unittest
-from modules.world import Room, Engine
+from modules.world import Room, Engine, World
 from modules.player import Player
 from tests.helpers import BaseTest
 
 prompt = ">"
 
-class RoomTest(BaseTest):
+class MapTest(BaseTest):
     def setUp(self):
         self.init()
         self.old_max_diff = self.maxDiff
         room_path = self.build_path(["tests", "fixtures"])
         room_file = "test_room.json"
         self.room = Room(room_path, room_file)
-        self.room.get_room_data()
+        self.level = self.room.get_room_data()
 
     def tearDown(self):
         self.maxDiff = self.old_max_diff
 
-    def test_that_room_has_a_name(self):
-        self.assertEqual("test room", self.room.name)
+    def test_that_map_has_a_size(self):
+        self.assertEqual(18, self.level.size)
 
-    def test_that_room_has_a_size(self):
-        self.assertEqual(18, self.room.size)
-
-    def test_that_room_without_exit_text_has_none(self):
-        self.assertNone(self.room.exit_text)
-
-    def test_that_room_without_next_level_has_none(self):
-        self.assertNone(self.room.next_level)
-
-    def test_that_room_can_list_locations_in_it(self):
-        objects = self.room.get_objects()
+    def test_that_map_can_list_locations_in_it(self):
+        objects = self.level.get_objects()
         self.assertIn("entrance", objects)
     
-    def test_that_room_can_return_items_at_location(self):
-        items = self.room.items(5,6)
+    def test_that_map_can_return_items_at_location(self):
+        items = self.level.items(5,6)
         self.assertIn("entrance", items)
 
-        items = self.room.items(3,12)
+        items = self.level.items(3,12)
         self.assertIn("exit", items)
 
-        items = self.room.items(1,1)
+        items = self.level.items(1,1)
         self.assertEqual(0, len(items))
 
     def test_that_entrance_location_can_be_loaded_from_file(self):
-        x,y = self.room.locate("entrance")
+        x,y = self.level.locate("entrance")
         self.assertEqual(5, x)
         self.assertEqual(6, y)
-
-    def test_that_player_can_enter_room(self):
-        self.room.enter("entrance")
-        objects = self.room.get_objects()
-        self.assertIn("player", objects)
-
-    def test_that_player_can_be_located(self):
-        self.room.enter("entrance")
-        x,y = self.room.locate("player")
-        self.assertEqual(5, x)
-        self.assertEqual(6, y)
-
-    def test_that_player_enters_at_location(self):
-        self.room.enter("exit")
-        x,y = self.room.locate("player")
-        self.assertEqual(3, x)
-        self.assertEqual(12, y)
-
-    def test_that_player_can_move_north(self):
-        self.room.enter("entrance")
-        self.room.north("player")
-        self.assertLocation(self.room, "player", 5, 7)        
-
-    def test_that_player_can_move_south(self):
-        self.room.enter("entrance")
-        self.room.south("player")
-        self.assertLocation(self.room, "player", 5, 5)        
-
-    def test_that_player_can_move_east(self):
-        self.room.enter("entrance")
-        self.room.east("player")
-        self.assertLocation(self.room, "player", 6, 6)        
-
-    def test_that_player_can_move_west(self):
-        self.room.enter("entrance")
-        self.room.west("player")
-        self.assertLocation(self.room, "player", 4, 6)        
-
-    def test_that_player_can_exit(self):
-        self.room.enter("exit")
-        self.assertTrue(self.room.exit())
-
-    def test_that_player_cannot_exit_from_entrance(self):
-        self.room.enter("entrance")
-        self.assertFalse(self.room.exit())
 
     def test_that_room_will_print(self):
         self.maxDiff = None
@@ -117,16 +63,72 @@ class RoomTest(BaseTest):
             "..................",
             ".................."]
         
-        actual = self.room.build_map()
+        actual = self.level.draw_map()
         self.assertEqual("\n".join(expected), actual)  
 
-class RoomTest(BaseTest):
+class MapMovement(BaseTest):
+    def setUp(self):
+        self.init()
+        self.old_max_diff = self.maxDiff
+        room_path = self.build_path(["tests", "fixtures"])
+        room_file = "test_room.json"
+        self.room = Room(room_path, room_file)
+
+    def test_that_player_can_be_located(self):
+        level = self.room.enter("entrance")
+        x,y = level.locate("player")
+        self.assertEqual(5, x)
+        self.assertEqual(6, y)
+
+    def test_that_player_enters_at_location(self):
+        level = self.room.enter("exit")
+        x,y = level.locate("player")
+        self.assertEqual(3, x)
+        self.assertEqual(12, y)
+
+    def test_that_player_can_move_north(self):
+        level = self.room.enter("entrance")
+        level.go_north("player")
+        self.assertLocation(level, "player", 5, 7)        
+
+    def test_that_player_can_move_south(self):
+        level = self.room.enter("entrance")
+        level.go_south("player")
+        self.assertLocation(level, "player", 5, 5)        
+
+    def test_that_player_can_move_east(self):
+        level = self.room.enter("entrance")
+        level.go_east("player")
+        self.assertLocation(level, "player", 6, 6)        
+
+    def test_that_player_can_move_west(self):
+        level = self.room.enter("entrance")
+        level.go_west("player")
+        self.assertLocation(level, "player", 4, 6)        
+
+    def test_that_player_can_exit(self):
+        level = self.room.enter("exit")
+        self.assertTrue(level.exit())
+
+    def test_that_player_cannot_exit_from_entrance(self):
+        level = self.room.enter("entrance")
+        self.assertFalse(level.exit())
+
+    def test_that_player_can_enter_room(self):
+        level = self.room.enter("entrance")
+        objects = level.get_objects()
+        self.assertIn("player", objects)
+
+class TinyRoomTest(BaseTest):
     def setUp(self):
         self.init()
         room_path = self.build_path(["tests", "fixtures"])
         room_file = "tiny_room.json"
         self.room = Room(room_path, room_file)
-        self.room.get_room_data()
+        self.level = self.room.get_room_data()
+
+    def test_that_room_has_a_name(self):
+        self.assertEqual("tiny room", self.room.name)
 
     def test_that_room_with_room_description_has_text(self):
         self.assertIn("tiniest of halls", self.room.description)
@@ -134,25 +136,32 @@ class RoomTest(BaseTest):
     def test_that_room_with_exit_description_has_text(self):
         self.assertIn("harrowed and tiny halls of doom", self.room.exit_text)
 
+class EnterAndExitTinyRoomTest(BaseTest):
+    def setUp(self):
+        self.init()
+        room_path = self.build_path(["tests", "fixtures"])
+        room_file = "tiny_room.json"
+        self.room = Room(room_path, room_file)
+
     def test_that_player_cannot_move_north_through_the_room_boundary(self):
-        self.room.enter("entrance")
-        self.assertTrue(self.room.north("player"))
-        self.assertFalse(self.room.north("player"))
+        level = self.room.enter("entrance")
+        self.assertTrue(level.go_north("player"))
+        self.assertFalse(level.go_north("player"))
 
     def test_that_player_cannot_move_south_through_the_room_boundary(self):
-        self.room.enter("exit")
-        self.assertTrue(self.room.south("player"))
-        self.assertFalse(self.room.south("player"))
+        level = self.room.enter("exit")
+        self.assertTrue(level.go_south("player"))
+        self.assertFalse(level.go_south("player"))
 
     def test_that_player_cannot_move_east_through_the_room_boundary(self):
-        self.room.enter("entrance")
-        self.assertTrue(self.room.east("player"))
-        self.assertFalse(self.room.east("player"))
+        level = self.room.enter("entrance")
+        self.assertTrue(level.go_east("player"))
+        self.assertFalse(level.go_east("player"))
 
     def test_that_player_cannot_move_west_through_the_room_boundary(self):
-        self.room.enter("exit")
-        self.assertTrue(self.room.west("player"))
-        self.assertFalse(self.room.west("player"))
+        level = self.room.enter("exit")
+        self.assertTrue(level.go_west("player"))
+        self.assertFalse(level.go_west("player"))
 
 class RoomCanHaveItemsRemoved(BaseTest):
     def setUp(self):
@@ -160,16 +169,16 @@ class RoomCanHaveItemsRemoved(BaseTest):
         room_path = self.build_path(["tests", "fixtures"])
         room_file = "item_room.json"
         self.room = Room(room_path, room_file)
-        self.room.get_room_data()
+        self.level = self.room.get_room_data()
 
-    def test_can_remove_item_from_room(self):
-        objects = self.room.get_objects()
+    def test_can_remove_item_from_map(self):
+        objects = self.level.get_objects()
         self.assertIn("key", objects)
-        self.room.remove("key")
-        objects = self.room.get_objects()
+        self.level.remove("key")
+        objects = self.level.get_objects()
         self.assertNotIn("key", objects)
 
-class RoomDrawsAllItemsInRoomTest(BaseTest):
+class MapDrawsAllItemsInRoomTest(BaseTest):
     def setUp(self):
         self.init()
         self.old_max_diff = self.maxDiff
@@ -177,47 +186,47 @@ class RoomDrawsAllItemsInRoomTest(BaseTest):
         room_path = self.build_path(["tests", "fixtures"])
         room_file = "item_room.json"
         self.room = Room(room_path, room_file)
-        self.room.get_room_data()
+        self.level = self.room.get_room_data()
 
     def tearDown(self):
         self.maxDiff = self.old_max_diff
 
     def test_player_displays_in_room_as_at(self):
-        self.room.enter("entrance")
-        actual = self.room.build_map()
+        level = self.room.enter("entrance")
+        actual = level.draw_map()
         self.assertIn("@", actual)  
 
-    def test_items_in_room_display(self):
+    def test_items_in_map_display(self):
         expected = [ 
             "....G",
             "$...*",
             "~....",
             "<....",
             ">...."]
-        actual = self.room.build_map()
+        actual = self.level.draw_map()
         self.assertEqual("\n".join(expected), actual)  
 
-    def test_player_and_items_in_room_display(self):
+    def test_player_and_items_in_map_display(self):
         expected = [ 
             "....G",
             "$...*",
             "~....",
             "<....",
             "@...."]
-        self.room.enter("entrance")
-        actual = self.room.build_map()
+        level = self.room.enter("entrance")
+        actual =level.draw_map()
         self.assertEqual("\n".join(expected), actual)  
 
-    def test_moved_player_and_items_in_room_display(self):
+    def test_moved_player_and_items_in_map_display(self):
         expected = [ 
             "....G",
             "$...*",
             "~....",
             "<....",
             ">@..."]
-        self.room.enter("entrance")
-        self.room.east("player")
-        actual = self.room.build_map()
+        level = self.room.enter("entrance")
+        level.go_east("player")
+        actual = level.draw_map()
         self.assertEqual("\n".join(expected), actual)  
 
 
@@ -276,16 +285,6 @@ class EngineInitTest(BaseTest):
             self.engine.main_loop()
         except AttributeError:
             self.fail("Engine does not have a main_loop() method")
-
-    def test_engine_has_initial_narration_method(self):
-        self.load_test_room()
-        intro = self.engine.initial_narration()
-        self.assertIn("bacon", intro)
-
-    def test_engine_narration_returns_a_long_description(self):
-        self.load_test_room()
-        intro = self.engine.initial_narration()
-        self.assertTrue(250 < len(intro))
 
     def test_in_room_returns_false_after_exiting_Room(self):
         self.load_test_room()
@@ -435,15 +434,15 @@ class PlayerCanMoveTest(BaseTest):
         # and glory.  He starts at tile (5,6)
         self.engine.room_file = "alexander_room.json"
         self.engine.init_level()
-        self.assertLocation(self.engine.room, 'player', 5,6)
+        self.assertLocation(self.engine.level, 'player', 5,6)
 
         # Alexander moves north and enters tile (5,7)
         self.engine.north()
-        self.assertLocation(self.engine.room, 'player', 5,7)
+        self.assertLocation(self.engine.level, 'player', 5,7)
 
         # Alexander moves east and enters tile (6,7)
         self.engine.east()
-        self.assertLocation(self.engine.room, 'player', 6,7)
+        self.assertLocation(self.engine.level, 'player', 6,7)
 
         # Alexander moves north 5 times and enters tile (6, 12)
         self.engine.north()
@@ -451,23 +450,23 @@ class PlayerCanMoveTest(BaseTest):
         self.engine.north()
         self.engine.north()
         self.engine.north()
-        self.assertLocation(self.engine.room, 'player', 6,12)
+        self.assertLocation(self.engine.level, 'player', 6,12)
 
         # Alexander moves west twice and enters tile (4, 12)
         self.engine.west()
         self.engine.west()
-        self.assertLocation(self.engine.room, 'player', 4, 12)
+        self.assertLocation(self.engine.level, 'player', 4, 12)
 
         # Alexander moves south 4 times and enters time (4, 8)
         self.engine.south()
         self.engine.south()
         self.engine.south()
         self.engine.south()
-        self.assertLocation(self.engine.room, 'player', 4, 8)
+        self.assertLocation(self.engine.level, 'player', 4, 8)
 
         # Alexander now shares a tile with the exit and exits the level.
-        exit_x, exit_y = self.engine.room.locate("exit")
-        player_x, player_y = self.engine.room.locate("player")
+        exit_x, exit_y = self.engine.level.locate("exit")
+        player_x, player_y = self.engine.level.locate("player")
 
         self.assertEqual(exit_x, player_x)
         self.assertEqual(exit_y, player_y)
@@ -518,3 +517,20 @@ class EngineLevelingTest(BaseTest):
         self.assertIsNone(self.engine.room.next_level)
         self.assertFalse(self.engine.in_room())
         self.assertPrintedOnAnyLine("have completed the game")
+
+
+
+class WorldTest(BaseTest):
+    def setUp(self):
+        self.init()
+        self.world = World()
+
+    def test_world_has_initial_narration_method(self):
+        intro = self.world.initial_narration()
+        assert "bacon" in  intro
+
+    def test_world_initial_narration_returns_a_long_description(self):
+        intro = self.world.initial_narration()
+        assert 250 < len(intro)
+
+
