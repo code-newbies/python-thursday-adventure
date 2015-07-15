@@ -4,6 +4,7 @@ import json
 from modules.player import Player
 from modules.items import Item
 from modules.items import Bag
+
 class Room:
     """
     Room
@@ -179,62 +180,27 @@ class Engine:
     def __init__(self, library_path, prompt_func=input, print_func=print):
         self.prompt = prompt_func
         self.display = print_func
+        self.command_mapping = self.commands()
         self.prompt_char = ">"
         self.library_path = library_path 
+        self.reset_game()
+
+    def reset_game(self):
         self.room_file = "level_1.json"
         self.player_in_room = False
-        
-        # tuple is (command, function, description, valid_outside_room)
-        self.command_list = [
-            ("help", self.display_help, "display this help menu", True),
-            ("begin", self.begin, "start the game", True),
-            ("h", self.west, "move west", False),
-            ("j", self.south, "move south", False),
-            ("k", self.north, "move north", False),
-            ("l", self.east, "move east", False),
-            ("x", self.coordinates, "display current tile co-ordinates", False),
-            ("e", self.exit, "exit the map", False),
-            ("a", self.item_count, "returns item count", False),
-            ("m", self.map_key, "display map key", True)
-            ]
 
-    def current_commands(self):
-        if self.in_room():
-            commands = self.command_list
-        else:
-            commands = list(filter(lambda x: x[3] == True, self.command_list))
 
-        return commands
-
-    def display_help(self):
-        possible_commands = self.current_commands()
-
-        help_text = """
-You asked for help and here it is!
-
-The commands that you can use are as follows:
-
-q - quit the game"""
-
-        self.display(help_text)
-        for command in possible_commands:
-            self.display("{0} - {1}".format(command[0], command[2]))
 
     def in_room(self):
         return self.player_in_room
 
-    def start(self):
-        player_name = self.greet()
-        self.player = Player(player_name)
-        self.display(self.initial_narration())
-        
-        self.init_level()
 
     def init_level(self):
         self.room = Room(self.library_path, self.room_file)
         self.room.enter("entrance")
         self.player_in_room = True
         self.display(self.room.room_description())
+
     def load_player(self, player):
         self.player = player
 
@@ -278,28 +244,16 @@ q - quit the game"""
         else:
             self.display("Sorry, you cannot exit {0} because you are not at an exit".format(self.room.name))
         return can_exit
+
     def item_count(self):
         key_amount = self.room.bag.how_many("key")
         gold_amount = self.room.bag.how_many("gold")
         self.display("You have %d key and %d gold." % (key_amount, gold_amount))
 
-    def map_key(self):
-        return self.display("""
-        Map Key\n
-        %s: Entrance\n
-        %s: Key\n
-        %s: Exit\n
-        %s: Player\n
-        %s: Gold
-        """ % (">", "~", "<", "@", "$"))
-
     def coordinates(self):
         x, y = self.room.locate("player")
         self.display("Your co-ordinates are: ({0},{1})".format(x,y))
 
-    def begin(self):
-        self.start()
-        
 
     def invalid_command(self):
         self.display("Sorry that command is not valid, please type 'help' and press enter for a menu.")
@@ -322,12 +276,70 @@ q - quit the game"""
                 command_tuple[1]()
             else:
                 self.invalid_command()
+
             if self.in_room():
-                
                 self.display(self.room.build_map())
                 self.room.pick_up_item()
                 self.room.remove_item()
+
+
+    def start(self):
+        player_name = self.greet()
+        self.player = Player(player_name)
+        self.display(self.initial_narration())
+        self.init_level()
+
+    def commands(self):
+        # tuple is (command, function, description, valid_outside_room)
+        command_list = [
+            ("help", self.display_help, "display this help menu", True),
+            ("begin", self.start, "start the game", True),
+            ("h", self.west, "move west", False),
+            ("j", self.south, "move south", False),
+            ("k", self.north, "move north", False),
+            ("l", self.east, "move east", False),
+            ("x", self.coordinates, "display current tile co-ordinates", False),
+            ("e", self.exit, "exit the map", False),
+            ("a", self.item_count, "returns item count", False),
+            ("m", self.map_key, "display map key", True)
+            ]
+
+        return command_list
+
+    def current_commands(self):
+        if self.in_room():
+            commands = self.command_mapping
+        else:
+            commands = list(filter(lambda x: x[3] == True, self.command_mapping))
+
+        return commands
+
+    def display_help(self):
+        possible_commands = self.current_commands()
+
+        help_text = """
+You asked for help and here it is!
+
+The commands that you can use are as follows:
+
+q - quit the game"""
+
+        self.display(help_text)
+        for command in possible_commands:
+            self.display("{0} - {1}".format(command[0], command[2]))
+
+    def map_key(self):
+        return self.display("""
+        Map Key\n
+        %s: Entrance\n
+        %s: Key\n
+        %s: Exit\n
+        %s: Player\n
+        %s: Gold
+        """ % (">", "~", "<", "@", "$"))
+
     def initial_narration(self):
+
         text = """
         Once a very very long time ago an intrepid hero dared to stand up
         against the low-sodium cartel.  Our hero knew that the shortage of
