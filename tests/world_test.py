@@ -1,6 +1,6 @@
 import sys
 import unittest
-from modules.world import Room, Engine
+from modules.world import Room, Engine, World
 from modules.player import Player
 from tests.helpers import BaseTest
 
@@ -277,16 +277,6 @@ class EngineInitTest(BaseTest):
         except AttributeError:
             self.fail("Engine does not have a main_loop() method")
 
-    def test_engine_has_initial_narration_method(self):
-        self.load_test_room()
-        intro = self.engine.initial_narration()
-        self.assertIn("bacon", intro)
-
-    def test_engine_narration_returns_a_long_description(self):
-        self.load_test_room()
-        intro = self.engine.initial_narration()
-        self.assertTrue(250 < len(intro))
-
     def test_in_room_returns_false_after_exiting_Room(self):
         self.load_test_room()
         self.say("begin")
@@ -518,3 +508,20 @@ class EngineLevelingTest(BaseTest):
         self.assertIsNone(self.engine.room.next_level)
         self.assertFalse(self.engine.in_room())
         self.assertPrintedOnAnyLine("have completed the game")
+
+
+
+class WorldTest(BaseTest):
+    def setUp(self):
+        self.init()
+        self.world = World(self.fake_input, self.fake_print)
+
+    def test_world_has_initial_narration_method(self):
+        intro = self.world.initial_narration()
+        assert "bacon" in  intro
+
+    def test_world_initial_narration_returns_a_long_description(self):
+        intro = self.world.initial_narration()
+        assert 250 < len(intro)
+
+

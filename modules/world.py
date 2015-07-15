@@ -184,6 +184,7 @@ class Engine:
         self.prompt_char = ">"
         self.library_path = library_path 
         self.reset_game()
+        self.world = World(prompt_func, print_func)
 
     def reset_game(self):
         self.room_file = "level_1.json"
@@ -286,7 +287,7 @@ class Engine:
     def start(self):
         player_name = self.greet()
         self.player = Player(player_name)
-        self.display(self.initial_narration())
+        self.display(self.world.initial_narration())
         self.init_level()
 
     def commands(self):
@@ -338,22 +339,32 @@ q - quit the game"""
         %s: Gold
         """ % (">", "~", "<", "@", "$"))
 
+class World:
+    """
+    World 
+
+    Contains game content in the greater world and not in the levels.   Such as intro and outro.
+
+    """
+    def __init__(self, prompt_func=input, print_func=print):
+        self.prompt = prompt_func
+        self.display = print_func
+
     def initial_narration(self):
 
         text = """
-        Once a very very long time ago an intrepid hero dared to stand up
-        against the low-sodium cartel.  Our hero knew that the shortage of
-        pork belly could only have been caused by their brand of devious
-        evil. 
+Once a very very long time ago an intrepid hero dared to stand up
+against the low-sodium cartel.  Our hero knew that the shortage of
+pork belly could only have been caused by their brand of devious
+evil. 
 
-        The low-sodium cartel had reportedly been hoarding pork belly in 
-        their underground lair.  There could only be one reason for this, 
-        they wanted to cause a bacon shortage.
+The low-sodium cartel had reportedly been hoarding pork belly in 
+their underground lair.  There could only be one reason for this, 
+they wanted to cause a bacon shortage.
 
-        Now you must go and enter the dark and moss covered room filled
-        with evil in order to rescue the big pile of bacon. 
+Now you must go and enter the dark and moss covered room filled
+with evil in order to rescue the big pile of bacon. 
 
-        It is dark and you light a torch...
+It is dark and you light a torch...
         """
         return text 
-
