@@ -523,7 +523,7 @@ class EngineLevelingTest(BaseTest):
 class WorldTest(BaseTest):
     def setUp(self):
         self.init()
-        self.world = World(self.fake_input, self.fake_print)
+        self.world = World()
 
     def test_world_has_initial_narration_method(self):
         intro = self.world.initial_narration()

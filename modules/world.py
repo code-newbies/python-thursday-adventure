@@ -11,13 +11,11 @@ class Room:
 
     This class handles the loading of level data to and from files
     """
-    def __init__(self, library_path, first_file, print_func=print):
-        self.display = print_func
+    def __init__(self, library_path, first_file):
         self.room_file = first_file
         self.library_path = library_path
         self.exit_text = None
         self.next_level = None
-        self.bag = Bag() 
 
     def enter(self, entrance_name):
         level = self.get_room_data()
@@ -27,18 +25,13 @@ class Room:
         
     def enter_next_level(self):
         has_next_level = self.next_level != None
+        level = None
 
         if has_next_level:
             self.room_file = self.next_level
-            self.enter("entrance")    
+            level = self.enter("entrance")    
 
-        return has_next_level
-
-    
-    def remove_item(self):
-        if self.locate("player") == self.locate("exit"):
-            self.bag.remove("key")   		
-    
+        return level, has_next_level
 		
     def room_description(self):
         return self.description
@@ -172,15 +165,6 @@ class Map:
         else:
             return False
 			
-    def pick_up_item(self, item):
-        if item in self.get_objects():
-            if self.locate("player") == self.locate(item):
-                self.bag.add(Item(item))
-                self.remove(item)
-                return True
-
-        return False
-
 
 class Engine:
     """
@@ -191,54 +175,56 @@ class Engine:
 
     """
     def __init__(self, library_path, prompt_func=input, print_func=print):
-        self.prompt = prompt_func
-        self.display = print_func
-        self.command_mapping = self.commands()
         self.prompt_char = ">"
         self.library_path = library_path 
         self.reset_game()
-        self.world = World(prompt_func, print_func)
+        self.world = World()
+        self.ui = CommandLineInterface(self, prompt_func, print_func)
+        self.bag = Bag() 
         self.level = None
 
-    def reset_game(self):
-        self.room_file = "level_1.json"
-        self.player_in_room = False
-
-
-
-    def in_room(self):
-        return self.player_in_room
-
+    def start(self):
+        player_name = self.greet()
+        self.player = Player(player_name)
+        self.ui.display(self.world.initial_narration())
+        self.init_level()
 
     def init_level(self):
         self.room = Room(self.library_path, self.room_file)
         self.level = self.room.enter("entrance")
         self.player_in_room = True
-        self.display(self.room.room_description())
+        self.ui.display(self.room.room_description())
+
+    def reset_game(self):
+        self.room_file = "level_1.json"
+        self.player_in_room = False
+
+    def in_room(self):
+        return self.player_in_room
 
     def load_player(self, player):
         self.player = player
 
     def greet(self):
-        response = self.prompt("Hello, what is your name: ")
-        self.display("Welcome to text adventure, {0}!".format(response))
+        response = self.ui.prompt("Hello, what is your name: ")
+        self.ui.display("Welcome to text adventure, {0}!".format(response))
         return response
 
     def north(self):
         if not self.level.go_north('player'):
-            self.display("You cannot go north")
+            self.ui.display("You cannot go north")
 
     def south(self):
         if not self.level.go_south('player'):
-            self.display("You cannot go south")
+            self.ui.display("You cannot go south")
 
     def east(self):
         if not self.level.go_east('player'):
-            self.display("You cannot go east")
+            self.ui.display("You cannot go east")
 
     def west(self):
         if not self.level.go_west('player'):
-            self.display("You cannot go west")
+            self.ui.display("You cannot go west")
 
     def exit(self):
         can_exit = self.level.exit()
@@ -247,37 +233,50 @@ class Engine:
 
             if self.room.exit_text == None:
                
-                self.display("You have exited {0}".format(self.room.name))
+                self.ui.display("You have exited {0}".format(self.room.name))
             else:
-                self.display(self.room.exit_text)
+                self.ui.display(self.room.exit_text)
 
-            if self.room.enter_next_level():
-                self.display(self.room.room_description())
+            next_level, has_next_level = self.room.enter_next_level()
+            if has_next_level:
+                self.level = next_level
+                self.ui.display(self.room.room_description())
             else:    
                 self.player_in_room = False
-                self.display("Congratulations! You have completed the game.")
+                self.ui.display("Congratulations! You have completed the game.")
         else:
-            self.display("Sorry, you cannot exit {0} because you are not at an exit".format(self.room.name))
+            self.ui.display("Sorry, you cannot exit {0} because you are not at an exit".format(self.room.name))
         return can_exit
 
     def item_count(self):
         key_amount = self.room.bag.how_many("key")
         gold_amount = self.room.bag.how_many("gold")
-        self.display("You have %d key and %d gold." % (key_amount, gold_amount))
+        self.ui.display("You have %d key and %d gold." % (key_amount, gold_amount))
 
     def coordinates(self):
         x, y = self.level.locate("player")
-        self.display("Your co-ordinates are: ({0},{1})".format(x,y))
+        self.ui.display("Your co-ordinates are: ({0},{1})".format(x,y))
 
-    def pick_up_item(self):
-        if self.level.pick_up_item("key"):
-            self.display("You picked up the key!")
-        if self.level.pick_up_item("gold"):
-            self.display("You picked up the gold!")
-    
+    def vaccum_key_and_gold(self):
+        if self.pick_up_item("key"):
+            self.ui.display("You picked up the key!")
+        if self.pick_up_item("gold"):
+            self.ui.display("You picked up the gold!")
+        
+    def pick_up_item(self, item):
+        if item in self.level.get_objects():
+            if self.level.locate("player") == self.level.locate(item):
+                self.bag.add(Item(item))
+                self.level.remove(item)
+                return True
+
+        return False
+
+    def display_help(self):
+        self.ui.display_help(self.in_room())
 
     def invalid_command(self):
-        self.display("Sorry that command is not valid, please type 'help' and press enter for a menu.")
+        self.ui.display("Sorry that command is not valid, please type 'help' and press enter for a menu.")
 
     def tuple_values(self, pos, command_list):
         return list(map(lambda x: x[pos], command_list))
@@ -287,8 +286,8 @@ class Engine:
         
         while play:
             
-            command = self.prompt(self.prompt_char).lower()
-            possible_commands = self.current_commands()
+            command = self.ui.prompt(self.prompt_char).lower()
+            possible_commands = self.ui.current_commands(self.in_room())
 
             if command == "q":
                 play = False
@@ -299,64 +298,10 @@ class Engine:
                 self.invalid_command()
 
             if self.in_room():
-                self.display(self.level.draw_map())
-                self.pick_up_item()
+                self.ui.display(self.level.draw_map())
+                self.vaccum_key_and_gold()
 
 
-    def start(self):
-        player_name = self.greet()
-        self.player = Player(player_name)
-        self.display(self.world.initial_narration())
-        self.init_level()
-
-    def commands(self):
-        # tuple is (command, function, description, valid_outside_room)
-        command_list = [
-            ("help", self.display_help, "display this help menu", True),
-            ("begin", self.start, "start the game", True),
-            ("h", self.west, "move west", False),
-            ("j", self.south, "move south", False),
-            ("k", self.north, "move north", False),
-            ("l", self.east, "move east", False),
-            ("x", self.coordinates, "display current tile co-ordinates", False),
-            ("e", self.exit, "exit the map", False),
-            ("a", self.item_count, "returns item count", False),
-            ("m", self.map_key, "display map key", True)
-            ]
-
-        return command_list
-
-    def current_commands(self):
-        if self.in_room():
-            commands = self.command_mapping
-        else:
-            commands = list(filter(lambda x: x[3] == True, self.command_mapping))
-
-        return commands
-
-    def display_help(self):
-        possible_commands = self.current_commands()
-
-        help_text = """
-You asked for help and here it is!
-
-The commands that you can use are as follows:
-
-q - quit the game"""
-
-        self.display(help_text)
-        for command in possible_commands:
-            self.display("{0} - {1}".format(command[0], command[2]))
-
-    def map_key(self):
-        return self.display("""
-        Map Key\n
-        %s: Entrance\n
-        %s: Key\n
-        %s: Exit\n
-        %s: Player\n
-        %s: Gold
-        """ % (">", "~", "<", "@", "$"))
 
 class World:
     """
@@ -365,9 +310,6 @@ class World:
     Contains game content in the greater world and not in the levels.   Such as intro and outro.
 
     """
-    def __init__(self, prompt_func=input, print_func=print):
-        self.prompt = prompt_func
-        self.display = print_func
 
     def initial_narration(self):
 
@@ -389,4 +331,62 @@ It is dark and you light a torch...
         return text 
 
 class CommandLineInterface:
-    pass
+    '''
+    Command Line Interface
+
+    This class contains interactions with the user via command line.
+
+    '''
+    def __init__(self, engine, prompt_func=input, print_func=print):
+        self.command_mapping = self.commands(engine)
+        self.prompt = prompt_func
+        self.display = print_func
+
+    def commands(self, engine):
+        # tuple is (command, function, description, valid_outside_room)
+        command_list = [
+            ("help", engine.display_help, "display this help menu", True),
+            ("begin", engine.start, "start the game", True),
+            ("h", engine.west, "move west", False),
+            ("j", engine.south, "move south", False),
+            ("k", engine.north, "move north", False),
+            ("l", engine.east, "move east", False),
+            ("x", engine.coordinates, "display current tile co-ordinates", False),
+            ("e", engine.exit, "exit the map", False),
+            ("a", engine.item_count, "returns item count", False),
+            ("m", self.map_key, "display map key", True)
+            ]
+
+        return command_list
+
+    def current_commands(self, in_room):
+        if in_room:
+            commands = self.command_mapping
+        else:
+            commands = list(filter(lambda x: x[3] == True, self.command_mapping))
+
+        return commands
+
+    def display_help(self, in_room):
+        possible_commands = self.current_commands(in_room)
+
+        help_text = """
+You asked for help and here it is!
+
+The commands that you can use are as follows:
+
+q - quit the game"""
+
+        self.display(help_text)
+        for command in possible_commands:
+            self.display("{0} - {1}".format(command[0], command[2]))
+
+    def map_key(self):
+        return self.display("""
+        Map Key\n
+        %s: Entrance\n
+        %s: Key\n
+        %s: Exit\n
+        %s: Player\n
+        %s: Gold
+        """ % (">", "~", "<", "@", "$"))
