@@ -17,6 +17,7 @@ class Bag(Item):
     This class is the incredible inventory bag.  Like the one from Mary Poppins, only cooler.
     """
     def __init__(self):
+        super().__init__(name="Bag of Holding", description="Like Mary Poppins' bag, this bag is infinitely large and made of tear-resistant duct tape.")
         self.items = {}
 
     def is_empty(self):

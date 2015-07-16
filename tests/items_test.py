@@ -3,9 +3,10 @@ from modules.items import Bag, Weapon
 from modules.items import Item
 
 class ItemTest(unittest.TestCase):
-    def test_item_accepts_name_on_init(self):
-        item = Item("dragonglass")
+    def test_item_accepts_name_desc_on_init(self):
+        item = Item("dragonglass", "seeing dragons")
         self.assertEqual(item.name, "dragonglass")
+        self.assertEqual(item.description, "seeing dragons")
 
 class BagTest(unittest.TestCase):
     def setUp(self):
@@ -185,12 +186,17 @@ class BagTest(unittest.TestCase):
         self.assertEqual("rhymes", item.name)
 
 class WeaponTest(unittest.TestCase):
-    def test_weapon_has_name_and_damage_on_init(self):
+    def test_weapon_has_damage_on_init(self):
+        dagger = Weapon(10)
+        self.assertEqual(dagger.damage, 10)
+
+    def test_weapon_has_damage_on_init(self):
         dagger = Weapon(10)
         self.assertIsNone(dagger.name)
-        self.assertEqual(dagger.damage, 10)
-        dagger.name = "sharp"
+        self.assertIsNone(dagger.description)
+        dagger.name, dagger.description = "sharp", "pointy"
         self.assertEqual(dagger.name, "sharp")
+        self.assertEqual(dagger.description, "pointy")
 
 if __name__ == '__main__':
     unittest.main()
