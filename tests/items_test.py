@@ -190,7 +190,7 @@ class WeaponTest(unittest.TestCase):
         dagger = Weapon(10)
         self.assertEqual(dagger.damage, 10)
 
-    def test_weapon_has_damage_on_init(self):
+    def test_if_weapon_item_attributes_are_accessible(self):
         dagger = Weapon(10)
         self.assertIsNone(dagger.name)
         self.assertIsNone(dagger.description)
