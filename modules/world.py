@@ -9,17 +9,47 @@ class Room:
     """
     Room
 
-    This class encapsulates the concepts of maps, tiles and co-ordinates.  You can load external json
-    files and then add a player and move items around within the room. 
+    This class handles the loading of level data to and from files
     """
     def __init__(self, library_path, first_file, print_func=print):
+        self.display = print_func
         self.room_file = first_file
         self.library_path = library_path
         self.exit_text = None
         self.next_level = None
-        self.display = print_func
-        self.bag = Bag()
+        self.level = None
+        self.bag = Bag() 
+
+    def locate(self, location_name):
+        return self.level.locate(location_name)
+
+    def add_item(self, name, x, y):
+        self.level.add_item(name, x, y)
+
+    def north(self, item):
+        return self.level.can_move_north(item)
+
+    def south(self, item):
+        return self.level.can_move_south(item)
+
+    def east(self, item):
+        return self.level.can_move_east(item)
+
+    def west(self, item):
+        return self.level.can_move_west(item)
+
+    def items(self, x, y):
+        return self.level.items(x,y)
+
+    def get_objects(self):
+        return self.level.get_objects()
     
+    def build_map(self):
+        return self.level.draw_map()
+
+    def remove(self, name):
+        self.level.remove(name)
+
     def enter(self, entrance_name):
         self.get_room_data()
         x, y = self.locate(entrance_name)
@@ -34,40 +64,11 @@ class Room:
 
         return has_next_level
 
-    def add_item(self, name, x, y):
-        item = {}
-
-        item['x'] = x
-        item['y'] = y
-
-        self.data[name] = item
-
-    def remove(self, name):
-        self.data.pop(name)
-
-    def locate(self, location_name):
-        x = self.data[location_name]['x']  
-        y = self.data[location_name]['y']  
-        return (x,y)
-
-    def get_objects(self):
-        return self.data.keys()
-    
-    def items(self, x, y):
-        found = []
-
-        objects = self.get_objects()
-        for item in objects:
-            if self.data[item]['x'] == x and self.data[item]['y'] == y:
-                found.append(item)
-        return found
-
     def exit(self):
         player_x, player_y = self.locate("player")
         exit_x, exit_y = self.locate("exit")
 
         if player_x == exit_x and player_y == exit_y:
-            
             return True 
         else:
             return False
@@ -89,41 +90,6 @@ class Room:
         if self.locate("player") == self.locate("exit"):
             self.bag.remove("key")   		
     
-    def north(self, item):
-        x,y = self.locate(item)
-        possible = y + 1 < self.size
-
-        if possible:
-            self.data[item]['y'] += 1
-
-        return possible
-
-    def south(self, item):
-        x,y = self.locate(item)
-        possible = y > 0
-
-        if possible:
-            self.data[item]['y'] -= 1
-
-        return possible
-
-    def east(self, item):
-        x,y = self.locate(item)
-        possible = x + 1 < self.size
-
-        if possible:
-            self.data[item]['x'] += 1
-
-        return possible
-
-    def west(self, item):
-        x,y = self.locate(item)
-        possible = x > 0
-
-        if possible:
-            self.data[item]['x'] -= 1
-
-        return possible
 		
     def room_description(self):
         if self.locate("player") == self.locate("entrance"):
@@ -134,10 +100,14 @@ class Room:
         f = open(path_n_file, "r")
         data = json.load(f)
         f.close()
-        self.data = data['locations']
+
+        locations = data['locations']
+        size = data['size']
+        self.level = Map(locations, size)
+
         self.name = data['room']
-        self.size = data['size']
         self.description = data['description']
+
         if 'exit_text' in data.keys():
             self.exit_text = data['exit_text']
 
@@ -146,19 +116,50 @@ class Room:
         else:
             self.next_level = None
     
-    def build_map(self):
+
+
+class Map:
+    """
+    Map
+
+    This class handles the concept of relative locations and where things "are"
+    """
+    def __init__(self, data, size):
+        self.data = data
+        self.size = size
+
+    def locate(self, location_name):
+        x = self.data[location_name]['x']  
+        y = self.data[location_name]['y']  
+        return (x,y)
+
+    def add_item(self, name, x, y):
+        item = {}
+
+        item['x'] = x
+        item['y'] = y
+
+        self.data[name] = item
+
+    def get_objects(self):
+        return self.data.keys()
+    
+    def remove(self, name):
+        self.data.pop(name)
+
+    def draw_map(self):
         lines = []
 
         for y in range(0, self.size):
             map = ""
 
             for x in range(0, self.size):
-                items = self.items(x, y)
+                items_in_coord = self.items(x, y)
 
-                if 'player' in items:
+                if 'player' in items_in_coord:
                     char = "@"
-                elif len(items) > 0:
-                    char = self.data[items[0]]["display"] 
+                elif len(items_in_coord) > 0:
+                    char = self.data[items_in_coord[0]]["display"] 
                 else:
                     char = "."
 
@@ -168,6 +169,51 @@ class Room:
         map = ""
 
         return "\n".join(reversed(lines))
+
+    def items(self, x, y):
+        found = []
+
+        objects = self.get_objects()
+        for item in objects:
+            if self.data[item]['x'] == x and self.data[item]['y'] == y:
+                found.append(item)
+        return found
+
+    def can_move_north(self, item):
+        x,y = self.locate(item)
+        possible = y + 1 < self.size
+
+        if possible:
+            self.data[item]['y'] += 1
+
+        return possible
+
+    def can_move_south(self, item):
+        x,y = self.locate(item)
+        possible = y > 0
+
+        if possible:
+            self.data[item]['y'] -= 1
+
+        return possible
+
+    def can_move_east(self, item):
+        x,y = self.locate(item)
+        possible = x + 1 < self.size
+
+        if possible:
+            self.data[item]['x'] += 1
+
+        return possible
+
+    def can_move_west(self, item):
+        x,y = self.locate(item)
+        possible = x > 0
+
+        if possible:
+            self.data[item]['x'] -= 1
+
+        return possible
 
 class Engine:
     """
@@ -368,3 +414,6 @@ with evil in order to rescue the big pile of bacon.
 It is dark and you light a torch...
         """
         return text 
+
+class CommandLineInterface:
+    pass
