@@ -17,43 +17,13 @@ class Room:
         self.library_path = library_path
         self.exit_text = None
         self.next_level = None
-        self.level = None
         self.bag = Bag() 
 
-    def locate(self, location_name):
-        return self.level.locate(location_name)
-
-    def add_item(self, name, x, y):
-        self.level.add_item(name, x, y)
-
-    def north(self, item):
-        return self.level.can_move_north(item)
-
-    def south(self, item):
-        return self.level.can_move_south(item)
-
-    def east(self, item):
-        return self.level.can_move_east(item)
-
-    def west(self, item):
-        return self.level.can_move_west(item)
-
-    def items(self, x, y):
-        return self.level.items(x,y)
-
-    def get_objects(self):
-        return self.level.get_objects()
-    
-    def build_map(self):
-        return self.level.draw_map()
-
-    def remove(self, name):
-        self.level.remove(name)
-
     def enter(self, entrance_name):
-        self.get_room_data()
-        x, y = self.locate(entrance_name)
-        self.add_item("player", x, y)
+        level = self.get_room_data()
+        x, y = level.locate(entrance_name)
+        level.add_item("player", x, y)
+        return level
         
     def enter_next_level(self):
         has_next_level = self.next_level != None
@@ -64,27 +34,6 @@ class Room:
 
         return has_next_level
 
-    def exit(self):
-        player_x, player_y = self.locate("player")
-        exit_x, exit_y = self.locate("exit")
-
-        if player_x == exit_x and player_y == exit_y:
-            return True 
-        else:
-            return False
-			
-    def pick_up_item(self):
-        if "key" in self.get_objects():
-            if self.locate("player") == self.locate("key"):
-                self.bag.add(Item("key"))
-                self.remove("key")
-                return self.display("You picked up the key!")
-        if "gold" in self.get_objects():    
-            if self.locate("player") == self.locate("gold"):
-                self.bag.add(Item("gold"))
-                self.remove("gold")
-                return self.display("You picked up gold!")
-            
     
     def remove_item(self):
         if self.locate("player") == self.locate("exit"):
@@ -92,8 +41,7 @@ class Room:
     
 		
     def room_description(self):
-        if self.locate("player") == self.locate("entrance"):
-            return self.description
+        return self.description
 
     def get_room_data(self):
         path_n_file = join(self.library_path, self.room_file)
@@ -103,7 +51,7 @@ class Room:
 
         locations = data['locations']
         size = data['size']
-        self.level = Map(locations, size)
+        level = Map(locations, size)
 
         self.name = data['room']
         self.description = data['description']
@@ -116,7 +64,7 @@ class Room:
         else:
             self.next_level = None
     
-
+        return level
 
 class Map:
     """
@@ -179,7 +127,7 @@ class Map:
                 found.append(item)
         return found
 
-    def can_move_north(self, item):
+    def go_north(self, item):
         x,y = self.locate(item)
         possible = y + 1 < self.size
 
@@ -188,7 +136,7 @@ class Map:
 
         return possible
 
-    def can_move_south(self, item):
+    def go_south(self, item):
         x,y = self.locate(item)
         possible = y > 0
 
@@ -197,7 +145,7 @@ class Map:
 
         return possible
 
-    def can_move_east(self, item):
+    def go_east(self, item):
         x,y = self.locate(item)
         possible = x + 1 < self.size
 
@@ -206,7 +154,7 @@ class Map:
 
         return possible
 
-    def can_move_west(self, item):
+    def go_west(self, item):
         x,y = self.locate(item)
         possible = x > 0
 
@@ -214,6 +162,25 @@ class Map:
             self.data[item]['x'] -= 1
 
         return possible
+
+    def exit(self):
+        player_x, player_y = self.locate("player")
+        exit_x, exit_y = self.locate("exit")
+
+        if player_x == exit_x and player_y == exit_y:
+            return True 
+        else:
+            return False
+			
+    def pick_up_item(self, item):
+        if item in self.get_objects():
+            if self.locate("player") == self.locate(item):
+                self.bag.add(Item(item))
+                self.remove(item)
+                return True
+
+        return False
+
 
 class Engine:
     """
@@ -231,6 +198,7 @@ class Engine:
         self.library_path = library_path 
         self.reset_game()
         self.world = World(prompt_func, print_func)
+        self.level = None
 
     def reset_game(self):
         self.room_file = "level_1.json"
@@ -244,7 +212,7 @@ class Engine:
 
     def init_level(self):
         self.room = Room(self.library_path, self.room_file)
-        self.room.enter("entrance")
+        self.level = self.room.enter("entrance")
         self.player_in_room = True
         self.display(self.room.room_description())
 
@@ -257,23 +225,23 @@ class Engine:
         return response
 
     def north(self):
-        if not self.room.north('player'):
+        if not self.level.go_north('player'):
             self.display("You cannot go north")
 
     def south(self):
-        if not self.room.south('player'):
+        if not self.level.go_south('player'):
             self.display("You cannot go south")
 
     def east(self):
-        if not self.room.east('player'):
+        if not self.level.go_east('player'):
             self.display("You cannot go east")
 
     def west(self):
-        if not self.room.west('player'):
+        if not self.level.go_west('player'):
             self.display("You cannot go west")
 
     def exit(self):
-        can_exit = self.room.exit()
+        can_exit = self.level.exit()
 
         if can_exit:
 
@@ -298,9 +266,15 @@ class Engine:
         self.display("You have %d key and %d gold." % (key_amount, gold_amount))
 
     def coordinates(self):
-        x, y = self.room.locate("player")
+        x, y = self.level.locate("player")
         self.display("Your co-ordinates are: ({0},{1})".format(x,y))
 
+    def pick_up_item(self):
+        if self.level.pick_up_item("key"):
+            self.display("You picked up the key!")
+        if self.level.pick_up_item("gold"):
+            self.display("You picked up the gold!")
+    
 
     def invalid_command(self):
         self.display("Sorry that command is not valid, please type 'help' and press enter for a menu.")
@@ -325,9 +299,8 @@ class Engine:
                 self.invalid_command()
 
             if self.in_room():
-                self.display(self.room.build_map())
-                self.room.pick_up_item()
-                self.room.remove_item()
+                self.display(self.level.draw_map())
+                self.pick_up_item()
 
 
     def start(self):
