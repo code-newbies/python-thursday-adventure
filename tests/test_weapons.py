@@ -2,7 +2,7 @@ import pytest
 from modules.items import Weapon
 
 @pytest.mark.usefixtures("setup")
-class TestiWeapon:
+class TestWeapon:
     @pytest.fixture()
     def setup(self):
         pass
