@@ -1,13 +1,12 @@
 import sys
 import pytest
 from modules.world import Room, Engine, World
-from tests.helpers import BaseTest
+from tests.helpers import build_path
 
 
-class TestTinyRoom(BaseTest):
+class TestTinyRoom:
     def setup_method(self, method):
-        self.init()
-        room_path = self.build_path(["tests", "fixtures"])
+        room_path = build_path(["tests", "fixtures"])
         room_file = "tiny_room.json"
         self.room = Room(room_path, room_file)
         self.level = self.room.get_room_data()
@@ -21,10 +20,9 @@ class TestTinyRoom(BaseTest):
     def test_that_room_with_exit_description_has_text(self):
         assert "harrowed and tiny halls of doom" in self.room.exit_text
 
-class TestEnterAndExitTinyRoom(BaseTest):
+class TestEnterAndExitTinyRoom:
     def setup_method(self, method):
-        self.init()
-        room_path = self.build_path(["tests", "fixtures"])
+        room_path = build_path(["tests", "fixtures"])
         room_file = "tiny_room.json"
         self.room = Room(room_path, room_file)
 
@@ -48,10 +46,9 @@ class TestEnterAndExitTinyRoom(BaseTest):
         assert level.go_west("player")
         assert not level.go_west("player")
 
-class TestRoomCanHaveItemsRemoved(BaseTest):
+class TestRoomCanHaveItemsRemoved:
     def setup_method(self, method):
-        self.init()
-        room_path = self.build_path(["tests", "fixtures"])
+        room_path = build_path(["tests", "fixtures"])
         room_file = "item_room.json"
         self.room = Room(room_path, room_file)
         self.level = self.room.get_room_data()
@@ -63,10 +60,9 @@ class TestRoomCanHaveItemsRemoved(BaseTest):
         objects = self.level.get_objects()
         assert "key" not in objects
 
-class TestMapDrawsAllItemsInRoom(BaseTest):
+class TestMapDrawsAllItemsInRoom:
     def setup_method(self, method):
-        self.init()
-        room_path = self.build_path(["tests", "fixtures"])
+        room_path = build_path(["tests", "fixtures"])
         room_file = "item_room.json"
         self.room = Room(room_path, room_file)
         self.level = self.room.get_room_data()

@@ -1,12 +1,11 @@
 import sys
 import pytest
 from modules.world import Room
-from tests.helpers import BaseTest
+from tests.helpers import ui, at_location, build_path
 
-class TestMap(BaseTest):
+class TestMap:
     def setup_method(self, method):
-        self.init()
-        room_path = self.build_path(["tests", "fixtures"])
+        room_path = build_path(["tests", "fixtures"])
         room_file = "test_room.json"
         self.room = Room(room_path, room_file)
         self.level = self.room.get_room_data()
@@ -59,10 +58,9 @@ class TestMap(BaseTest):
         actual = self.level.draw_map()
         assert "\n".join(expected) == actual  
 
-class TestMapMovement(BaseTest):
+class TestMapMovement:
     def setup_method(self, method):
-        self.init()
-        room_path = self.build_path(["tests", "fixtures"])
+        room_path = build_path(["tests", "fixtures"])
         room_file = "test_room.json"
         self.room = Room(room_path, room_file)
 
@@ -81,22 +79,22 @@ class TestMapMovement(BaseTest):
     def test_that_player_can_move_north(self):
         level = self.room.enter("entrance")
         level.go_north("player")
-        self.assertLocation(level, "player", 5, 7)        
+        assert at_location(level, "player", 5, 7)        
 
     def test_that_player_can_move_south(self):
         level = self.room.enter("entrance")
         level.go_south("player")
-        self.assertLocation(level, "player", 5, 5)        
+        assert at_location(level, "player", 5, 5)        
 
     def test_that_player_can_move_east(self):
         level = self.room.enter("entrance")
         level.go_east("player")
-        self.assertLocation(level, "player", 6, 6)        
+        assert at_location(level, "player", 6, 6)        
 
     def test_that_player_can_move_west(self):
         level = self.room.enter("entrance")
         level.go_west("player")
-        self.assertLocation(level, "player", 4, 6)        
+        assert at_location(level, "player", 4, 6)        
 
     def test_that_player_can_exit(self):
         level = self.room.enter("exit")

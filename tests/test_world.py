@@ -1,10 +1,8 @@
 import pytest
-from helpers import BaseTest
 from modules.world import World
 
-class TestWorld(BaseTest):
+class TestWorld:
     def setup_method(self, method):
-        self.init()
         self.world = World()
 
     def test_world_has_initial_narration_method(self):
