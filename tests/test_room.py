@@ -66,15 +66,10 @@ class TestRoomCanHaveItemsRemoved(BaseTest):
 class TestMapDrawsAllItemsInRoom(BaseTest):
     def setup_method(self, method):
         self.init()
-        self.old_max_diff = self.maxDiff
-        self.maxDiff = None
         room_path = self.build_path(["tests", "fixtures"])
         room_file = "item_room.json"
         self.room = Room(room_path, room_file)
         self.level = self.room.get_room_data()
-
-    def teardown_method(self, method):
-        self.maxDiff = self.old_max_diff
 
     def test_player_displays_in_room_as_at(self):
         level = self.room.enter("entrance")

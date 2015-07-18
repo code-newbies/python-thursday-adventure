@@ -6,7 +6,7 @@ from tests.helpers import BaseTest
 prompt = ">"
 
 class TestEngineInit(BaseTest):
-    def setUp(self):
+    def setup_method(self, method):
         self.init()
 
     def load_test_room(self):
@@ -19,7 +19,7 @@ class TestEngineInit(BaseTest):
         self.say("test bot")
         self.say("q")
         self.engine.main_loop()
-        assert "test room" = self.engine.room.name
+        assert "test room" == self.engine.room.name
 
     def test_in_room_returns_false_when_not_in_room(self):
         self.load_test_room()
@@ -91,13 +91,13 @@ class TestEngineMenuAndCommand(BaseTest):
     def test_engine_will_prompt_and_exit_with_q(self):
         self.say("Q")
         self.engine.main_loop()
-        self.assertIn(prompt, ">")
+        assert ">" in prompt
         self.assertPrinted(prompt, 0)
 
     def test_engine_commands_are_not_case_sensitive(self):
         self.say("q")
         self.engine.main_loop()
-        self.assertIn(prompt, ">")
+        assert ">" in prompt
         self.assertPrinted(prompt, 0)
 
     def test_invalid_engine_commands_receive_error_message(self):
@@ -235,13 +235,13 @@ class TestPlayerCanMove(BaseTest):
         exit_x, exit_y = self.engine.level.locate("exit")
         player_x, player_y = self.engine.level.locate("player")
 
-        self.assertEqual(exit_x, player_x)
-        self.assertEqual(exit_y, player_y)
+        assert exit_x == player_x
+        assert exit_y == player_y
         result = self.engine.exit()
         assert result
 
 class TestEngineLeveling(BaseTest):
-    def setUp(self):
+    def setup_method(self, method):
         self.init()
         self.engine = Engine(self.library_path, self.fake_input, self.fake_print)
         self.engine.room_file = "tiny_room.json"
@@ -268,7 +268,7 @@ class TestEngineLeveling(BaseTest):
         self.engine.north()
         self.engine.east()
         self.engine.exit()
-        assert tiny room three == self.engine.room.name
+        assert "tiny room three" == self.engine.room.name
         assert self.engine.in_room()
 
     def test_having_exited_the_final_level_the_player_exits_and_recieved_a_completion_message(self):
@@ -281,7 +281,7 @@ class TestEngineLeveling(BaseTest):
         self.engine.north()
         self.engine.east()
         self.engine.exit()
-        assert self.engine.room.next_level
+        assert not self.engine.room.next_level
         assert not self.engine.in_room()
         self.assertPrintedOnAnyLine("have completed the game")
 

@@ -1,16 +1,14 @@
 import sys
-import unittest
+import pytest
 from os import getcwd
 from os.path import join
 
-class BaseTest(unittest.TestCase):
-    def init(self):
+class UserInterfaceForTests:
+    def __init__(self):
         self.commands = []
-        self.command_count = 0
         self.printed = []
-        self.base_path = getcwd()
-        self.library_path = join(self.base_path, "tests", "fixtures")
-  
+        self.command_count = 0
+
     def say(self,command):
         self.commands.append(command)
 
@@ -38,14 +36,7 @@ class BaseTest(unittest.TestCase):
         return say
 
     def assertPrinted(self, text, index):
-        try:
-            self.assertIn(text, self.printed[index])
-        except IndexError:
-            details = """
-            Expected '{0}' to be printed at position {1}, but nothing was printed; 
-            {2}
-            """.format(text, index, self.printed)
-            raise AssertionError(details)
+        assert text in self.printed[index]
 
     def assertPrintedOnAnyLine(self, text):
         self.assertWasPrinted(text, True)
@@ -60,18 +51,45 @@ class BaseTest(unittest.TestCase):
             if text in output:
                 was_printed = True
 
-        if was_printed ^ look_for_printed:
-            if look_for_printed:
-                details = "Expected '{0}' to be printed on any line. Below is what was printed\n {1}"
-            else:           
-                details = "'{0}' should not be printed on any line. It was printed\n {1}"
-            
-            raise AssertionError(details.format(text, self.printed))
+        assert was_printed == look_for_printed
+
+    def assertLocation(self, room, item, expected_x, expected_y):
+        x, y = room.locate(item)
+        assert expected_x == x
+        assert expected_y == y
+
+class BaseTest:
+    def init(self):
+        self.interface = UserInterfaceForTests()
+        self.base_path = getcwd()
+        self.library_path = join(self.base_path, "tests", "fixtures")
 
     def build_path(self, file_n_path):
         return join(self.base_path, *file_n_path)
 
+    def say(self,command):
+        self.interface.say(command)
+  
+    def next_command(self):
+        return self.interface.next_command()
+
+    def fake_print(self, print_text):
+        self.interface.fake_print(print_text)
+
+    def fake_input(self, prompt_value):
+        return self.interface.fake_input(prompt_value)
+
+    def assertPrinted(self, text, index):
+        self.interface.assertPrinted(text, index)
+
+    def assertPrintedOnAnyLine(self, text):
+        self.interface.assertWasPrinted(text, True)
+
+    def assertNotPrintedOnAnyLine(self, text):
+        self.interface.assertWasPrinted(text, False)
+
+    def assertWasPrinted(self, text, look_for_printed):
+        self.interface.assertWasPrinted(text, look_for_printed)
+
     def assertLocation(self, room, item, expected_x, expected_y):
-        x, y = room.locate(item)
-        self.assertEqual(expected_x, x)
-        self.assertEqual(expected_y, y)
+        self.interface.assertLocation(room, item, expected_x, expected_y)

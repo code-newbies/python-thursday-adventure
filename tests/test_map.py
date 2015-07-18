@@ -6,14 +6,10 @@ from tests.helpers import BaseTest
 class TestMap(BaseTest):
     def setup_method(self, method):
         self.init()
-        self.old_max_diff = self.maxDiff
         room_path = self.build_path(["tests", "fixtures"])
         room_file = "test_room.json"
         self.room = Room(room_path, room_file)
         self.level = self.room.get_room_data()
-
-    def teardown_method(self, method):
-        self.maxDiff = self.old_max_diff
 
     def test_that_map_has_a_size(self):
         assert 18 == self.level.size
@@ -66,7 +62,6 @@ class TestMap(BaseTest):
 class TestMapMovement(BaseTest):
     def setup_method(self, method):
         self.init()
-        self.old_max_diff = self.maxDiff
         room_path = self.build_path(["tests", "fixtures"])
         room_file = "test_room.json"
         self.room = Room(room_path, room_file)
