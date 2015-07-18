@@ -3,6 +3,23 @@ from os.path import join
 from os import getcwd
 from modules.world import Engine
 
+def load_room(room_file, ui):
+    engine = ui.get_engine()
+    engine.room_file = room_file
+    return ui, engine
+
+def load_test_room(ui):
+    return load_room("test_room.json", ui)
+
+def load_item_room(ui):
+    return load_room("item_room.json", ui)
+
+def load_tiny_room(ui):
+    return load_room("tiny_room.json", ui)
+
+def load_alexander_room(ui):
+    return load_room("alexander_room.json", ui)
+
 def build_path(file_n_path):
     base_path = getcwd()
     return join(base_path, *file_n_path)

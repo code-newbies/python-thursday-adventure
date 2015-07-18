@@ -1,23 +1,10 @@
 import sys
 import pytest
 from modules.world import Engine
-from tests.helpers import ui, at_location
+from tests.helpers import *
 
 prompt = ">"
 
-def load_room(room_file, ui):
-    engine = ui.get_engine()
-    engine.room_file = room_file
-    return ui, engine
-
-def load_test_room(ui):
-    return load_room("test_room.json", ui)
-
-def load_tiny_room(ui):
-    return load_room("tiny_room.json", ui)
-
-def load_alexander_room(ui):
-    return load_room("alexander_room.json", ui)
 
 def test_can_pass_map_file_to_engine(ui):
     ui, engine = load_test_room(ui)
