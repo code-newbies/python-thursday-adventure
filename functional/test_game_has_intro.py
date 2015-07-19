@@ -1,10 +1,10 @@
 import pytest
-from tests.helpers import ui, load_item_room
+from tests.helpers import ui, init_item_room
 
 def test_galaxy_man_satisfies_his_need_for_literary_immersion(ui):
     # Galaxy Man tries out the text adventure abd wants to see a 
     # very interesting and immersive introduction to the game
-    ui, engine = load_item_room(ui)
+    ui, engine = init_item_room(ui)
 
     # He starts it up and enters his name when prompted
     ui.say("begin")

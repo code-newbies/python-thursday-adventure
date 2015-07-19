@@ -1,8 +1,8 @@
 import pytest
-from tests.helpers import *
+from tests.helpers import ui, init_tiny_room
 
 def test_literary_leslie_loves_lots_of_lively_loquaciousness(ui):
-    ui, engine = load_tiny_room(ui)
+    ui, engine = init_tiny_room(ui)
     engine.room_file = "tiny_room.json"
     # Literary Leslie likes her games to have nice descriptions of things
     # She would like to see life breathed into this text adventure with wonderous words

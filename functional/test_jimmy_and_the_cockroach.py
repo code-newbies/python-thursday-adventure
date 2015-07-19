@@ -1,9 +1,9 @@
 import pytest
-from tests.helpers import ui, load_roach_room
+from tests.helpers import ui, init_roach_room
 
 def test_roach_runs_to_the_exit(ui):
     # Jimmy steps into the room and turns on the light
-    ui, engine = load_roach_room(ui)
+    ui, engine = init_roach_room(ui)
 
     ui.say("begin")
     ui.say("Jimmy")

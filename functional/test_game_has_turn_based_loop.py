@@ -1,8 +1,8 @@
 import pytest
-from tests.helpers import ui, load_test_room
+from tests.helpers import ui, init_test_room
 
 def test_fred_can_start_and_stop_the_loop_with_ease(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     # Fred is an avid gamer, some would say that he is a compulsive gamer
     # It has gotten so bad that he games in the middle of the night, when he should be sleeping
     # He games in the day at work.
@@ -17,7 +17,7 @@ def test_fred_can_start_and_stop_the_loop_with_ease(ui):
     assert ui.output_on_line(">", 0)
 
 def test_fred_can_stop_the_loop_with_lower_case_q(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     # Fred when closing the game as quickly as possible doesn't have time to press shift 
     # He sends a lower case 'q' instead
     # The game closes anyway
@@ -28,7 +28,7 @@ def test_fred_can_stop_the_loop_with_lower_case_q(ui):
     assert ui.output_on_line(">", 0)
 
 def test_jaime_can_get_help(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     # Jamie has heard from Fred that this new Python powered CodeNewbie text adventure game
     # is not only the cause of his loss of job and sleep, but is also relitively easy for
     # beginners to enjoy because the help functionality is so easy to use.  All she needs to
