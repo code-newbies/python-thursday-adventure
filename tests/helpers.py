@@ -11,6 +11,9 @@ def load_room(room_file, ui):
 def load_test_room(ui):
     return load_room("test_room.json", ui)
 
+def load_roach_room(ui):
+    return load_room("roach_room.json", ui)
+
 def load_item_room(ui):
     return load_room("item_room.json", ui)
 
@@ -80,4 +83,11 @@ class UserInterfaceForTests:
                 return True
 
         return False 
+
+    def output_index(self, text):
+        for i, output in enumerate(self.printed):
+            if text in output:
+                return i
+
+        return None
 
