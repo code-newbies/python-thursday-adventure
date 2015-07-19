@@ -7,7 +7,7 @@ prompt = ">"
 
 
 def test_can_pass_map_file_to_engine(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
     ui.say("q")
@@ -15,13 +15,13 @@ def test_can_pass_map_file_to_engine(ui):
     assert "test room" == engine.room.name
 
 def test_in_room_returns_false_when_not_in_room(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("q")
     engine.main_loop()
     assert not engine.in_room()
 
 def test_in_room_returns_true_when_in_room(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
     ui.say("q")
@@ -29,7 +29,7 @@ def test_in_room_returns_true_when_in_room(ui):
     assert engine.in_room()
 
 def test_in_room_returns_false_after_exiting_Room(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
     ui.say("h")
@@ -47,7 +47,7 @@ def test_in_room_returns_false_after_exiting_Room(ui):
     assert not engine.in_room()
 
 def test_in_room_returns_false_after_exiting_Room(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
     ui.say("q")
@@ -55,7 +55,7 @@ def test_in_room_returns_false_after_exiting_Room(ui):
     assert ui.output_anywhere("pork belly")
 
 def test_tuple_values_will_return_first_values(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     input_list = [(1, 'a'), (2, 'b'), (3, 'c')]
     expected_output = [1, 2, 3]
     output = list(engine.tuple_values(0, input_list))
@@ -64,7 +64,7 @@ def test_tuple_values_will_return_first_values(ui):
        assert expected_output[i] == output[i]
 
 def test_tuple_values_will_return_second_values(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     input_list = [(1, 'a'), (2, 'b'), (3, 'c')]
     expected_output = ['a', 'b', 'c']
     output = list(engine.tuple_values(1, input_list))
@@ -73,28 +73,28 @@ def test_tuple_values_will_return_second_values(ui):
        assert expected_output[i] == output[i]
 
 def test_engine_will_prompt_and_exit_with_q(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("Q")
     engine.main_loop()
     assert ">" in prompt
     assert ui.output_on_line(prompt, 0)
 
 def test_engine_commands_are_not_case_sensitive(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("q")
     engine.main_loop()
     assert ">" in prompt
     assert ui.output_on_line(prompt, 0)
 
 def test_invalid_engine_commands_receive_error_message(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("&")
     ui.say("q")
     engine.main_loop()
     assert ui.output_anywhere("not valid, please type 'help' and press enter for a menu.")
 
 def test_help_will_be_printed_when_asked_for(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
     ui.say("help")
@@ -111,7 +111,7 @@ def test_help_will_be_printed_when_asked_for(ui):
     assert ui.output_anywhere("co-ordinates")
 
 def test_h_moves_player_west(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
     ui.say("h")
@@ -121,7 +121,7 @@ def test_h_moves_player_west(ui):
     assert ui.output_anywhere("(4,6)")
 
 def test_j_moves_player_south(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
     ui.say("j")
@@ -131,7 +131,7 @@ def test_j_moves_player_south(ui):
     assert ui.output_anywhere("(5,5)")
 
 def test_k_moves_player_north(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
     ui.say("k")
@@ -141,7 +141,7 @@ def test_k_moves_player_north(ui):
     assert ui.output_anywhere("(5,7)")
 
 def test_l_moves_player_east(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
     ui.say("l")
@@ -151,7 +151,7 @@ def test_l_moves_player_east(ui):
     assert ui.output_anywhere("(6,6)")
 
 def test_begin_will_start_game(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
     ui.say("q")
@@ -159,7 +159,7 @@ def test_begin_will_start_game(ui):
     assert ui.output_anywhere(".................")
 
 def test_exit_will_exit_level_at_exit(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
     ui.say("h")
@@ -177,7 +177,7 @@ def test_exit_will_exit_level_at_exit(ui):
     assert ui.output_anywhere("exited test room")
 
 def test_exit_will_not_exit_level_when_not_at_exit(ui):
-    ui, engine = load_test_room(ui)
+    ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
     ui.say("h")
@@ -187,7 +187,7 @@ def test_exit_will_not_exit_level_when_not_at_exit(ui):
     assert ui.output_anywhere("cannot exit test room because you are not at an exit")
 
 def test_alexander_can_enter_a_room_and_travel_to_the_exit(ui):
-    ui, engine = load_alexander_room(ui)
+    ui, engine = init_alexander_room(ui)
     # Alexander, a great fan of text adventures, has entered a new room and seeking fame
     # and glory.  He starts at tile (5,6)
     engine.room_file = "alexander_room.json"
@@ -233,18 +233,18 @@ def test_alexander_can_enter_a_room_and_travel_to_the_exit(ui):
 
 # Test moving to the next level
 def test_that_room_with_next_level_populates(ui):
-    ui, engine = load_tiny_room(ui)
+    ui, engine = init_tiny_room(ui)
     engine.init_level()
     assert "tiny_room_too.json" in engine.room.next_level
 
 def test_room_will_move_to_next_level_when_enter_next_level_called(ui):
-    ui, engine = load_tiny_room(ui)
+    ui, engine = init_tiny_room(ui)
     engine.init_level()
     engine.room.enter_next_level()
     assert "tiny room too" == engine.room.name
 
 def test_engine_will_move_to_next_level_when_exited(ui):
-    ui, engine = load_tiny_room(ui)
+    ui, engine = init_tiny_room(ui)
     engine.init_level()
     engine.north()
     engine.east()
@@ -253,7 +253,7 @@ def test_engine_will_move_to_next_level_when_exited(ui):
     assert engine.in_room()
 
 def test_having_moved_to_the_next_level_the_player_can_move_and_exit_the_following_exit(ui):
-    ui, engine = load_tiny_room(ui)
+    ui, engine = init_tiny_room(ui)
     engine.init_level()
     engine.north()
     engine.east()
@@ -265,7 +265,7 @@ def test_having_moved_to_the_next_level_the_player_can_move_and_exit_the_followi
     assert engine.in_room()
 
 def test_having_exited_the_final_level_the_player_exits_and_recieved_a_completion_message(ui):
-    ui, engine = load_tiny_room(ui)
+    ui, engine = init_tiny_room(ui)
     engine.init_level()
     engine.north()
     engine.east()

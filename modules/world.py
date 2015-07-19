@@ -16,6 +16,8 @@ class Room:
         self.library_path = library_path
         self.exit_text = None
         self.next_level = None
+        self.name = None
+        self.description = None
 
     def enter(self, entrance_name):
         level = self.get_room_data()

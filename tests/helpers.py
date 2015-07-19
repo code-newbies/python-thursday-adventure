@@ -1,31 +1,67 @@
 import pytest
 from os.path import join
 from os import getcwd
-from modules.world import Engine
+from modules.world import Engine, Room
 
-def load_room(room_file, ui):
+def init_room(room_file, ui):
     engine = ui.get_engine()
     engine.room_file = room_file
     return ui, engine
 
-def load_test_room(ui):
-    return load_room("test_room.json", ui)
+def init_test_room(ui):
+    return init_room("test_room.json", ui)
 
-def load_roach_room(ui):
-    return load_room("roach_room.json", ui)
+def init_roach_room(ui):
+    return init_room("roach_room.json", ui)
 
-def load_item_room(ui):
-    return load_room("item_room.json", ui)
+def init_item_room(ui):
+    return init_room("item_room.json", ui)
 
-def load_tiny_room(ui):
-    return load_room("tiny_room.json", ui)
+def init_tiny_room(ui):
+    return init_room("tiny_room.json", ui)
 
-def load_alexander_room(ui):
-    return load_room("alexander_room.json", ui)
+def init_alexander_room(ui):
+    return init_room("alexander_room.json", ui)
 
-def build_path(file_n_path):
-    base_path = getcwd()
-    return join(base_path, *file_n_path)
+@pytest.fixture
+def tiny_room():
+    fst = FileTools()
+    return load_room("tiny_room.json", fst)
+
+@pytest.fixture
+def test_room():
+    fst = FileTools()
+    return load_room("test_room.json", fst)
+
+@pytest.fixture
+def roach_room():
+    fst = FileTools()
+    return load_room("roach_room.json", fst)
+
+@pytest.fixture
+def item_room():
+    fst = FileTools()
+    return load_room("item_room.json", fst)
+
+@pytest.fixture
+def alexander_room():
+    fst = FileTools()
+    return load_room("alexander_room.json", fst)
+
+
+def load_room(room_file, fst):
+    room_path = fst.build_path(["tests", "fixtures"])
+    room_file = room_file
+    return Room(room_path, room_file)
+
+@pytest.fixture()
+def fst():
+    return FileTools()
+
+class FileTools:
+    def build_path(self, file_n_path):
+        base_path = getcwd()
+        return join(base_path, *file_n_path)
 
 def at_location(room, item, expected_x, expected_y):
     x, y = room.locate(item)
