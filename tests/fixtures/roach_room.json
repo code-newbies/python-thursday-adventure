@@ -1,0 +1,29 @@
+{   
+    "room": "roach room",
+    "size": 6,
+    "description": "You step into the room and turn on the light.\nYou see at least one cockroach make a run for the exit",
+    "exit text": "You step through the door to the dark hallway and quickly\nTurn off the light.",
+    "locations":
+    { 
+        "entrance": 
+        { 
+            "x": 0,
+            "y": 3,
+            "display": ">"
+        },
+        "exit": 
+        { 
+            "x": 0,
+            "y": 0,
+            "display": "<"
+        },
+        "cockroach":
+        {
+            "x": 5,
+            "y": 0,
+            "display": "r",
+            "type": "creature",
+            "target": "exit"
+        }
+    }
+}

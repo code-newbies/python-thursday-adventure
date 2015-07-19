@@ -1,8 +1,8 @@
 import pytest
-from tests.helpers import *
+from tests.helpers import ui, init_item_room
 
 def test_ian_inventory_can_see_all_items_on_map(ui):
-    ui, engine = load_item_room(ui)
+    ui, engine = init_item_room(ui)
     # Ian walks into a room filled with lots of stuff and he wants to see the map
     # Ian wants to know all of the stuff in the room and definately wants to see everything
     # on the map

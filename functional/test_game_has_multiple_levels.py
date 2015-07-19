@@ -1,5 +1,5 @@
 import pytest
-from tests.helpers import ui, load_tiny_room
+from tests.helpers import ui, init_tiny_room
 
 def travel_to_the_next_level(ui):
     # She travels to the next level
@@ -8,7 +8,7 @@ def travel_to_the_next_level(ui):
     ui.say("e")
 
 def test_power_leveling_paula_delves_deeply(ui):
-    ui, engine = load_tiny_room(ui)
+    ui, engine = init_tiny_room(ui)
     # Power leveling Paula likes to get through a game as quickly as possible.
     # She will be overjoyed to travel through three levels to complete the game as quickly 
     # as possible

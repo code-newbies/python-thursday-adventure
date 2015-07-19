@@ -29,6 +29,14 @@
             "x": 12,
             "y": 9,
             "display": "<"
+        },
+        "cockroach":
+        {
+            "x": 1,
+            "y": 1,
+            "display": "r",
+            "type": "creature",
+            "target": "exit"
         }
     }
 }

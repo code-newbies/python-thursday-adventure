@@ -1,9 +1,9 @@
 import pytest
-from tests.helpers import ui, load_tiny_room
+from tests.helpers import ui, init_tiny_room
 
 
 def test_ghastly_cannot_travel_through_room_boundaries(ui):
-    ui, engine = load_tiny_room(ui)
+    ui, engine = init_tiny_room(ui)
     # Ghastly thinks that he can travel though wall and room boundaries
     # as it turns out, he cannot, but that won't stop him from trying.
     # He will try to walk through all 4 room boundaries of the 2 x 2 room.

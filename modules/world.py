@@ -4,37 +4,89 @@ import json
 from modules.player import Player
 from modules.items import Item
 from modules.items import Bag
+from modules.cockroach import Cockroach
 
-class Room:
+class LevelLoader:
     """
-    Room
+    LevelLoader
 
     This class handles the loading of level data to and from files
     """
     def __init__(self, library_path, first_file):
         self.room_file = first_file
         self.library_path = library_path
-        self.exit_text = None
-        self.next_level = None
+        self.reset()
 
-    def enter(self, entrance_name):
+    def enter(self, player, entrance_name):
+        self.reset()
         level = self.get_room_data()
-        x, y = level.locate(entrance_name)
-        level.add_item("player", x, y)
+        locatable = level.get_by_name(entrance_name)
+        coords = locatable.locate()
+        player.enter(coords)
+        level.add(player)
         return level
         
-    def enter_next_level(self):
+    def enter_next_level(self, player):
         has_next_level = self.next_level != None
         level = None
 
         if has_next_level:
             self.room_file = self.next_level
-            level = self.enter("entrance")    
+            level = self.enter(player, "entrance")    
 
         return level, has_next_level
+
+    def reset(self):
+        self.exit_text = None
+        self.next_level = None
+        self.name = None
+        self.description = None
+        self.contents = []
 		
     def room_description(self):
         return self.description
+
+    def hydrate(self, data):
+        contents = []
+
+        if data == None:
+            return contents
+
+        for key, value in data.items():
+            content_type = "item"
+            keys = value.keys()
+            description = None
+            target = None
+            target_coords = None
+
+            if "x" not in keys or "y" not in keys:
+                pass
+            else:
+                if "type" in keys:
+                    content_type = value["type"]
+
+                if "description" in keys:
+                    description = value["description"]
+
+                if "target" in keys:
+                    target = value["target"]
+                    target_coords = (data[target]["x"], data[target]["y"])
+
+                if content_type == "creature":
+                    locatable = Cockroach(key, description)
+                    if target != None:
+                        locatable.set_target(target_coords)
+                else:
+                    locatable = Item(key, description)
+
+                locatable.place((value["x"], value["y"]))
+
+                if "display" in keys:
+                    locatable.set_display(value["display"])
+
+                contents.append(locatable)
+
+        return contents
 
     def get_room_data(self):
         path_n_file = join(self.library_path, self.room_file)
@@ -42,51 +94,69 @@ class Room:
         data = json.load(f)
         f.close()
 
-        locations = data['locations']
+        contents = self.hydrate(data['locations'])
         size = data['size']
-        level = Map(locations, size)
+
+        level = Level(contents, size)
 
         self.name = data['room']
         self.description = data['description']
+        
+        room_keys = data.keys()
 
-        if 'exit_text' in data.keys():
+        if 'exit_text' in room_keys:
             self.exit_text = data['exit_text']
 
-        if 'next_level' in data.keys():
+        if 'next_level' in room_keys:
             self.next_level = data['next_level']
         else:
             self.next_level = None
     
         return level
 
-class Map:
+class Level:
     """
-    Map
+    Level
 
     This class handles the concept of relative locations and where things "are"
     """
-    def __init__(self, data, size):
-        self.data = data
+    def __init__(self, contents, size):
         self.size = size
+        self.contents = contents
+    
+    def contents_at_coords(self, coords):
+        return list(filter(lambda x: x.is_at(coords), self.contents))
 
-    def locate(self, location_name):
-        x = self.data[location_name]['x']  
-        y = self.data[location_name]['y']  
-        return (x,y)
+    def get_by_name(self, name):
+        results = list(filter(lambda x: x.name == name, self.contents))
 
-    def add_item(self, name, x, y):
-        item = {}
+        if len(results) > 0:
+            return results[0]
+        else:
+            return None
 
-        item['x'] = x
-        item['y'] = y
+    def get_location_by_name(self, name):
+        content = self.get_by_name(name)
+        if content == None:
+            return None
+        else:
+            return content.locate()
 
-        self.data[name] = item
+    def add(self, locatable):
+        self.contents.append(locatable)
 
     def get_objects(self):
-        return self.data.keys()
+        return self.contents
     
     def remove(self, name):
-        self.data.pop(name)
+        index = -1
+
+        for i in range(0, len(self.contents)):
+            if self.contents[i].name == name:
+                index = i
+
+        if index > -1:
+            self.contents.pop(index)
 
     def draw_map(self):
         lines = []
@@ -95,12 +165,10 @@ class Map:
             map = ""
 
             for x in range(0, self.size):
-                items_in_coord = self.items(x, y)
+                items_in_coord = self.contents_at_coords((x, y))
 
-                if 'player' in items_in_coord:
-                    char = "@"
-                elif len(items_in_coord) > 0:
-                    char = self.data[items_in_coord[0]]["display"] 
+                if len(items_in_coord) > 0:
+                    char = self.highest_display_priority(items_in_coord).display
                 else:
                     char = "."
 
@@ -110,61 +178,57 @@ class Map:
         map = ""
 
         return "\n".join(reversed(lines))
+    
+    def highest_display_priority(self, contents):
+        max_priority = None
 
-    def items(self, x, y):
-        found = []
+        for locatable in contents:
+            if max_priority == None:
+                max_priority = locatable
+            elif max_priority.display_priority < locatable.display_priority:
+                max_priority = locatable
 
-        objects = self.get_objects()
-        for item in objects:
-            if self.data[item]['x'] == x and self.data[item]['y'] == y:
-                found.append(item)
-        return found
+        return max_priority
 
-    def go_north(self, item):
-        x,y = self.locate(item)
+    def can_go_north(self, locatable):
+        x,y = locatable.locate()
         possible = y + 1 < self.size
 
-        if possible:
-            self.data[item]['y'] += 1
-
         return possible
 
-    def go_south(self, item):
-        x,y = self.locate(item)
+    def can_go_south(self, locatable):
+        x,y = locatable.locate()
         possible = y > 0
 
-        if possible:
-            self.data[item]['y'] -= 1
-
         return possible
 
-    def go_east(self, item):
-        x,y = self.locate(item)
+    def can_go_east(self, locatable):
+        x,y = locatable.locate()
         possible = x + 1 < self.size
 
-        if possible:
-            self.data[item]['x'] += 1
-
         return possible
 
-    def go_west(self, item):
-        x,y = self.locate(item)
+    def can_go_west(self, locatable):
+        x,y = locatable.locate()
         possible = x > 0
 
-        if possible:
-            self.data[item]['x'] -= 1
-
         return possible
 
-    def exit(self):
-        player_x, player_y = self.locate("player")
-        exit_x, exit_y = self.locate("exit")
+    def exit(self, player):
+        exit = self.get_by_name("exit")
+
+        player_x, player_y = player.locate()
+        exit_x, exit_y = exit.locate()
 
         if player_x == exit_x and player_y == exit_y:
+            player.exit()
             return True 
         else:
             return False
 			
+
+    def get_move_ai(self):
+        return list(filter(lambda x: x.has_move_ai(), self.contents))
 
 class Engine:
     """
@@ -182,6 +246,7 @@ class Engine:
         self.ui = CommandLineInterface(self, prompt_func, print_func)
         self.bag = Bag() 
         self.level = None
+        self.player = None
 
     def start(self):
         player_name = self.greet()
@@ -190,8 +255,8 @@ class Engine:
         self.init_level()
 
     def init_level(self):
-        self.room = Room(self.library_path, self.room_file)
-        self.level = self.room.enter("entrance")
+        self.room = LevelLoader(self.library_path, self.room_file)
+        self.level = self.room.enter(self.player, "entrance")
         self.player_in_room = True
         self.ui.display(self.room.room_description())
 
@@ -200,7 +265,10 @@ class Engine:
         self.player_in_room = False
 
     def in_room(self):
-        return self.player_in_room
+        if self.player == None:
+            return False
+
+        return self.player.in_room()
 
     def load_player(self, player):
         self.player = player
@@ -211,23 +279,31 @@ class Engine:
         return response
 
     def north(self):
-        if not self.level.go_north('player'):
+        if not self.level.can_go_north(self.player):
             self.ui.display("You cannot go north")
+        else:
+            self.player.go("n")
 
     def south(self):
-        if not self.level.go_south('player'):
+        if not self.level.can_go_south(self.player):
             self.ui.display("You cannot go south")
+        else:
+            self.player.go("s")
 
     def east(self):
-        if not self.level.go_east('player'):
+        if not self.level.can_go_east(self.player):
             self.ui.display("You cannot go east")
+        else:
+            self.player.go("e")
 
     def west(self):
-        if not self.level.go_west('player'):
+        if not self.level.can_go_west(self.player):
             self.ui.display("You cannot go west")
+        else:
+            self.player.go("w")
 
     def exit(self):
-        can_exit = self.level.exit()
+        can_exit = self.level.exit(self.player)
 
         if can_exit:
 
@@ -237,7 +313,7 @@ class Engine:
             else:
                 self.ui.display(self.room.exit_text)
 
-            next_level, has_next_level = self.room.enter_next_level()
+            next_level, has_next_level = self.room.enter_next_level(self.player)
             if has_next_level:
                 self.level = next_level
                 self.ui.display(self.room.room_description())
@@ -254,7 +330,7 @@ class Engine:
         self.ui.display("You have %d key and %d gold." % (key_amount, gold_amount))
 
     def coordinates(self):
-        x, y = self.level.locate("player")
+        x, y = self.player.locate()
         self.ui.display("Your co-ordinates are: ({0},{1})".format(x,y))
 
     def vaccum_key_and_gold(self):
@@ -264,8 +340,10 @@ class Engine:
             self.ui.display("You picked up the gold!")
         
     def pick_up_item(self, item):
-        if item in self.level.get_objects():
-            if self.level.locate("player") == self.level.locate(item):
+        if self.level.get_by_name(item) != None:
+            pc = self.player.locate()
+            ic = self.level.get_by_name(item).locate()
+            if pc == ic:
                 self.bag.add(Item(item))
                 self.level.remove(item)
                 return True
@@ -300,6 +378,11 @@ class Engine:
             if self.in_room():
                 self.ui.display(self.level.draw_map())
                 self.vaccum_key_and_gold()
+
+                creatures = self.level.get_move_ai()
+        
+                for creature in creatures:
+                    creature.move()
 
 
 
