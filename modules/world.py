@@ -4,6 +4,7 @@ import json
 from modules.player import Player
 from modules.items import Item
 from modules.items import Bag
+from modules.cockroach import Cockroach
 
 class Room:
     """
@@ -18,6 +19,7 @@ class Room:
         self.next_level = None
         self.name = None
         self.description = None
+        self.creatures = []
 
     def enter(self, entrance_name):
         level = self.get_room_data()
@@ -50,11 +52,13 @@ class Room:
 
         self.name = data['room']
         self.description = data['description']
+        
+        room_keys = data.keys()
 
-        if 'exit_text' in data.keys():
+        if 'exit_text' in room_keys:
             self.exit_text = data['exit_text']
 
-        if 'next_level' in data.keys():
+        if 'next_level' in room_keys:
             self.next_level = data['next_level']
         else:
             self.next_level = None

@@ -1,7 +1,8 @@
 import sys
 import pytest
 from modules.world import Room, Engine, World
-from tests.helpers import fst, tiny_room, item_room
+from modules.cockroach import Cockroach
+from tests.helpers import fst, tiny_room, item_room, roach_room, test_room
 
 def test_that_room_has_a_name(tiny_room):
     level = tiny_room.enter("entrance")
@@ -82,4 +83,19 @@ def test_moved_player_and_items_in_map_display(item_room):
     actual = level.draw_map()
     assert "\n".join(expected) == actual
 
+@pytest.fixture
+def roach_data():
+    return { "cockroach": { "x": 4, "y": 5, "display": "r", "type": "creature" } }
+
+def test_creature_is_drawn_on_map(roach_room):
+    expected = [ 
+        "......",
+        "......",
+        "@.....",
+        "......",
+        "......",
+        "<....r"]
+    level = roach_room.enter("entrance")
+    actual = level.draw_map()
+    assert "\n".join(expected) == actual
 
