@@ -1,7 +1,3 @@
--e git+git@github.com:code-newbies/python-thursday-adventure.git@ca42ac9b676b5d585bd89bb198d5d9e1581cca7c#egg=codenewbies_adventure-jh-testing-goat-2.0-63
-cov-core==1.15.0
-coverage==3.7.1
+-e git+git@github.com:code-newbies/python-thursday-adventure.git@ad7f427368ac5f4de6826bbc0b674b655180c6eb#egg=codenewbies_adventure-origin/HEAD
 py==1.4.30
 pytest==2.7.2
-pytest-cov==1.8.1
-test-pkg==0.0
