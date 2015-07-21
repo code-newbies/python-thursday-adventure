@@ -1,11 +1,8 @@
 from uuid import uuid4
+from modules.locatable import Locatable
 
-class Cockroach:
+class Cockroach(Locatable):
     def __init__(self, start_x, start_y):
+        Locatable.__init__(self)
         self.name = "cockroach"
-        self.start_x = start_x
-        self.start_y = start_y
-        self.uid = uuid4()
-
-    def init(self, level):
-        level.add_item(self.name, self.start_x, self.start_y)
+        self.place((start_x, start_y))

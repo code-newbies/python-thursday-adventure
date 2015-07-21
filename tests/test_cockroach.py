@@ -11,13 +11,8 @@ def test_roach_knows_that_it_is_a_roach(roach):
     assert roach.name == "cockroach"
 
 def test_roach_knows_where_it_starts(roach):
-    assert roach.start_x == 2
-    assert roach.start_y == 3
-
-def test_roach_can_init_itself_in_level(test_room, roach):
-    level = test_room.enter("entrance")
-    roach.init(level)
-    assert "cockroach" in level.data.keys()
+    assert roach.coords[0] == 2
+    assert roach.coords[1] == 3
 
 def test_roach_has_unique_id(roach):
     another_roach = Cockroach(1, 1)
