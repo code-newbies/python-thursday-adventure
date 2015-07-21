@@ -1,7 +1,7 @@
 import pytest
 from os.path import join
 from os import getcwd
-from modules.world import Engine, Room
+from modules.world import Engine, LevelLoader
 
 def init_room(room_file, ui):
     engine = ui.get_engine()
@@ -52,16 +52,28 @@ def alexander_room():
 def load_room(room_file, fst):
     room_path = fst.build_path(["tests", "fixtures"])
     room_file = room_file
-    return Room(room_path, room_file)
+    return LevelLoader(room_path, room_file)
 
 @pytest.fixture()
 def fst():
     return FileTools()
 
+@pytest.fixture()
+def locations():
+    fst = FileTools()
+    return fst.load_json_fixture("locations")
+
 class FileTools:
     def build_path(self, file_n_path):
         base_path = getcwd()
         return join(base_path, *file_n_path)
+
+    def load_json_fixture(self, filename):
+        import json
+        file_n_path = self.build_path(["tests", "fixtures", "{0}.json".format(filename)])
+        f = open(file_n_path, "r")
+        data = json.load(f)
+        f.close
 
 def at_location(room, item, expected_x, expected_y):
     x, y = room.locate(item)
@@ -126,4 +138,10 @@ class UserInterfaceForTests:
                 return i
 
         return None
+
+@pytest.fixture
+def roach_data():
+    return { "cockroach": { "x": 4, "y": 5, "display": "r", "type": "creature" } }
+
+
 

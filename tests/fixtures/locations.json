@@ -1,0 +1,36 @@
+{ 
+    "entrance": 
+    { 
+        "x": 0,
+        "y": 3,
+        "display": ">"
+    },
+    "exit": 
+    { 
+        "x": 0,
+        "y": 0,
+        "display": "<"
+    },
+    "cockroach":
+    {
+        "x": 5,
+        "y": 0,
+        "display": "r",
+        "type": "creature"
+    },
+    "gold":
+    {
+        "x": 3,
+        "y": 3,
+        "display": "$",
+        "type": "item",
+        "quantity": 50
+    },
+    "malformed":
+    {
+        "bacon": "wonky?"
+    },
+    "empty":
+    {
+    }
+}

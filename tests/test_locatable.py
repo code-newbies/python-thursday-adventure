@@ -1,7 +1,6 @@
 import pytest
 from tests.helpers import ui, test_room
 from modules.locatable import Locatable
-from modules.world import Map, Room
 
 @pytest.fixture
 def locatable():

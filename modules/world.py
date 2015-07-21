@@ -6,9 +6,9 @@ from modules.items import Item
 from modules.items import Bag
 from modules.cockroach import Cockroach
 
-class Room:
+class LevelLoader:
     """
-    Room
+    LevelLoader
 
     This class handles the loading of level data to and from files
     """
@@ -39,7 +39,7 @@ class Room:
     def room_description(self):
         return self.description
 
-    def hydrate(selfi, data):
+    def hydrate(self, data):
         return data
 
     def get_room_data(self):
@@ -48,9 +48,10 @@ class Room:
         data = json.load(f)
         f.close()
 
-        locations = self.hydrate(data['locations'])
+        contents = self.hydrate(data['locations'])
+        locations = data['locations']
         size = data['size']
-        level = Map(locations, size)
+        level = Level(locations, size)
 
         self.name = data['room']
         self.description = data['description']
@@ -67,9 +68,9 @@ class Room:
     
         return level
 
-class Map:
+class Level:
     """
-    Map
+    Level
 
     This class handles the concept of relative locations and where things "are"
     """
@@ -198,7 +199,7 @@ class Engine:
         self.init_level()
 
     def init_level(self):
-        self.room = Room(self.library_path, self.room_file)
+        self.room = LevelLoader(self.library_path, self.room_file)
         self.level = self.room.enter("entrance")
         self.player_in_room = True
         self.ui.display(self.room.room_description())
