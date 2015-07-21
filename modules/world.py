@@ -15,32 +15,69 @@ class LevelLoader:
     def __init__(self, library_path, first_file):
         self.room_file = first_file
         self.library_path = library_path
-        self.exit_text = None
-        self.next_level = None
-        self.name = None
-        self.description = None
+        self.reset()
 
-    def enter(self, entrance_name):
+    def enter(self, player, entrance_name):
+        self.reset()
         level = self.get_room_data()
-        x, y = level.locate(entrance_name)
-        level.add_item("player", x, y)
+        locatable = level.get_by_name(entrance_name)
+        x,y = locatable.locate()
+        level.add(player)
         return level
         
-    def enter_next_level(self):
+    def enter_next_level(self, player):
         has_next_level = self.next_level != None
         level = None
 
         if has_next_level:
             self.room_file = self.next_level
-            level = self.enter("entrance")    
+            level = self.enter(player, "entrance")    
 
         return level, has_next_level
+
+    def reset(self):
+        self.exit_text = None
+        self.next_level = None
+        self.name = None
+        self.description = None
+        self.contents = []
 		
     def room_description(self):
         return self.description
 
     def hydrate(self, data):
-        return data
+        contents = []
+
+        if data == None:
+            return contents
+
+        for key, value in data.items():
+            content_type = "item"
+            keys = value.keys()
+            description = None
+
+            if "x" not in keys or "y" not in keys:
+                pass
+            else:
+                if "type" in keys:
+                    content_type = value["type"]
+
+                if "description" in keys:
+                    description = value["description"]
+
+                if content_type == "creature":
+                    locatable = Cockroach(key, description)
+                else:
+                    locatable = Item(key, description)
+
+                locatable.place((value["x"], value["y"]))
+
+                if "display" in keys:
+                    locatable.set_display(value["display"])
+
+                contents.append(locatable)
+
+        return contents
 
     def get_room_data(self):
         path_n_file = join(self.library_path, self.room_file)
@@ -49,9 +86,9 @@ class LevelLoader:
         f.close()
 
         contents = self.hydrate(data['locations'])
-        locations = data['locations']
         size = data['size']
-        level = Level(locations, size)
+
+        level = Level(contents, size)
 
         self.name = data['room']
         self.description = data['description']
@@ -74,25 +111,33 @@ class Level:
 
     This class handles the concept of relative locations and where things "are"
     """
-    def __init__(self, data, size):
-        self.data = data
+    def __init__(self, contents, size):
         self.size = size
+        self.contents = contents
+    
+    def contents_at_coords(self, coords):
+        return list(filter(lambda x: x.is_at(coords), self.contents))
 
-    def locate(self, location_name):
-        x = self.data[location_name]['x']  
-        y = self.data[location_name]['y']  
-        return (x,y)
+    def get_by_name(self, name):
+        results = list(filter(lambda x: x.name == name, self.contents))
 
-    def add_item(self, name, x, y):
-        item = {}
+        if len(results) > 0:
+            return results[0]
+        else:
+            return None
 
-        item['x'] = x
-        item['y'] = y
+    def get_location_by_name(self, name):
+        content = self.get_by_name(name)
+        if content == None:
+            return None
+        else:
+            return content.locate()
 
-        self.data[name] = item
+    def add(self, locatable):
+        self.contents.append(locatable)
 
     def get_objects(self):
-        return self.data.keys()
+        return self.contents
     
     def remove(self, name):
         self.data.pop(name)
@@ -104,12 +149,10 @@ class Level:
             map = ""
 
             for x in range(0, self.size):
-                items_in_coord = self.items(x, y)
+                items_in_coord = self.contents_at_coords((x, y))
 
-                if 'player' in items_in_coord:
-                    char = "@"
-                elif len(items_in_coord) > 0:
-                    char = self.data[items_in_coord[0]]["display"] 
+                if len(items_in_coord) > 0:
+                    char = items_in_coord[0].display
                 else:
                     char = "."
 
@@ -120,54 +163,35 @@ class Level:
 
         return "\n".join(reversed(lines))
 
-    def items(self, x, y):
-        found = []
-
-        objects = self.get_objects()
-        for item in objects:
-            if self.data[item]['x'] == x and self.data[item]['y'] == y:
-                found.append(item)
-        return found
-
-    def go_north(self, item):
-        x,y = self.locate(item)
+    def can_go_north(self, locatable):
+        x,y = locatable.locate()
         possible = y + 1 < self.size
 
-        if possible:
-            self.data[item]['y'] += 1
-
         return possible
 
-    def go_south(self, item):
-        x,y = self.locate(item)
+    def can_go_south(self, locatable):
+        x,y = locatable.locate()
         possible = y > 0
 
-        if possible:
-            self.data[item]['y'] -= 1
-
         return possible
 
-    def go_east(self, item):
-        x,y = self.locate(item)
+    def can_go_east(self, locatable):
+        x,y = locatable.locate()
         possible = x + 1 < self.size
 
-        if possible:
-            self.data[item]['x'] += 1
-
         return possible
 
-    def go_west(self, item):
-        x,y = self.locate(item)
+    def can_go_west(self, locatable):
+        x,y = locatable.locate()
         possible = x > 0
 
-        if possible:
-            self.data[item]['x'] -= 1
-
         return possible
 
-    def exit(self):
-        player_x, player_y = self.locate("player")
-        exit_x, exit_y = self.locate("exit")
+    def exit(self, player):
+        exit = self.get_by_name("exit")
+
+        player_x, player_y = player.locate()
+        exit_x, exit_y = player.locate()
 
         if player_x == exit_x and player_y == exit_y:
             return True 
@@ -200,7 +224,7 @@ class Engine:
 
     def init_level(self):
         self.room = LevelLoader(self.library_path, self.room_file)
-        self.level = self.room.enter("entrance")
+        self.level = self.room.enter(self.player, "entrance")
         self.player_in_room = True
         self.ui.display(self.room.room_description())
 
@@ -220,23 +244,31 @@ class Engine:
         return response
 
     def north(self):
-        if not self.level.go_north('player'):
+        if not self.level.can_go_north(self.player):
             self.ui.display("You cannot go north")
+        else:
+            self.player.go("n")
 
     def south(self):
-        if not self.level.go_south('player'):
+        if not self.level.can_go_south(self.player):
             self.ui.display("You cannot go south")
+        else:
+            self.player.go("s")
 
     def east(self):
-        if not self.level.go_east('player'):
+        if not self.level.can_go_east(self.player):
             self.ui.display("You cannot go east")
+        else:
+            self.player.go("e")
 
     def west(self):
-        if not self.level.go_west('player'):
+        if not self.level.can_go_west(self.player):
             self.ui.display("You cannot go west")
+        else:
+            self.player.go("w")
 
     def exit(self):
-        can_exit = self.level.exit()
+        can_exit = self.level.exit(self.player)
 
         if can_exit:
 
@@ -246,7 +278,7 @@ class Engine:
             else:
                 self.ui.display(self.room.exit_text)
 
-            next_level, has_next_level = self.room.enter_next_level()
+            next_level, has_next_level = self.room.enter_next_level(self.player)
             if has_next_level:
                 self.level = next_level
                 self.ui.display(self.room.room_description())

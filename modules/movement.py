@@ -36,9 +36,11 @@ class Movement:
 
     def next_direction(self, start, end):
         tile = self.next_tile(start, end)
-        
+        return self.what_direction(start, tile)
+
+    def what_direction(self, start, end):
         start_x, start_y = start
-        end_x, end_y = tile  
+        end_x, end_y = end   
 
         x_diff = start_x - end_x
         y_diff = start_y - end_y

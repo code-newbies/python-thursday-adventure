@@ -1,8 +1,21 @@
 from uuid import uuid4
 from modules.locatable import Locatable
+from modules.movement import Movement
 
 class Cockroach(Locatable):
-    def __init__(self, start_x, start_y):
+    def __init__(self, name, description):
         Locatable.__init__(self)
-        self.name = "cockroach"
-        self.place((start_x, start_y))
+        self.name = name
+        self.description = description
+        self.target = (0,0)
+
+    def set_target(self, target):
+        self.target = target
+
+    def move(self):
+        movement = Movement()
+        next_tile = movement.next_tile(self.coords, self.target)
+        direction = movement.what_direction(self.coords, next_tile)
+
+        self.place(next_tile)
+        return direction

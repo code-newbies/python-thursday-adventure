@@ -9,3 +9,4 @@ class Player(Locatable):
     def __init__(self, name):
         Locatable.__init__(self)
         self.name = name
+        self.display = "@"

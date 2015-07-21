@@ -237,10 +237,10 @@ def test_that_room_with_next_level_populates(ui):
     engine.init_level()
     assert "tiny_room_too.json" in engine.room.next_level
 
-def test_room_will_move_to_next_level_when_enter_next_level_called(ui):
+def test_room_will_move_to_next_level_when_enter_next_level_called(p1, ui):
     ui, engine = init_tiny_room(ui)
     engine.init_level()
-    engine.room.enter_next_level()
+    engine.room.enter_next_level(p1)
     assert "tiny room too" == engine.room.name
 
 def test_engine_will_move_to_next_level_when_exited(ui):

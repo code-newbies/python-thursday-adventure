@@ -2,9 +2,11 @@ import pytest
 from os.path import join
 from os import getcwd
 from modules.world import Engine, LevelLoader
+from modules.player import Player
 
 def init_room(room_file, ui):
     engine = ui.get_engine()
+    engine.player = Player("Test Player")
     engine.room_file = room_file
     return ui, engine
 
@@ -74,10 +76,11 @@ class FileTools:
         f = open(file_n_path, "r")
         data = json.load(f)
         f.close
+        return data
 
-def at_location(room, item, expected_x, expected_y):
-    x, y = room.locate(item)
-    return expected_x == x and expected_y == y
+#def at_location(room, item, expected_x, expected_y):
+#    x, y = room.locate(item)
+#    return expected_x == x and expected_y == y
 
 @pytest.fixture()
 def ui():
@@ -143,5 +146,7 @@ class UserInterfaceForTests:
 def roach_data():
     return { "cockroach": { "x": 4, "y": 5, "display": "r", "type": "creature" } }
 
-
+@pytest.fixture
+def p1():
+    return Player("Arthur, King of the Brittans")
 

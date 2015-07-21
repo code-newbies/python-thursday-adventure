@@ -16,3 +16,8 @@ class TestPlayer:
         assert elvis.coords == (0,0)
         elvis.place((0,1)) 
         assert elvis.coords == (0,1)
+
+    def test_player_displays_as_at(self):
+        me = Player("guy")
+        assert me.display == "@"
+

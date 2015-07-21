@@ -17,3 +17,39 @@ def test_locatable_has_unique_id(locatable):
     assert locatable.uid != another.uid
     assert locatable.uid != third.uid
     assert another.uid != third.uid
+
+def test_locatable_knows_how_to_display_itself(locatable):
+    assert locatable.display == "!"
+
+def test_can_set_display(locatable):
+    locatable.set_display("@")
+    assert locatable.display == "@"
+
+def test_can_test_location(locatable):
+    locatable.place((5,6))
+    assert not locatable.is_at((3,4))
+    assert locatable.is_at((5,6))
+
+def test_locatable_can_be_located(locatable):
+    locatable.place((3,3))
+    assert locatable.locate() == (3,3)
+
+def test_locatable_can_go_north(locatable):
+    locatable.place((1,1))
+    locatable.go("n")
+    assert locatable.locate() == (1,2)
+
+def test_locatable_can_go_south(locatable):
+    locatable.place((1,1))
+    locatable.go("s")
+    assert locatable.locate() == (1,0)
+
+def test_locatable_can_go_east(locatable):
+    locatable.place((1,1))
+    locatable.go("e")
+    assert locatable.locate() == (2,1)
+
+def test_locatable_can_go_west(locatable):
+    locatable.place((1,1))
+    locatable.go("w")
+    assert locatable.locate() == (0,1)
