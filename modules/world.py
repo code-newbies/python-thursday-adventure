@@ -19,7 +19,6 @@ class Room:
         self.next_level = None
         self.name = None
         self.description = None
-        self.creatures = []
 
     def enter(self, entrance_name):
         level = self.get_room_data()
@@ -40,13 +39,16 @@ class Room:
     def room_description(self):
         return self.description
 
+    def hydrate(selfi, data):
+        return data
+
     def get_room_data(self):
         path_n_file = join(self.library_path, self.room_file)
         f = open(path_n_file, "r")
         data = json.load(f)
         f.close()
 
-        locations = data['locations']
+        locations = self.hydrate(data['locations'])
         size = data['size']
         level = Map(locations, size)
 
