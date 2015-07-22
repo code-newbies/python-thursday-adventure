@@ -38,3 +38,10 @@ def test_hydrate_creates_locatables(loader, locations):
     contents = loader.hydrate(locations)
     assert len(contents) == 4
     
+def test_loader_passes_target_if_applicable(loader, locations):
+    contents = loader.hydrate(locations)
+
+    exit = list(filter( lambda x : x.name == "exit" , contents))[0]
+    roach = list(filter( lambda x : x.name == "cockroach", contents))[0]
+
+    assert roach.target == exit.locate()

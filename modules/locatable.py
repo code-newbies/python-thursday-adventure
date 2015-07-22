@@ -6,6 +6,7 @@ class Locatable:
         self.coords = (0, 0)
         self.display = "!"
         self.display_priority = 0
+        self.move_ai = False
 
     def place(self, coords):
         self.coords = coords
@@ -28,3 +29,6 @@ class Locatable:
             self.coords = (self.coords[0] + 1, self.coords[1])
         elif direction == "w":
             self.coords = (self.coords[0] - 1, self.coords[1])
+
+    def has_move_ai(self):
+        return self.move_ai

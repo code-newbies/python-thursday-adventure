@@ -58,3 +58,7 @@ def test_can_get_highest_display_priority(level):
     result = level.highest_display_priority(items)
     assert result.display_priority == 100
 
+def test_can_return_contents_with_move_ai(level):
+    creatures = level.get_move_ai()
+
+    assert len(creatures) == 1 

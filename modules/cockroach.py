@@ -8,6 +8,7 @@ class Cockroach(Locatable):
         self.name = name
         self.description = description
         self.target = (0,0)
+        self.move_ai = True
 
     def set_target(self, target):
         self.target = target

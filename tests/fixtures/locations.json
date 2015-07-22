@@ -7,8 +7,8 @@
     },
     "exit": 
     { 
-        "x": 0,
-        "y": 0,
+        "x": 5,
+        "y": 5,
         "display": "<"
     },
     "cockroach":
@@ -16,7 +16,8 @@
         "x": 5,
         "y": 0,
         "display": "r",
-        "type": "creature"
+        "type": "creature",
+        "target": "exit"
     },
     "gold":
     {

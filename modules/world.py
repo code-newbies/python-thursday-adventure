@@ -56,6 +56,8 @@ class LevelLoader:
             content_type = "item"
             keys = value.keys()
             description = None
+            target = None
+            target_coords = None
 
             if "x" not in keys or "y" not in keys:
                 pass
@@ -66,8 +68,14 @@ class LevelLoader:
                 if "description" in keys:
                     description = value["description"]
 
+                if "target" in keys:
+                    target = value["target"]
+                    target_coords = (data[target]["x"], data[target]["y"])
+
                 if content_type == "creature":
                     locatable = Cockroach(key, description)
+                    if target != None:
+                        locatable.set_target(target_coords)
                 else:
                     locatable = Item(key, description)
 
@@ -219,6 +227,9 @@ class Level:
             return False
 			
 
+    def get_move_ai(self):
+        return list(filter(lambda x: x.has_move_ai(), self.contents))
+
 class Engine:
     """
     Engine
@@ -235,6 +246,7 @@ class Engine:
         self.ui = CommandLineInterface(self, prompt_func, print_func)
         self.bag = Bag() 
         self.level = None
+        self.player = None
 
     def start(self):
         player_name = self.greet()
@@ -253,7 +265,10 @@ class Engine:
         self.player_in_room = False
 
     def in_room(self):
-        return self.player_in_room
+        if self.player == None:
+            return False
+
+        return self.player.in_room()
 
     def load_player(self, player):
         self.player = player
@@ -325,8 +340,10 @@ class Engine:
             self.ui.display("You picked up the gold!")
         
     def pick_up_item(self, item):
-        if item in self.level.get_objects():
-            if self.level.locate("player") == self.level.locate(item):
+        if self.level.get_by_name(item) != None:
+            pc = self.player.locate()
+            ic = self.level.get_by_name(item).locate()
+            if pc == ic:
                 self.bag.add(Item(item))
                 self.level.remove(item)
                 return True
@@ -361,6 +378,11 @@ class Engine:
             if self.in_room():
                 self.ui.display(self.level.draw_map())
                 self.vaccum_key_and_gold()
+
+                creatures = self.level.get_move_ai()
+        
+                for creature in creatures:
+                    creature.move()
 
 
 

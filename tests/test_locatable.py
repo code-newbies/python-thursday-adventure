@@ -56,3 +56,6 @@ def test_locatable_can_go_west(locatable):
 
 def test_locatable_has_display_priority(locatable):
     assert locatable.display_priority == 0
+
+def test_has_no_move_ai_by_defailt(locatable):
+    assert locatable.has_move_ai() == False

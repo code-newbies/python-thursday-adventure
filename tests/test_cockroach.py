@@ -38,3 +38,6 @@ def test_move_will_update_the_roach_location(roach):
     roach.set_target((0,3))
     roach.move()
     assert (1,3) == roach.locate()
+
+def test_has_move_ai(roach):
+    assert roach.has_move_ai()
