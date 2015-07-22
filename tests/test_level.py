@@ -40,3 +40,21 @@ def test_get_location_by_name_returns_just_coords(level):
     result = level.get_location_by_name("roach")
     assert result == (2,3)
 
+def test_can_get_highest_display_priority(level):
+    items = []
+
+    high = Item("high", "highest display priority")
+    high.display_priority = 100
+    items.append(high)
+    
+    med = Item("med", "medium display priority")
+    med.displau_priority = 10
+    items.append(med)
+
+    low = Item("low", "low low low")
+    low.display_priority = 0
+    items.append(low)
+    
+    result = level.highest_display_priority(items)
+    assert result.display_priority == 100
+

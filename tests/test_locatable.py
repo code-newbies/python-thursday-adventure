@@ -53,3 +53,6 @@ def test_locatable_can_go_west(locatable):
     locatable.place((1,1))
     locatable.go("w")
     assert locatable.locate() == (0,1)
+
+def test_locatable_has_display_priority(locatable):
+    assert locatable.display_priority == 0

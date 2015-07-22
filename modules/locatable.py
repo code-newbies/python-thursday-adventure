@@ -5,6 +5,7 @@ class Locatable:
         self.uid = uuid4()
         self.coords = (0, 0)
         self.display = "!"
+        self.display_priority = 0
 
     def place(self, coords):
         self.coords = coords

@@ -21,7 +21,8 @@ class LevelLoader:
         self.reset()
         level = self.get_room_data()
         locatable = level.get_by_name(entrance_name)
-        x,y = locatable.locate()
+        coords = locatable.locate()
+        player.enter(coords)
         level.add(player)
         return level
         
@@ -140,7 +141,14 @@ class Level:
         return self.contents
     
     def remove(self, name):
-        self.data.pop(name)
+        index = -1
+
+        for i in range(0, len(self.contents)):
+            if self.contents[i].name == name:
+                index = i
+
+        if index > -1:
+            self.contents.pop(index)
 
     def draw_map(self):
         lines = []
@@ -152,7 +160,7 @@ class Level:
                 items_in_coord = self.contents_at_coords((x, y))
 
                 if len(items_in_coord) > 0:
-                    char = items_in_coord[0].display
+                    char = self.highest_display_priority(items_in_coord).display
                 else:
                     char = "."
 
@@ -162,6 +170,17 @@ class Level:
         map = ""
 
         return "\n".join(reversed(lines))
+    
+    def highest_display_priority(self, contents):
+        max_priority = None
+
+        for locatable in contents:
+            if max_priority == None:
+                max_priority = locatable
+            elif max_priority.display_priority < locatable.display_priority:
+                max_priority = locatable
+
+        return max_priority
 
     def can_go_north(self, locatable):
         x,y = locatable.locate()
@@ -191,9 +210,10 @@ class Level:
         exit = self.get_by_name("exit")
 
         player_x, player_y = player.locate()
-        exit_x, exit_y = player.locate()
+        exit_x, exit_y = exit.locate()
 
         if player_x == exit_x and player_y == exit_y:
+            player.exit()
             return True 
         else:
             return False
@@ -295,7 +315,7 @@ class Engine:
         self.ui.display("You have %d key and %d gold." % (key_amount, gold_amount))
 
     def coordinates(self):
-        x, y = self.level.locate("player")
+        x, y = self.player.locate()
         self.ui.display("Your co-ordinates are: ({0},{1})".format(x,y))
 
     def vaccum_key_and_gold(self):

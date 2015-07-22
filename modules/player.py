@@ -8,5 +8,18 @@ class Player(Locatable):
     """
     def __init__(self, name):
         Locatable.__init__(self)
-        self.name = name
+        self.description = name
+        self.name = "player"
         self.display = "@"
+        self.display_priority = 1
+        self.inside = False
+
+    def in_room(self):
+        return self.inside
+
+    def enter(self, coords):
+        self.place(coords)
+        self.inside = True
+
+    def exit(self):
+        self.inside = False

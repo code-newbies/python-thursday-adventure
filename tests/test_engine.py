@@ -192,15 +192,15 @@ def test_alexander_can_enter_a_room_and_travel_to_the_exit(ui):
     # and glory.  He starts at tile (5,6)
     engine.room_file = "alexander_room.json"
     engine.init_level()
-    assert at_location(engine.level, 'player', 5,6)
+    assert engine.player.locate() == (5,6)
 
     # Alexander moves north and enters tile (5,7)
     engine.north()
-    assert at_location(engine.level, 'player', 5,7)
+    assert engine.player.locate() == (5,7)
 
     # Alexander moves east and enters tile (6,7)
     engine.east()
-    assert at_location(engine.level, 'player', 6,7)
+    assert engine.player.locate() == (6,7)
 
     # Alexander moves north 5 times and enters tile (6, 12)
     engine.north()
@@ -208,23 +208,23 @@ def test_alexander_can_enter_a_room_and_travel_to_the_exit(ui):
     engine.north()
     engine.north()
     engine.north()
-    assert at_location(engine.level, 'player', 6,12)
+    assert engine.player.locate() == (6,12)
 
     # Alexander moves west twice and enters tile (4, 12)
     engine.west()
     engine.west()
-    assert at_location(engine.level, 'player', 4, 12)
+    assert engine.player.locate() == (4, 12)
 
     # Alexander moves south 4 times and enters time (4, 8)
     engine.south()
     engine.south()
     engine.south()
     engine.south()
-    assert at_location(engine.level, 'player', 4, 8)
+    assert engine.player.locate() == (4, 8)
 
     # Alexander now shares a tile with the exit and exits the level.
-    exit_x, exit_y = engine.level.locate("exit")
-    player_x, player_y = engine.level.locate("player")
+    exit_x, exit_y = engine.level.get_location_by_name("exit")
+    player_x, player_y = engine.level.get_location_by_name("player")
 
     assert exit_x == player_x
     assert exit_y == player_y

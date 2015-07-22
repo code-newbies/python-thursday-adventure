@@ -7,20 +7,15 @@ from tests.helpers import ui, test_room, fst, tiny_room, item_room, roach_room, 
 # were at one time whent this functionality was in a single class.  Separating to allow new 
 # unit tests for Level and LevelLoader to take shape uncluttered.
 
-def test_that_level_can_list_locations_in_it(test_room):
-    level = test_room.get_room_data()
-    objects = level.get_objects()
-    assert "entrance" in objects
-    
 def test_that_level_can_return_items_at_location(test_room):
     level = test_room.get_room_data()
-    items = level.items(5,6)
-    assert "entrance" in items
+    items = level.contents_at_coords((5,6))
+    assert items[0].name == "entrance"
 
-    items = level.items(3,12)
-    assert "exit" in items
+    items = level.contents_at_coords((3,12))
+    assert items[0].name == "exit"
 
-    items = level.items(1,1)
+    items = level.contents_at_coords((0,0))
     assert 0 == len(items)
 
 def test_that_entrance_location_can_be_loaded_from_file(test_room):
@@ -100,11 +95,11 @@ def test_that_player_can_move_west(p1, test_room):
 
 def test_that_player_can_exit(p1, test_room):
     level = test_room.enter(p1, "exit")
-    assert level.exit()
+    assert level.exit(p1)
 
 def test_that_player_cannot_exit_from_entrance(p1, test_room):
     level = test_room.enter(p1, "entrance")
-    assert not level.exit()
+    assert not level.exit(p1)
 
 def test_that_player_can_enter_room(p1, test_room):
     assert not p1.in_room()
@@ -143,9 +138,9 @@ def test_that_player_cannot_move_east_through_the_level_boundary(p1, tiny_room):
 
 def test_that_player_cannot_move_west_through_the_level_boundary(p1, tiny_room):
     level = tiny_room.enter(p1, "exit")
-    assert level.go_west(p1)
+    assert level.can_go_west(p1)
     p1.go("w")
-    assert not level.go_west(p1)
+    assert not level.can_go_west(p1)
 
 def test_can_remove_item_from_level(p1, item_room):
     level = item_room.enter(p1, "entrance")
