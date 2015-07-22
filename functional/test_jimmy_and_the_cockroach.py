@@ -28,6 +28,8 @@ def test_roach_runs_to_the_exit(ui):
     assert ui.output_anywhere("turn on the light")
     turn_one = ui.output_index("<....r")
     turn_two = ui.output_index("<...r.")
-    turn_three = ui.output_index("@..r..")
+    turn_three = ui.output_index("<..r..")
+    turn_four = ui.output_index("@.r...")
     assert turn_one < turn_two
     assert turn_two < turn_three
+    assert turn_three < turn_four
