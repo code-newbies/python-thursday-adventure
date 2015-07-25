@@ -1,7 +1,7 @@
 import pytest
-from modules.world import Level
-from modules.cockroach import Cockroach
-from modules.items import Item
+from modules.level import Level, highest_display_priority
+from modules.monsters import Cockroach
+from modules.item import Item
 
 @pytest.fixture
 def level():
@@ -46,7 +46,7 @@ def test_can_get_highest_display_priority(level):
     high = Item("high", "highest display priority")
     high.display_priority = 100
     items.append(high)
-    
+
     med = Item("med", "medium display priority")
     med.displau_priority = 10
     items.append(med)
@@ -54,11 +54,11 @@ def test_can_get_highest_display_priority(level):
     low = Item("low", "low low low")
     low.display_priority = 0
     items.append(low)
-    
-    result = level.highest_display_priority(items)
+
+    result = highest_display_priority(items)
     assert result.display_priority == 100
 
 def test_can_return_contents_with_move_ai(level):
     creatures = level.get_move_ai()
 
-    assert len(creatures) == 1 
+    assert len(creatures) == 1

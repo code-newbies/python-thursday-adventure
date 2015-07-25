@@ -1,5 +1,5 @@
 import pytest
-from modules.items import Item
+from modules.item import Item
 from modules.locatable import Locatable
 
 class TestItem:

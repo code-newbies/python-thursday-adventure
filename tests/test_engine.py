@@ -1,6 +1,6 @@
 import sys
 import pytest
-from modules.world import Engine
+from modules.engine import Engine, tuple_values
 from tests.helpers import *
 
 prompt = ">"
@@ -58,7 +58,7 @@ def test_tuple_values_will_return_first_values(ui):
     ui, engine = init_test_room(ui)
     input_list = [(1, 'a'), (2, 'b'), (3, 'c')]
     expected_output = [1, 2, 3]
-    output = list(engine.tuple_values(0, input_list))
+    output = list(tuple_values(0, input_list))
 
     for i in list(range(len(expected_output))):
        assert expected_output[i] == output[i]
@@ -67,7 +67,7 @@ def test_tuple_values_will_return_second_values(ui):
     ui, engine = init_test_room(ui)
     input_list = [(1, 'a'), (2, 'b'), (3, 'c')]
     expected_output = ['a', 'b', 'c']
-    output = list(engine.tuple_values(1, input_list))
+    output = list(tuple_values(1, input_list))
 
     for i in list(range(len(expected_output))):
        assert expected_output[i] == output[i]
@@ -91,7 +91,8 @@ def test_invalid_engine_commands_receive_error_message(ui):
     ui.say("&")
     ui.say("q")
     engine.main_loop()
-    assert ui.output_anywhere("not valid, please type 'help' and press enter for a menu.")
+    assert ui.output_anywhere("not valid")
+    assert ui.output_anywhere("Please type 'help' and press enter for a menu.")
 
 def test_help_will_be_printed_when_asked_for(ui):
     ui, engine = init_test_room(ui)
@@ -184,7 +185,7 @@ def test_exit_will_not_exit_level_when_not_at_exit(ui):
     ui.say("e")
     ui.say("q")
     engine.main_loop()
-    assert ui.output_anywhere("cannot exit test room because you are not at an exit")
+    assert ui.output_anywhere("not at an exit")
 
 def test_alexander_can_enter_a_room_and_travel_to_the_exit(ui):
     ui, engine = init_alexander_room(ui)

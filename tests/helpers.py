@@ -1,7 +1,8 @@
 import pytest
 from os.path import join
 from os import getcwd
-from modules.world import Engine, LevelLoader
+from modules.engine import Engine
+from modules.level_loader import LevelLoader
 from modules.player import Player
 
 def init_room(room_file, ui):

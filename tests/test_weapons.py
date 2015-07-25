@@ -1,5 +1,5 @@
 import pytest
-from modules.items import Weapon
+from modules.weapon import Weapon
 
 @pytest.mark.usefixtures("setup")
 class TestWeapon:

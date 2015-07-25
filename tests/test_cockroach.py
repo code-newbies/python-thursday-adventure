@@ -1,6 +1,6 @@
 import pytest
 from tests.helpers import ui, test_room
-from modules.cockroach import Cockroach
+from modules.monsters import Cockroach
 
 @pytest.fixture
 def roach():

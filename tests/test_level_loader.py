@@ -1,5 +1,5 @@
 import pytest
-from modules.world import LevelLoader
+from modules.level_loader import LevelLoader, hydrate
 from tests.helpers import locations
 
 @pytest.fixture
@@ -22,7 +22,7 @@ def test_reset_resets_exit_text(loader):
 def test_reset_resets_description(loader):
     loader.description = "filled with unicorns and daisies"
     loader.reset()
-    assert None == loader.description 
+    assert None == loader.description
 
 def test_reset_resets_name(loader):
     loader.name = "foo"
@@ -32,14 +32,14 @@ def test_reset_resets_name(loader):
 def test_reset_resets_next_level(loader):
     loader.next_level = "7th level"
     loader.reset()
-    assert None == loader.next_level 
+    assert None == loader.next_level
 
-def test_hydrate_creates_locatables(loader, locations):
-    contents = loader.hydrate(locations)
+def test_hydrate_creates_locatables(locations):
+    contents = hydrate(locations)
     assert len(contents) == 4
-    
-def test_loader_passes_target_if_applicable(loader, locations):
-    contents = loader.hydrate(locations)
+
+def test_loader_passes_target_if_applicable(locations):
+    contents = hydrate(locations)
 
     exit = list(filter( lambda x : x.name == "exit" , contents))[0]
     roach = list(filter( lambda x : x.name == "cockroach", contents))[0]

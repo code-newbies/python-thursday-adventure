@@ -1,6 +1,6 @@
 import unittest
-from modules.items import Bag
-from modules.items import Item
+from modules.bag import Bag
+from modules.item import Item
 
 class InventoryBagTest(unittest.TestCase):
     def setUp(self):

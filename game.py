@@ -1,5 +1,5 @@
 # main game loop goes here
-from modules.world import Engine
+from modules.engine import Engine
 from os import getcwd
 from os.path import join
 

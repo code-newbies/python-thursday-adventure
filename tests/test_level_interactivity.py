@@ -1,6 +1,6 @@
 import sys
 import pytest
-from modules.world import LevelLoader
+from modules.level_loader import LevelLoader
 from tests.helpers import ui, test_room, fst, tiny_room, item_room, roach_room, locations, p1
 
 # These tests combine Level and LevelLoader functionality and aren't true unit tests, but they 
@@ -67,28 +67,28 @@ def test_that_player_enters_at_location(p1, test_room):
 
 def test_that_player_can_move_north(p1, test_room):
     level = test_room.enter(p1, "entrance")
-    p1.go("n")
+    p1.travel("n")
     coords = p1.locate()
     assert 5 == coords[0]
     assert 7 == coords[1]
 
 def test_that_player_can_move_south(p1, test_room):
     level = test_room.enter(p1, "entrance")
-    p1.go("s")
+    p1.travel("s")
     coords = p1.locate()
     assert 5 == coords[0]
     assert 5 == coords[1]
 
 def test_that_player_can_move_east(p1, test_room):
     level = test_room.enter(p1, "entrance")
-    p1.go("e")
+    p1.travel("e")
     coords = p1.locate()
     assert 6 == coords[0]
     assert 6 == coords[1]
 
 def test_that_player_can_move_west(p1, test_room):
     level = test_room.enter(p1, "entrance")
-    p1.go("w")
+    p1.travel("w")
     coords = p1.locate()
     assert 4 == coords[0]
     assert 6 == coords[1]
@@ -121,25 +121,25 @@ def test_that_level_with_exit_description_has_text(p1, tiny_room):
 def test_that_player_cannot_move_north_through_the_level_boundary(p1, tiny_room):
     level = tiny_room.enter(p1, "entrance")
     assert level.can_go_north(p1)
-    p1.go("n")
+    p1.travel("n")
     assert not level.can_go_north(p1)
 
 def test_that_player_cannot_move_south_through_the_level_boundary(p1, tiny_room):
     level = tiny_room.enter(p1, "exit")
     assert level.can_go_south(p1)
-    p1.go("s")
+    p1.travel("s")
     assert not level.can_go_south(p1)
 
 def test_that_player_cannot_move_east_through_the_level_boundary(p1, tiny_room):
     level = tiny_room.enter(p1, "entrance")
     assert level.can_go_east(p1)
-    p1.go("e")
+    p1.travel("e")
     assert not level.can_go_east(p1)
 
 def test_that_player_cannot_move_west_through_the_level_boundary(p1, tiny_room):
     level = tiny_room.enter(p1, "exit")
     assert level.can_go_west(p1)
-    p1.go("w")
+    p1.travel("w")
     assert not level.can_go_west(p1)
 
 def test_can_remove_item_from_level(p1, item_room):
@@ -184,7 +184,7 @@ def test_moved_player_and_items_in_level_display(p1, item_room):
         "<....",
         ">@..."]
     level = item_room.enter(p1, "entrance")
-    p1.go("e")
+    p1.travel("e")
     actual = level.draw_map()
     assert "\n".join(expected) == actual
 

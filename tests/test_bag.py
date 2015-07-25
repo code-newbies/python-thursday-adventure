@@ -1,5 +1,6 @@
 import pytest
-from modules.items import Bag, Item
+from modules.item import Item
+from modules.bag import Bag
 
 class TestBag:
     def setup_method(self, method):

@@ -36,22 +36,22 @@ def test_locatable_can_be_located(locatable):
 
 def test_locatable_can_go_north(locatable):
     locatable.place((1,1))
-    locatable.go("n")
+    locatable.travel("n")
     assert locatable.locate() == (1,2)
 
 def test_locatable_can_go_south(locatable):
     locatable.place((1,1))
-    locatable.go("s")
+    locatable.travel("s")
     assert locatable.locate() == (1,0)
 
 def test_locatable_can_go_east(locatable):
     locatable.place((1,1))
-    locatable.go("e")
+    locatable.travel("e")
     assert locatable.locate() == (2,1)
 
 def test_locatable_can_go_west(locatable):
     locatable.place((1,1))
-    locatable.go("w")
+    locatable.travel("w")
     assert locatable.locate() == (0,1)
 
 def test_locatable_has_display_priority(locatable):
