@@ -5,21 +5,25 @@
 class CommandLine:
     '''This class contains interactions with the user via command line.'''
     def __init__(self, engine, prompt_func=input, print_func=print):
-        self.command_mapping = self.commands(engine)
         self.prompt = prompt_func
         self.display = print_func
+        self.command_mapping = self.commands(engine)
 
     def commands(self, engine):
         """Returns a list of valid commands in tuple form
         tuple is (command, function, description, valid_outside_room)
         """
+        n_response = self.prompt("Please choose a key to be your north movement")
+        e_response = self.prompt("Please choose a key to be your east movement")
+        s_response = self.prompt("Please choose a key to be your south movement")
+        w_response = self.prompt("Please choose a key to be your west movement")
         command_list = [
             ("help", engine.display_help, "display this help menu", True),
             ("begin", engine.start, "start the game", True),
-            ("h", engine.west, "move west", False),
-            ("j", engine.south, "move south", False),
-            ("k", engine.north, "move north", False),
-            ("l", engine.east, "move east", False),
+            (w_response, engine.west, "move west", False),
+            (s_response, engine.south, "move south", False),
+            (n_response, engine.north, "move north", False),
+            (e_response, engine.east, "move east", False),
             ("x", engine.coordinates, "display current tile co-ordinates", False),
             ("e", engine.exit, "exit the map", False),
             ("a", engine.item_count, "returns item count", False),
