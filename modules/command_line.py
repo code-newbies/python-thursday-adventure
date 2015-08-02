@@ -13,10 +13,10 @@ class CommandLine:
         """Returns a list of valid commands in tuple form
         tuple is (command, function, description, valid_outside_room)
         """
-        n_response = self.prompt("Please choose a key to be your north movement")
-        e_response = self.prompt("Please choose a key to be your east movement")
-        s_response = self.prompt("Please choose a key to be your south movement")
-        w_response = self.prompt("Please choose a key to be your west movement")
+        n_response = self.prompt("Please choose a key to be your north movement: ")
+        e_response = self.prompt("Please choose a key to be your east movement: ")
+        s_response = self.prompt("Please choose a key to be your south movement: ")
+        w_response = self.prompt("Please choose a key to be your west movement: ")
         command_list = [
             ("help", engine.display_help, "display this help menu", True),
             ("begin", engine.start, "start the game", True),
