@@ -7,7 +7,7 @@ class Player(Locatable, Health_Points):
     """This class holds information about the player."""
     def __init__(self, name):
         Locatable.__init__(self)
-	Health_Points.__init__(self, 100)
+        Health_Points.__init__(self, 100)
         self.description = name
         self.name = "player"
         self.display = "@"
