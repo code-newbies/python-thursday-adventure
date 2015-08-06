@@ -5,13 +5,15 @@ inhabit the game
 
 from modules.locatable import Locatable
 from modules.movement import next_tile, what_direction
+from modules.hp import Health_Points
 
-class Cockroach(Locatable):
+class Cockroach(Locatable, Health_Points):
     """Being the first creature of the game, the cockroach holds a special
     place in the pantheon of the world
     """
     def __init__(self, name, description):
         Locatable.__init__(self)
+        Health_Points.__init__(self, 5)
         self.name = name
         self.description = description
         self.target = (0, 0)

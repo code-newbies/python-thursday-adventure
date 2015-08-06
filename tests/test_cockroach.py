@@ -41,3 +41,8 @@ def test_move_will_update_the_roach_location(roach):
 
 def test_has_move_ai(roach):
     assert roach.has_move_ai()
+
+def test_health_points(roach):
+    assert roach.calc_health() == 5
+    roach.take_damage(2)
+    assert roach.calc_health() == 3

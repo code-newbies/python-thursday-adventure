@@ -4,15 +4,17 @@ class Health_Points():
 
     def __init__(self, base):
         self.base = base
-        self.item_bonuses = None
-        self.other_bonuses = None
+        #self.item_bonuses = None
+        self.item_bonuses = 0
+        #self.other_bonuses = None
+        self.other_bonuses = 0
 
     def calc_health(self):
         return self.base + self.item_bonuses + self.other_bonuses
 
     def take_damage(self, damage):
         self.base -= damage
-        if self.calc_damage() <= 0:
+        if self.calc_health() <= 0:
             self.dies()
 
     def dies(self):

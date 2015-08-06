@@ -35,3 +35,9 @@ def test_player_tracks_if_it_is_in_a_room(bob):
 def test_enter_sets_player_location(bob):
     bob.enter((9,9))
     assert bob.locate() == (9,9)
+
+def test_player_hp(bob):
+    assert bob.calc_health() == 100
+    bob.take_damage(72)
+    assert bob.calc_health() == 28
+
