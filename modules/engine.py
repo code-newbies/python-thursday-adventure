@@ -29,7 +29,7 @@ class Engine:
         self.room = None
 
     def start(self):
-        """Use this mkey, description, ethod to start the game"""
+        """Use this method to start the game"""
         player_name = self.interface.greet()
         self.player = Player(player_name)
         self.interface.display(initial_narration())
@@ -61,7 +61,7 @@ class Engine:
         self.player = player
 
     def north(self):
-        """Moves the player north if ablekey, description, """
+        """Moves the player north if able"""
         if not self.level.can_go_north(self.player):
             self.interface.display("You cannot go north")
         else:
