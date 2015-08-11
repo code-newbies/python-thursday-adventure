@@ -63,8 +63,10 @@ q - quit the game"""
         %s: Key\n
         %s: Exit\n
         %s: Player\n
-        %s: Gold
-        """ % (">", "~", "<", "@", "$"))
+        %s: Gold\n
+        %s: Cockroach\n
+        %s: Excalibur
+        """ % (">", "~", "<", "@", "$", "r", "X"))
 
     def greet(self):
         """Welcomes the player and gets their name"""
