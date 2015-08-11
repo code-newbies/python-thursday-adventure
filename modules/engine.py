@@ -29,7 +29,7 @@ class Engine:
         self.room = None
 
     def start(self):
-        """Use this method to start the game"""
+        """Use this mkey, description, ethod to start the game"""
         player_name = self.interface.greet()
         self.player = Player(player_name)
         self.interface.display(initial_narration())
@@ -61,7 +61,7 @@ class Engine:
         self.player = player
 
     def north(self):
-        """Moves the player north if able"""
+        """Moves the player north if ablekey, description, """
         if not self.level.can_go_north(self.player):
             self.interface.display("You cannot go north")
         else:
@@ -143,6 +143,10 @@ class Engine:
         if self.pick_up_item("gold"):
             self.interface.display("You picked up the gold!")
 
+    def vaccum_weapons(self):
+        if self.pick_up_item("excalibur"):
+            self.interface.display("Behold! The most power ever felt!")
+
     def pick_up_item(self, item):
         """Allows the player to pick up and item by removing an item from the
         room and placing it in their bag
@@ -176,6 +180,7 @@ class Engine:
             if self.in_room():
                 self.interface.display(self.level.draw_map())
                 self.vaccum_key_and_gold()
+                self.vaccum_weapons()
                 self.move_creatures()
 
     def move_player(self):
@@ -206,5 +211,3 @@ class Engine:
 
         for creature in creatures:
             creature.move()
-
-
