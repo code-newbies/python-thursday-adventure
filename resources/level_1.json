@@ -45,7 +45,6 @@
             "display": "X",
             "type": "weapon",
             "description": "A powerful legendary sword powered by bacon.",
-            "target": None,
             "damage": 20
         }
     }
