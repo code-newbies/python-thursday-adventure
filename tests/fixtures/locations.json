@@ -19,6 +19,15 @@
         "type": "creature",
         "target": "exit"
     },
+    "excalibur":
+    {
+        "x": 3,
+        "y": 9,
+        "display": "X",
+        "type": "weapon",
+        "description": "A powerful legendary sword powered by bacon.",
+        "damage": 20
+    },
     "gold":
     {
         "x": 3,
