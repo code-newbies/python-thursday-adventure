@@ -144,6 +144,7 @@ class Engine:
             self.interface.display("You picked up the gold!")
 
     def vaccum_weapons(self):
+        """Swiftly picks up Excalibur"""
         if self.pick_up_item("excalibur"):
             self.interface.display("Behold! The most power ever felt!")
 
