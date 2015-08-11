@@ -116,12 +116,13 @@ def hydrate(data):
                 locatable = Cockroach(key, description)
                 if target != None:
                     locatable.set_target(target_coords)
+            else:
+                locatable = Item(key, description)
+
             if content_type == "weapon":
                 locatable = Weapon(damage)
                 locatable.name = key
                 locatable.description = description
-            else:
-                locatable = Item(key, description)
 
             locatable.place((value["x"], value["y"]))
 
