@@ -1,31 +1,31 @@
-{   
+{
     "room": "level 1",
     "size": 18,
     "exit_text": "You have unlocked the exit and proceed through it into a dark and ominous hallway",
     "description": "\tThe room is dark and damp. You can see a giant padlock on the other door and in the distance a big chest.",
     "next_level": "level_2.json",
     "locations":
-    { 
-        "entrance": 
-        { 
+    {
+        "entrance":
+        {
             "x": 5,
             "y": 6,
             "display": ">"
         },
-        "key": 
-        { 
+        "key":
+        {
             "x": 4,
             "y": 3,
             "display": "~"
         },
-        "gold": 
-        { 
+        "gold":
+        {
             "x": 8,
             "y": 1,
             "display": "$"
         },
-        "exit": 
-        { 
+        "exit":
+        {
             "x": 12,
             "y": 9,
             "display": "<"
@@ -37,7 +37,16 @@
             "display": "r",
             "type": "creature",
             "target": "exit"
+        },
+        "excalibur":
+        {
+            "x": 3,
+            "y": 9,
+            "display": "X",
+            "type": "weapon",
+            "description": "A powerful legendary sword powered by bacon.",
+            "target": None,
+            "damage": 20
         }
     }
 }
-
