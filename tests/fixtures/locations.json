@@ -1,12 +1,12 @@
-{ 
-    "entrance": 
-    { 
+{
+    "entrance":
+    {
         "x": 0,
         "y": 3,
         "display": ">"
     },
-    "exit": 
-    { 
+    "exit":
+    {
         "x": 5,
         "y": 5,
         "display": "<"
