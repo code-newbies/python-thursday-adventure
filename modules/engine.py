@@ -143,6 +143,11 @@ class Engine:
         if self.pick_up_item("gold"):
             self.interface.display("You picked up the gold!")
 
+    def vaccum_weapons(self):
+        """Swiftly picks up Excalibur"""
+        if self.pick_up_item("excalibur"):
+            self.interface.display("Behold! The most power ever felt!")
+
     def pick_up_item(self, item):
         """Allows the player to pick up and item by removing an item from the
         room and placing it in their bag
@@ -176,6 +181,7 @@ class Engine:
             if self.in_room():
                 self.interface.display(self.level.draw_map())
                 self.vaccum_key_and_gold()
+                self.vaccum_weapons()
                 self.move_creatures()
 
     def move_player(self):
@@ -206,5 +212,3 @@ class Engine:
 
         for creature in creatures:
             creature.move()
-
-
