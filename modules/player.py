@@ -2,6 +2,7 @@
 """ This is the module for all things player related"""
 from modules.locatable import Locatable
 from modules.hp import Health_Points
+from modules.weapon import Weapon
 
 class Player(Locatable, Health_Points):
     """This class holds information about the player."""
@@ -26,3 +27,5 @@ class Player(Locatable, Health_Points):
     def exit(self):
         """Removes the player from a level"""
         self.inside = False
+
+    fist_weapon = Weapon(1)

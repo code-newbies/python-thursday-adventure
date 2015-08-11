@@ -1,6 +1,7 @@
 import pytest
 from modules.player import Player
 from modules.locatable import Locatable
+from modules.hp import Health_Points
 
 @pytest.fixture
 def bob():
@@ -12,6 +13,9 @@ def test_can_initialize_bob_the_mighty(bob):
 
 def test_player_is_locatable(bob):
     assert Locatable in Player.__bases__
+
+def test_player_is_Health_Points():
+    assert Health_Points in Player.__bases__
 
 def test_player_can_be_placed(bob):
     assert bob.coords == (0,0)
@@ -35,9 +39,3 @@ def test_player_tracks_if_it_is_in_a_room(bob):
 def test_enter_sets_player_location(bob):
     bob.enter((9,9))
     assert bob.locate() == (9,9)
-
-def test_player_hp(bob):
-    assert bob.calc_health() == 100
-    bob.take_damage(72)
-    assert bob.calc_health() == 28
-
