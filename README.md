@@ -1,8 +1,8 @@
 # Welcome to the Python Thursday Project! 
-This is the project for the CodeNewbie Python Thursday group. You can join the group [here](https://codenewbie.typeform.com/to/uwsWlZ). To get started, read the following, and if you get stuck, reach out to Phillip (github: @phillipgray, slack: @phillipg) the host.
+This is the project for the CodeNewbie Python Thursday group. You can join the group [on Slack](https://codenewbie.typeform.com/to/uwsWlZ). To get started, read the following, and if you get stuck, reach out to Phillip (github: @phillipgray, slack: @phillipg) the host.
 
 ### About this project
-To start out, we are building a command line game to help us develop our Python skills (and review OOP principles). We meet weekly [here](https://codenewbie.typeform.com/to/uwsWlZ) in the "python-thursday" channel on Thursday at 9PM EST, so mark your calendars and stop by! There, we'll review the project, look at code together, and share what we learned. 
+To start out, we are building a command line game to help us develop our Python skills (and review OOP principles). We meet weekly [on Slack](https://codenewbie.typeform.com/to/uwsWlZ) in the "python-thursday" channel on Thursday at 9PM EST, so mark your calendars and stop by! There, we'll review the project, look at code together, and share what we learned. 
 
 In particular, we hope to:
 
@@ -55,6 +55,17 @@ You're welcome to start contributing at any level, but it's helpful to have some
 Once you're done, come back and get your code on!
 
 There's a big gap between the knowledge you gain when you go through the tutorials, and the skills you need to be job ready. We hope to help fill that gap by working on collaborative projects like this. So if you're tired of doing tutorials and you're looking for some real-world experience, this is for you.
+
+### Playing the Game
+To play the game, be sure you've cloned the directory to your local machine. Then, run the following:
+```python
+python game.py
+```
+Or, if you have both Python 2 and Python 3 installed:
+```python
+python3 game.py
+```
+Type h for a list of commands and have fun!
 
 ### Testing
 Tests are found in the /tests directory
