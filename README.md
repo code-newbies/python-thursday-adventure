@@ -52,6 +52,8 @@ You're welcome to start contributing at any level, but it's helpful to have some
 
 - [Dive Into Python 3](http://www.diveintopython3.net)
 
+- [Test Driven Development with Python](http://chimera.labs.oreilly.com/books/1234000000754/index.html)... Also referred to as "The Goat Book"
+
 Once you're done, come back and get your code on!
 
 There's a big gap between the knowledge you gain when you go through the tutorials, and the skills you need to be job ready. We hope to help fill that gap by working on collaborative projects like this. So if you're tired of doing tutorials and you're looking for some real-world experience, this is for you.
@@ -65,7 +67,7 @@ Or, if you have both Python 2 and Python 3 installed:
 ```python
 python3 game.py
 ```
-Type h for a list of commands and have fun!
+Type `h` for a list of commands and have fun!
 
 ### Testing
 Tests are found in the /tests directory
