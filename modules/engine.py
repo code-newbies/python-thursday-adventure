@@ -34,6 +34,7 @@ class Engine:
         self.player = Player(player_name)
         self.interface.display(initial_narration())
         self.init_level()
+        self.interface.display(self.level.draw_map())
 
     def init_level(self):
         """Looks up the level information from file, loads it and inserts
@@ -170,6 +171,7 @@ class Engine:
         """This is the core game loop that cycles through the turns"""
         play = True
 
+        self.start()
         while play:
             play = self.move_player()
 
@@ -193,12 +195,13 @@ class Engine:
 
     def execute_command(self, command, commands):
         """Executes the command if valid, returns false if invalid"""
-        if command not in tuple_values(0, commands):
+        try:
+            cmd_tuple = commands[command]
+            cmd_tuple[0]()
+            return True
+        except KeyError:
             return False
 
-        cmd_tuple = list(filter(lambda x: x[0] == command, commands))[0]
-        cmd_tuple[1]()
-        return True
 
     def move_creatures(self):
         """Moves the creatures in the room"""

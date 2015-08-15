@@ -104,6 +104,7 @@ class UserInterfaceForTests:
         self.commands.append(command)
 
     def next_command(self):
+        print("self.command_count = {0}".format(self.command_count))
         try:
             command = self.commands[self.command_count]
         except IndexError:
