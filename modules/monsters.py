@@ -44,3 +44,5 @@ class Cockroach(Monster):
     @property
     def damage(self):
         return 1
+
+    Weapon = Weapon(1)

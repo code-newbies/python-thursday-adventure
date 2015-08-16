@@ -66,27 +66,43 @@ class Engine:
         if not self.level.can_go_north(self.player):
             self.interface.display("You cannot go north")
         else:
-            self.player.travel("n")
+            for creature in self.level.get_move_ai():
+                if creature.coords == (self.player.coords[0], self.player.coords[1] + 1):
+                    self.player.attack(creature)
+            else:
+                self.player.travel("n")
 
     def south(self):
         """Moves the player south if able"""
         if not self.level.can_go_south(self.player):
             self.interface.display("You cannot go south")
         else:
-            self.player.travel("s")
+            for creature in self.level.get_move_ai():
+                if creature.coords == (self.player.coords[0], self.player.coords[1] - 1):
+                    self.player.attack(creature)
+            else:
+                self.player.travel("s")
 
     def east(self):
         """Moves the player east if able"""
         if not self.level.can_go_east(self.player):
             self.interface.display("You cannot go east")
         else:
-            self.player.travel("e")
+            for creature in self.level.get_move_ai():
+                if creature.coords == (self.player.coords[0] + 1, self.player.coords[1]):
+                    self.player.attack(creature)
+            else:
+                self.player.travel("e")
 
     def west(self):
         """Moves the player west if able"""
         if not self.level.can_go_west(self.player):
             self.interface.display("You cannot go west")
         else:
+            for creature in self.level.get_move_ai():
+                if creature.coords == (self.player.coords[0] - 1, self.player.coords[1]):
+                    self.player.attack(creature)
+            else:
             self.player.travel("w")
 
     def exit(self):

@@ -28,4 +28,4 @@ class Player(Locatable, Health_Points):
         """Removes the player from a level"""
         self.inside = False
 
-    fist_weapon = Weapon(1)
+    Weapon = Weapon(1)
