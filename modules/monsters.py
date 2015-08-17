@@ -6,6 +6,7 @@ inhabit the game
 from modules.locatable import Locatable
 from modules.movement import next_tile, what_direction
 from modules.hp import Health_Points
+from modules.weapon import Weapon
 
 class Monster(Locatable, Health_Points):
     def __init__(self, name, description, health_pts):
@@ -15,6 +16,7 @@ class Monster(Locatable, Health_Points):
         self.description = description
         self.target = (0, 0)
         self.move_ai = True
+        self.is_dead = False
 
     def set_target(self, target):
         """Sets the feature of the level that the cockroach will attempt
@@ -33,6 +35,10 @@ class Monster(Locatable, Health_Points):
     @property
     def damage(self):
         pass
+
+    def dies(self):
+        self.is_dead = True
+        return "You killed the " + self.name
 
 class Cockroach(Monster):
     """Being the first creature of the game, the cockroach holds a special

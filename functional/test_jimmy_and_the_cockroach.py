@@ -5,7 +5,6 @@ def test_roach_runs_to_the_exit(ui):
     # Jimmy steps into the room and turns on the light
     ui, engine = init_roach_room(ui)
 
-    ui.say("begin")
     ui.say("Jimmy")
     # He needs to walk through this kitchen to the dark hallway beyond.  In the corner of 
     # his eye he sees a cockroach off in the far corner

@@ -68,7 +68,7 @@ class Engine:
         else:
             for creature in self.level.get_move_ai():
                 if creature.coords == (self.player.coords[0], self.player.coords[1] + 1):
-                    self.player.attack(creature)
+                    self.attack(creature)
             else:
                 self.player.travel("n")
 
@@ -79,7 +79,7 @@ class Engine:
         else:
             for creature in self.level.get_move_ai():
                 if creature.coords == (self.player.coords[0], self.player.coords[1] - 1):
-                    self.player.attack(creature)
+                    self.attack(creature)
             else:
                 self.player.travel("s")
 
@@ -90,7 +90,7 @@ class Engine:
         else:
             for creature in self.level.get_move_ai():
                 if creature.coords == (self.player.coords[0] + 1, self.player.coords[1]):
-                    self.player.attack(creature)
+                    self.attack(creature)
             else:
                 self.player.travel("e")
 
@@ -101,9 +101,19 @@ class Engine:
         else:
             for creature in self.level.get_move_ai():
                 if creature.coords == (self.player.coords[0] - 1, self.player.coords[1]):
-                    self.player.attack(creature)
+                    self.attack(creature)
             else:
-            self.player.travel("w")
+                self.player.travel("w")
+
+    def attack(self, enemy):
+        dmg = self.player.weapon.damage
+        self.interface.display("You attack the " + enemy.name + " for " + str(dmg) + " damage!")
+        response = enemy.take_damage(dmg)
+        if response:
+            self.interface.display(response)
+            for index, item in enumerate(self.level.contents):
+                if item is enemy:
+                    self.level.remove(enemy.name)
 
     def exit(self):
         """Tests for exit conditions and exits the player if they are met
@@ -192,9 +202,9 @@ class Engine:
             play = self.move_player()
 
             if self.in_room():
-                self.interface.display(self.level.draw_map())
                 self.vaccum_key_and_gold()
                 self.move_creatures()
+                self.interface.display(self.level.draw_map())
 
     def move_player(self):
         """Gets the command from the player and moves (or quits)"""

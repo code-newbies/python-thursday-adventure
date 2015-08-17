@@ -15,7 +15,9 @@ class Health_Points():
     def take_damage(self, damage):
         self.base -= damage
         if self.calc_health() <= 0:
-            self.dies()
+            return self.dies()
+        else:
+            return False
 
     def dies(self):
         pass
