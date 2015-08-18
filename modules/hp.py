@@ -1,4 +1,4 @@
-class Health_Points():
+class HealthPoints():
     """This class is for health points of the player. Item bonuses
     and other bonuses are integers. """
 

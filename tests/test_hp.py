@@ -1,9 +1,9 @@
 import pytest
-from modules.hp import Health_Points
+from modules.hp import HealthPoints
 
 @pytest.fixture
 def player():
-    player = Health_Points(100)
+    player = HealthPoints(100)
     return player
 
 def test_initalizing_base(player):
