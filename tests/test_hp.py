@@ -1,10 +1,17 @@
 import pytest
 from modules.hp import HealthPoints
+from modules.engine import Engine
 
 @pytest.fixture
 def player():
     player = HealthPoints(100)
     return player
+
+@pytest.fixture
+def player_with_bonus():
+    player = HealthPoints(100)
+    player.item_bonuses = 10
+    player.other_bonuses = 15
 
 def test_initalizing_base(player):
     assert player.base == 100
