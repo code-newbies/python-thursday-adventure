@@ -6,6 +6,7 @@ from modules.bag import Bag
 from modules.level_loader import LevelLoader
 from modules.player import Player
 from modules.item import Item
+from modules.movement import next_tile
 
 
 def tuple_values(pos, command_list):
@@ -69,6 +70,7 @@ class Engine:
             for creature in self.level.get_move_ai():
                 if creature.coords == (self.player.coords[0], self.player.coords[1] + 1):
                     self.attack(creature)
+                    break
             else:
                 self.player.travel("n")
 
@@ -80,6 +82,7 @@ class Engine:
             for creature in self.level.get_move_ai():
                 if creature.coords == (self.player.coords[0], self.player.coords[1] - 1):
                     self.attack(creature)
+                    break
             else:
                 self.player.travel("s")
 
@@ -91,6 +94,7 @@ class Engine:
             for creature in self.level.get_move_ai():
                 if creature.coords == (self.player.coords[0] + 1, self.player.coords[1]):
                     self.attack(creature)
+                    break
             else:
                 self.player.travel("e")
 
@@ -102,6 +106,7 @@ class Engine:
             for creature in self.level.get_move_ai():
                 if creature.coords == (self.player.coords[0] - 1, self.player.coords[1]):
                     self.attack(creature)
+                    break
             else:
                 self.player.travel("w")
 
@@ -109,6 +114,7 @@ class Engine:
         dmg = self.player.weapon.damage
         self.interface.display("You attack the " + enemy.name + " for " + str(dmg) + " damage!")
         response = enemy.take_damage(dmg)
+        enemy.set_target(self.player)
         if response:
             self.interface.display(response)
             for index, item in enumerate(self.level.contents):
@@ -203,7 +209,7 @@ class Engine:
 
             if self.in_room():
                 self.vaccum_key_and_gold()
-                self.move_creatures()
+                play &= self.move_creatures()
                 self.interface.display(self.level.draw_map())
 
     def move_player(self):
@@ -234,6 +240,17 @@ class Engine:
         creatures = self.level.get_move_ai()
 
         for creature in creatures:
-            creature.move()
-
+            #print("In Loop")
+            #print(creature)
+            target_tile = next_tile(creature.coords, creature.target)
+            if target_tile == self.player.coords:
+                dmg = creature.weapon.damage
+                self.interface.display("You were attacked by the " + creature.name + " for " + str(dmg) + " damage!")
+                response = self.player.take_damage(dmg)
+                if response:
+                    self.interface.display(response)
+                    return False
+            else:
+                creature.move()
+        return True
 

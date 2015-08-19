@@ -14,7 +14,7 @@ class Monster(Locatable, Health_Points):
         Health_Points.__init__(self, health_pts)
         self.name = name
         self.description = description
-        self.target = (0, 0)
+        self.target = Locatable()
         self.move_ai = True
         self.is_dead = False
 
@@ -51,4 +51,4 @@ class Cockroach(Monster):
     def damage(self):
         return 1
 
-    Weapon = Weapon(1)
+    weapon = Weapon(1)

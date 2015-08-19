@@ -24,8 +24,8 @@ def test_cockroach_has_a_target(roach):
     roach.set_target((0,3))
     assert roach.target == (0,3)
 
-def test_default_target_is_zero_zero(roach):
-    assert roach.target == (0,0)
+def test_default_target_is_none(roach):
+    assert roach.target.coords == (0,0)
 
 def test_roach_can_update_its_location(roach):
     assert (2,3) == roach.locate()
@@ -33,11 +33,11 @@ def test_roach_can_update_its_location(roach):
     assert (1,1) == roach.locate()
 
 def test_roach_will_move_towards_target(roach):
-    roach.set_target((0,3))
+    roach.set_target(Locatable((0,3)))
     assert "w" == roach.move()
 
 def test_move_will_update_the_roach_location(roach):
-    roach.set_target((0,3))
+    roach.set_target(Locatable((0,3)))
     roach.move()
     assert (1,3) == roach.locate()
 

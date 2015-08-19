@@ -29,3 +29,6 @@ class Player(Locatable, Health_Points):
         self.inside = False
 
     weapon = Weapon(1)
+
+    def dies(self):
+        return "As you fall to the ground, gasping your final breath, you wish that you had only had the opportunity to taste that wonderful smelling bacon."
