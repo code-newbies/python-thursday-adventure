@@ -5,6 +5,13 @@ from tests.helpers import *
 
 prompt = ">"
 
+# use these constants for testing movement
+# aliased from ui fixture in modules/helpers.py
+info_ui = ui()
+NORTH = info_ui.commands[0]
+EAST = info_ui.commands[1]
+SOUTH = info_ui.commands[2]
+WEST = info_ui.commands[3]
 
 def test_can_pass_map_file_to_engine(ui):
     ui, engine = init_test_room(ui)
@@ -32,14 +39,14 @@ def test_in_room_returns_false_after_exiting_Room(ui):
     ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
-    ui.say("h")
-    ui.say("h")
-    ui.say("k")
-    ui.say("k")
-    ui.say("k")
-    ui.say("k")
-    ui.say("k")
-    ui.say("k")
+    ui.say(WEST)
+    ui.say(WEST)
+    ui.say(NORTH)
+    ui.say(NORTH)
+    ui.say(NORTH)
+    ui.say(NORTH)
+    ui.say(NORTH)
+    ui.say(NORTH)
 
     ui.say("e")
     ui.say("q")
@@ -61,7 +68,7 @@ def test_tuple_values_will_return_first_values(ui):
     output = list(tuple_values(0, input_list))
 
     for i in list(range(len(expected_output))):
-       assert expected_output[i] == output[i]
+      assert expected_output[i] == output[i]
 
 def test_tuple_values_will_return_second_values(ui):
     ui, engine = init_test_room(ui)
@@ -70,21 +77,22 @@ def test_tuple_values_will_return_second_values(ui):
     output = list(tuple_values(1, input_list))
 
     for i in list(range(len(expected_output))):
-       assert expected_output[i] == output[i]
+      assert expected_output[i] == output[i]
 
 def test_engine_will_prompt_and_exit_with_q(ui):
     ui, engine = init_test_room(ui)
     ui.say("Q")
     engine.main_loop()
     assert ">" in prompt
-    assert ui.output_on_line(prompt, 0)
+    assert ui.output_on_line(prompt, 4)
+    # prompt is at index 4, after setting direction keys
 
 def test_engine_commands_are_not_case_sensitive(ui):
     ui, engine = init_test_room(ui)
     ui.say("q")
     engine.main_loop()
     assert ">" in prompt
-    assert ui.output_on_line(prompt, 0)
+    assert ui.output_on_line(prompt, 4)
 
 def test_invalid_engine_commands_receive_error_message(ui):
     ui, engine = init_test_room(ui)
@@ -115,7 +123,7 @@ def test_h_moves_player_west(ui):
     ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
-    ui.say("h")
+    ui.say(WEST)
     ui.say("x")
     ui.say("q")
     engine.main_loop()
@@ -125,7 +133,7 @@ def test_j_moves_player_south(ui):
     ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
-    ui.say("j")
+    ui.say(SOUTH)
     ui.say("x")
     ui.say("q")
     engine.main_loop()
@@ -135,7 +143,7 @@ def test_k_moves_player_north(ui):
     ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
-    ui.say("k")
+    ui.say(NORTH)
     ui.say("x")
     ui.say("q")
     engine.main_loop()
@@ -145,7 +153,7 @@ def test_l_moves_player_east(ui):
     ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
-    ui.say("l")
+    ui.say(EAST)
     ui.say("x")
     ui.say("q")
     engine.main_loop()
@@ -163,14 +171,14 @@ def test_exit_will_exit_level_at_exit(ui):
     ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
-    ui.say("h")
-    ui.say("h")
-    ui.say("k")
-    ui.say("k")
-    ui.say("k")
-    ui.say("k")
-    ui.say("k")
-    ui.say("k")
+    ui.say(WEST)
+    ui.say(WEST)
+    ui.say(NORTH)
+    ui.say(NORTH)
+    ui.say(NORTH)
+    ui.say(NORTH)
+    ui.say(NORTH)
+    ui.say(NORTH)
 
     ui.say("e")
     ui.say("q")
@@ -181,11 +189,19 @@ def test_exit_will_not_exit_level_when_not_at_exit(ui):
     ui, engine = init_test_room(ui)
     ui.say("begin")
     ui.say("test bot")
-    ui.say("h")
+    ui.say(WEST)
     ui.say("e")
     ui.say("q")
     engine.main_loop()
     assert ui.output_anywhere("not at an exit")
+
+def test_that_health_points_display(ui):
+    ui, engine = init_test_room(ui)
+    ui.say("begin")
+    ui.say("test bot")
+    ui.say("q")
+    engine.main_loop()
+    assert ui.output_anywhere("Current Health")
 
 def test_alexander_can_enter_a_room_and_travel_to_the_exit(ui):
     ui, engine = init_alexander_room(ui)
@@ -280,3 +296,6 @@ def test_having_exited_the_final_level_the_player_exits_and_recieved_a_completio
     assert not engine.room.next_level
     assert not engine.in_room()
     assert ui.output_anywhere("have completed the game")
+
+
+

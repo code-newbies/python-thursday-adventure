@@ -1,6 +1,7 @@
 import pytest
 from modules.player import Player
 from modules.locatable import Locatable
+from modules.hp import HealthPoints
 
 @pytest.fixture
 def bob():
@@ -35,3 +36,6 @@ def test_player_tracks_if_it_is_in_a_room(bob):
 def test_enter_sets_player_location(bob):
     bob.enter((9,9))
     assert bob.locate() == (9,9)
+
+def test_player_has_health_points(bob):
+    assert isinstance(bob.health, HealthPoints)

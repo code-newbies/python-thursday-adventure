@@ -89,7 +89,7 @@ def ui():
 
 class UserInterfaceForTests:
     def __init__(self):
-        self.commands = []
+        self.commands = ["i", "l", "k", "j"] #dummy game input keys for setup
         self.printed = []
         self.command_count = 0
     
@@ -134,7 +134,7 @@ class UserInterfaceForTests:
             if text in output:
                 return True
 
-        return False 
+        return False
 
     def output_index(self, text):
         for i, output in enumerate(self.printed):

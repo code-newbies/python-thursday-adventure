@@ -180,6 +180,7 @@ class Engine:
 
             if self.in_room():
                 self.interface.display(self.level.draw_map())
+                self.interface.display(self.player.health.show_health())
                 self.vaccum_key_and_gold()
                 self.vaccum_weapons()
                 self.move_creatures()
