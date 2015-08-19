@@ -84,14 +84,14 @@ def test_engine_will_prompt_and_exit_with_q(ui):
     ui.say("Q")
     engine.main_loop()
     assert ">" in prompt
-    assert ui.output_on_line(prompt, 0)
+    assert ui.output_on_line(prompt, 4)
 
 def test_engine_commands_are_not_case_sensitive(ui):
     ui, engine = init_test_room(ui)
     ui.say("q")
     engine.main_loop()
     assert ">" in prompt
-    assert ui.output_on_line(prompt, 0)
+    assert ui.output_on_line(prompt, 4)
 
 def test_invalid_engine_commands_receive_error_message(ui):
     ui, engine = init_test_room(ui)
