@@ -85,6 +85,7 @@ def test_engine_will_prompt_and_exit_with_q(ui):
     engine.main_loop()
     assert ">" in prompt
     assert ui.output_on_line(prompt, 4)
+    # prompt is at index 4, after setting direction keys
 
 def test_engine_commands_are_not_case_sensitive(ui):
     ui, engine = init_test_room(ui)
@@ -194,6 +195,14 @@ def test_exit_will_not_exit_level_when_not_at_exit(ui):
     engine.main_loop()
     assert ui.output_anywhere("not at an exit")
 
+def test_that_health_points_display(ui):
+    ui, engine = init_test_room(ui)
+    ui.say("begin")
+    ui.say("test bot")
+    ui.say("q")
+    engine.main_loop()
+    assert ui.output_anywhere("Current Health")
+
 def test_alexander_can_enter_a_room_and_travel_to_the_exit(ui):
     ui, engine = init_alexander_room(ui)
     # Alexander, a great fan of text adventures, has entered a new room and seeking fame
@@ -287,3 +296,6 @@ def test_having_exited_the_final_level_the_player_exits_and_recieved_a_completio
     assert not engine.room.next_level
     assert not engine.in_room()
     assert ui.output_anywhere("have completed the game")
+
+
+

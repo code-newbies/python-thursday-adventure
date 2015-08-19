@@ -134,7 +134,7 @@ class UserInterfaceForTests:
             if text in output:
                 return True
 
-        return False 
+        return False
 
     def output_index(self, text):
         for i, output in enumerate(self.printed):
