@@ -6,9 +6,9 @@ from uuid import uuid4
 
 class Locatable:
     """The ancestor class for stuff in a Level that is aware of where it is"""
-    def __init__(self):
+    def __init__(self, coords=(0,0)):
         self.uid = uuid4()
-        self.coords = (0, 0)
+        self.coords = coords
         self.display = "!"
         self.display_priority = 0
         self.move_ai = False

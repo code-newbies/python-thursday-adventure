@@ -6,6 +6,7 @@ from modules.bag import Bag
 from modules.level_loader import LevelLoader
 from modules.player import Player
 from modules.item import Item
+from modules.movement import next_tile
 
 
 def tuple_values(pos, command_list):
@@ -34,6 +35,7 @@ class Engine:
         self.player = Player(player_name)
         self.interface.display(initial_narration())
         self.init_level()
+        self.interface.display(self.level.draw_map())
 
     def init_level(self):
         """Looks up the level information from file, loads it and inserts
@@ -65,28 +67,59 @@ class Engine:
         if not self.level.can_go_north(self.player):
             self.interface.display("You cannot go north")
         else:
-            self.player.travel("n")
+            for creature in self.level.get_move_ai():
+                if creature.coords == (self.player.coords[0], self.player.coords[1] + 1):
+                    self.attack(creature)
+                    break
+            else:
+                self.player.travel("n")
 
     def south(self):
         """Moves the player south if able"""
         if not self.level.can_go_south(self.player):
             self.interface.display("You cannot go south")
         else:
-            self.player.travel("s")
+            for creature in self.level.get_move_ai():
+                if creature.coords == (self.player.coords[0], self.player.coords[1] - 1):
+                    self.attack(creature)
+                    break
+            else:
+                self.player.travel("s")
 
     def east(self):
         """Moves the player east if able"""
         if not self.level.can_go_east(self.player):
             self.interface.display("You cannot go east")
         else:
-            self.player.travel("e")
+            for creature in self.level.get_move_ai():
+                if creature.coords == (self.player.coords[0] + 1, self.player.coords[1]):
+                    self.attack(creature)
+                    break
+            else:
+                self.player.travel("e")
 
     def west(self):
         """Moves the player west if able"""
         if not self.level.can_go_west(self.player):
             self.interface.display("You cannot go west")
         else:
-            self.player.travel("w")
+            for creature in self.level.get_move_ai():
+                if creature.coords == (self.player.coords[0] - 1, self.player.coords[1]):
+                    self.attack(creature)
+                    break
+            else:
+                self.player.travel("w")
+
+    def attack(self, enemy):
+        dmg = self.player.weapon.damage
+        self.interface.display("You attack the " + enemy.name + " for " + str(dmg) + " damage!")
+        response = enemy.take_damage(dmg)
+        enemy.set_target(self.player)
+        if response:
+            self.interface.display(response)
+            for index, item in enumerate(self.level.contents):
+                if item is enemy:
+                    self.level.remove(enemy.name)
 
     def exit(self):
         """Tests for exit conditions and exits the player if they are met
@@ -175,15 +208,17 @@ class Engine:
         """This is the core game loop that cycles through the turns"""
         play = True
 
+        self.start()
         while play:
             play = self.move_player()
 
             if self.in_room():
-                self.interface.display(self.level.draw_map())
-                self.interface.display(self.player.health.show_health())
                 self.vaccum_key_and_gold()
                 self.vaccum_weapons()
-                self.move_creatures()
+                play &= self.move_creatures()
+                if play:
+                    self.interface.display(self.level.draw_map())
+                    self.interface.display(self.player.health.show_health())
 
     def move_player(self):
         """Gets the command from the player and moves (or quits)"""
@@ -200,16 +235,27 @@ class Engine:
 
     def execute_command(self, command, commands):
         """Executes the command if valid, returns false if invalid"""
-        if command not in tuple_values(0, commands):
+        try:
+            cmd_tuple = commands[command]
+            cmd_tuple[0]()
+            return True
+        except KeyError:
             return False
 
-        cmd_tuple = list(filter(lambda x: x[0] == command, commands))[0]
-        cmd_tuple[1]()
-        return True
 
     def move_creatures(self):
         """Moves the creatures in the room"""
         creatures = self.level.get_move_ai()
 
         for creature in creatures:
-            creature.move()
+            target_tile = next_tile(creature.coords, creature.target)
+            if target_tile == self.player.coords:
+                dmg = creature.weapon.damage
+                self.interface.display("You were attacked by the " + creature.name + " for " + str(dmg) + " damage!")
+                response = self.player.take_damage(dmg)
+                if response:
+                    self.interface.display(response)
+                    return False
+            else:
+                creature.move()
+        return True

@@ -19,13 +19,16 @@ def next_tile(start, end):
     """given a starting and ending tile, this function will calculate the
     next tile to travel to along that route"""
     start_x, start_y = start
-    end_x, end_y = end
+    #print("next_tile")
+    #print(end)
+    #print(end.coords)
+    end_x, end_y = end.coords
 
     x_diff = start_x - end_x
     y_diff = start_y - end_y
 
     if x_diff == 0 and y_diff == 0:
-        return end
+        return end.coords
 
     if abs(x_diff) > abs(y_diff):
         if x_diff > 0:
@@ -42,6 +45,8 @@ def what_direction(start, end):
     """This function determines the cardinal direction from one tile to
     an adjacent tile"""
     start_x, start_y = start
+    #print("what_direction")
+    #print(end)
     end_x, end_y = end
 
     x_diff = start_x - end_x

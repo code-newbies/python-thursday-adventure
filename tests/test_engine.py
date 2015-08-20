@@ -23,8 +23,10 @@ def test_can_pass_map_file_to_engine(ui):
 
 def test_in_room_returns_false_when_not_in_room(ui):
     ui, engine = init_test_room(ui)
+    ui.say("Guido")
     ui.say("q")
     engine.main_loop()
+    engine.player.inside = False
     assert not engine.in_room()
 
 def test_in_room_returns_true_when_in_room(ui):
@@ -81,22 +83,25 @@ def test_tuple_values_will_return_second_values(ui):
 
 def test_engine_will_prompt_and_exit_with_q(ui):
     ui, engine = init_test_room(ui)
+    ui.say("Guido")
     ui.say("Q")
     engine.main_loop()
     assert ">" in prompt
-    assert ui.output_on_line(prompt, 4)
-    # prompt is at index 4, after setting direction keys
+    assert ui.output_on_line(prompt, 9)
+    # prompt is at index 9, after setting direction keys
 
 def test_engine_commands_are_not_case_sensitive(ui):
     ui, engine = init_test_room(ui)
+    ui.say("Guido")
     ui.say("q")
     engine.main_loop()
     assert ">" in prompt
-    assert ui.output_on_line(prompt, 4)
+    assert ui.output_on_line(prompt, 9)
 
 def test_invalid_engine_commands_receive_error_message(ui):
     ui, engine = init_test_room(ui)
-    ui.say("&")
+    ui.say("Guido")
+    ui.say("G")
     ui.say("q")
     engine.main_loop()
     assert ui.output_anywhere("not valid")

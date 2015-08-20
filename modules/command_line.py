@@ -1,5 +1,6 @@
 # command_line_interface.py
 """This module handles interacting with the user on the command line"""
+from collections import OrderedDict
 
 
 class CommandLine:
@@ -17,19 +18,18 @@ class CommandLine:
         e_response = self.prompt("Please choose a key to be your east movement: ")
         s_response = self.prompt("Please choose a key to be your south movement: ")
         w_response = self.prompt("Please choose a key to be your west movement: ")
-        command_list = [
-            ("help", engine.display_help, "display this help menu", True),
-            ("begin", engine.start, "start the game", True),
-            (w_response, engine.west, "move west", False),
-            (s_response, engine.south, "move south", False),
-            (n_response, engine.north, "move north", False),
-            (e_response, engine.east, "move east", False),
-            ("x", engine.coordinates, "display current tile co-ordinates", False),
-            ("e", engine.exit, "exit the map", False),
-            ("a", engine.item_count, "returns item count", False),
-            ("m", self.map_key, "display map key", True)
-            ]
-
+        command_list = OrderedDict([
+            ("help", (engine.display_help, "display this help menu", True)),
+            ("begin", (engine.start, "start the game", True)),
+            (w_response, (engine.west, "move west", False)),
+            (s_response, (engine.south, "move south", False)),
+            (n_response, (engine.north, "move north", False)),
+            (e_response, (engine.east, "move east", False)),
+            ("x", (engine.coordinates, "display current tile co-ordinates", False)),
+            ("e", (engine.exit, "exit the map", False)),
+            ("a", (engine.item_count, "returns item count", False)),
+            ("m", (self.map_key, "display map key", True))
+            ])
         return command_list
 
     def current_commands(self, in_room):
@@ -40,7 +40,8 @@ class CommandLine:
         if in_room:
             commands = self.command_mapping
         else:
-            commands = list(filter(lambda x: x[3] == True, self.command_mapping))
+            commands = OrderedDict(filter(lambda x: x[1][2] == True, self.command_mapping.items()))
+            #The x's passed into the lambda are (key,list) tuples from the command_mapping OrderedDict.
 
         return commands
 
@@ -56,8 +57,10 @@ The commands that you can use are as follows:
 q - quit the game"""
 
         self.display(help_text)
-        for command in possible_commands:
-            self.display("{0} - {1}".format(command[0], command[2]))
+        #for command in possible_commands:
+        #    self.display("{0} - {1}".format(command[0], command[2]))
+        for command, command_list in possible_commands.items():
+            self.display("{0} - {1}".format(command, command_list[1]))
 
     def map_key(self):
         """Displays a list of symbols on the map"""

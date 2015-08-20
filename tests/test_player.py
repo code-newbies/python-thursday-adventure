@@ -14,6 +14,9 @@ def test_can_initialize_bob_the_mighty(bob):
 def test_player_is_locatable(bob):
     assert Locatable in Player.__bases__
 
+def test_player_is_Health_Points():
+    assert HealthPoints in Player.__bases__
+
 def test_player_can_be_placed(bob):
     assert bob.coords == (0,0)
     bob.place((0,1)) 

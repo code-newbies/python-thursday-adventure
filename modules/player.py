@@ -2,11 +2,14 @@
 from modules.hp import HealthPoints
 """ This is the module for all things player related"""
 from modules.locatable import Locatable
+from modules.hp import HealthPoints
+from modules.weapon import Weapon
 
-class Player(Locatable):
+class Player(Locatable, HealthPoints):
     """This class holds information about the player."""
     def __init__(self, name):
         Locatable.__init__(self)
+        HealthPoints.__init__(self, 100)
         self.description = name
         self.name = "player"
         self.display = "@"
@@ -26,3 +29,8 @@ class Player(Locatable):
     def exit(self):
         """Removes the player from a level"""
         self.inside = False
+
+    weapon = Weapon(1)
+
+    def dies(self):
+        return "As you fall to the ground, gasping your final breath, you wish that you had only had the opportunity to taste that wonderful smelling bacon."

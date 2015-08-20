@@ -93,7 +93,6 @@ def hydrate(data):
         keys = value.keys()
         description = None
         target = None
-        target_coords = None
         damage = None
 
         if "x" not in keys or "y" not in keys:
@@ -107,7 +106,6 @@ def hydrate(data):
 
             if "target" in keys:
                 target = value["target"]
-                target_coords = (data[target]["x"], data[target]["y"])
 
             if "damage" in keys:
                 damage = value["damage"]
@@ -115,7 +113,12 @@ def hydrate(data):
             if content_type == "creature":
                 locatable = Cockroach(key, description)
                 if target != None:
-                    locatable.set_target(target_coords)
+                    for itm in contents:
+                        if itm.name == target:
+                            locatable.set_target(itm)
+                    else:
+                        #What should go here?
+                        pass
             else:
                 locatable = Item(key, description)
 

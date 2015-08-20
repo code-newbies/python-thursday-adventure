@@ -90,6 +90,7 @@ def ui():
 class UserInterfaceForTests:
     def __init__(self):
         self.commands = ["i", "l", "k", "j"] #dummy game input keys for setup
+        #North, East, South, West
         self.printed = []
         self.command_count = 0
     
@@ -104,6 +105,7 @@ class UserInterfaceForTests:
         self.commands.append(command)
 
     def next_command(self):
+        print("self.command_count = {0}".format(self.command_count))
         try:
             command = self.commands[self.command_count]
         except IndexError:
