@@ -36,12 +36,13 @@ def test_reset_resets_next_level(loader):
 
 def test_hydrate_creates_locatables(locations):
     contents = hydrate(locations)
-    assert len(contents) == 4
+    assert len(contents) == 5
 
 def test_loader_passes_target_if_applicable(locations):
     contents = hydrate(locations)
 
     exit = list(filter( lambda x : x.name == "exit" , contents))[0]
     roach = list(filter( lambda x : x.name == "cockroach", contents))[0]
-
+    sword = list(filter( lambda x : x.name == "excalibur", contents))[0]
     assert roach.target.coords == exit.locate()
+    assert sword.damage == 20

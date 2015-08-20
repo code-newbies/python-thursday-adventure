@@ -6,6 +6,7 @@ import json
 from modules.item import Item
 from modules.monsters import Cockroach
 from modules.level import Level
+from modules.weapon import Weapon
 
 class LevelLoader:
     """This class handles the loading of level data to and from files"""
@@ -92,7 +93,7 @@ def hydrate(data):
         keys = value.keys()
         description = None
         target = None
-        #target_coords = None
+        damage = None
 
         if "x" not in keys or "y" not in keys:
             pass
@@ -105,12 +106,13 @@ def hydrate(data):
 
             if "target" in keys:
                 target = value["target"]
-                #target_coords = (data[target]["x"], data[target]["y"])
+
+            if "damage" in keys:
+                damage = value["damage"]
 
             if content_type == "creature":
                 locatable = Cockroach(key, description)
                 if target != None:
-                    #locatable.set_target(target_coords)
                     for itm in contents:
                         if itm.name == target:
                             locatable.set_target(itm)
@@ -120,6 +122,11 @@ def hydrate(data):
             else:
                 locatable = Item(key, description)
 
+            if content_type == "weapon":
+                locatable = Weapon(damage)
+                locatable.name = key
+                locatable.description = description
+
             locatable.place((value["x"], value["y"]))
 
             if "display" in keys:
@@ -128,4 +135,3 @@ def hydrate(data):
             contents.append(locatable)
 
     return contents
-

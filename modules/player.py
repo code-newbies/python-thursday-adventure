@@ -1,4 +1,5 @@
 # player.py
+from modules.hp import HealthPoints
 """ This is the module for all things player related"""
 from modules.locatable import Locatable
 from modules.hp import Health_Points
@@ -14,6 +15,7 @@ class Player(Locatable, Health_Points):
         self.display = "@"
         self.display_priority = 1
         self.inside = False
+        self.health = HealthPoints(10)
 
     def in_room(self):
         """Called to determine if the player is inside or outside a level"""

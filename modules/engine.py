@@ -176,6 +176,11 @@ class Engine:
         if self.pick_up_item("gold"):
             self.interface.display("You picked up the gold!")
 
+    def vaccum_weapons(self):
+        """Swiftly picks up Excalibur"""
+        if self.pick_up_item("excalibur"):
+            self.interface.display("Behold! The most power ever felt!")
+
     def pick_up_item(self, item):
         """Allows the player to pick up and item by removing an item from the
         room and placing it in their bag
@@ -209,8 +214,10 @@ class Engine:
 
             if self.in_room():
                 self.vaccum_key_and_gold()
+                self.vaccum_weapons()
                 play &= self.move_creatures()
                 self.interface.display(self.level.draw_map())
+                self.interface.display(self.player.health.show_health())
 
     def move_player(self):
         """Gets the command from the player and moves (or quits)"""
@@ -240,8 +247,6 @@ class Engine:
         creatures = self.level.get_move_ai()
 
         for creature in creatures:
-            #print("In Loop")
-            #print(creature)
             target_tile = next_tile(creature.coords, creature.target)
             if target_tile == self.player.coords:
                 dmg = creature.weapon.damage
@@ -253,4 +258,3 @@ class Engine:
             else:
                 creature.move()
         return True
-

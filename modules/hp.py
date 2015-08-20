@@ -1,12 +1,10 @@
-class Health_Points():
+class HealthPoints():
     """This class is for health points of the player. Item bonuses
     and other bonuses are integers. """
 
     def __init__(self, base):
         self.base = base
-        #self.item_bonuses = None
         self.item_bonuses = 0
-        #self.other_bonuses = None
         self.other_bonuses = 0
 
     def calc_health(self):
@@ -24,3 +22,6 @@ class Health_Points():
 	    # This function is to be extended by derived classes.
         # Declaring this function here allows self.dies() to be 
         # called above, and have the derived dies function called.
+
+    def show_health(self):
+        return "Current Health: {} hp".format(self.calc_health())
