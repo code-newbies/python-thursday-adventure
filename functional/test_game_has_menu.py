@@ -8,6 +8,7 @@ def test_linus_sees_quit_begin_and_help_in_menu_but_no_other_commands_before_ent
     # For instance he doesn't want to move his character when  he isn't in a room
     # He still wants to be able to start a game, quit and of course get help
     ui, engine = init_test_room(ui)
+
     ui.say("Guido")
     ui.say("help")
     ui.say("q")
@@ -15,7 +16,7 @@ def test_linus_sees_quit_begin_and_help_in_menu_but_no_other_commands_before_ent
     assert ui.output_anywhere("help -")
     assert ui.output_anywhere("q -")
     assert ui.output_anywhere("begin -")
-    assert ui.output_anywhere("h -")
+    assert ui.output_anywhere("i -")
     assert ui.output_anywhere("j -")
     assert ui.output_anywhere("k -")
     assert ui.output_anywhere("l -")

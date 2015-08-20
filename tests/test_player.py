@@ -15,7 +15,7 @@ def test_player_is_locatable(bob):
     assert Locatable in Player.__bases__
 
 def test_player_is_Health_Points():
-    assert Health_Points in Player.__bases__
+    assert HealthPoints in Player.__bases__
 
 def test_player_can_be_placed(bob):
     assert bob.coords == (0,0)

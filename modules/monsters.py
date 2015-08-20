@@ -5,13 +5,13 @@ inhabit the game
 
 from modules.locatable import Locatable
 from modules.movement import next_tile, what_direction
-from modules.hp import Health_Points
+from modules.hp import HealthPoints
 from modules.weapon import Weapon
 
-class Monster(Locatable, Health_Points):
+class Monster(Locatable, HealthPoints):
     def __init__(self, name, description, health_pts):
         Locatable.__init__(self)
-        Health_Points.__init__(self, health_pts)
+        HealthPoints.__init__(self, health_pts)
         self.name = name
         self.description = description
         self.target = Locatable()

@@ -7,19 +7,18 @@ def test_ghastly_cannot_travel_through_room_boundaries(ui):
     # Ghastly thinks that he can travel though wall and room boundaries
     # as it turns out, he cannot, but that won't stop him from trying.
     # He will try to walk through all 4 room boundaries of the 2 x 2 room.
-    ui.say("begin")
     ui.say("Ghastly")
     
     # He starts in tile 0,0 and tries to go west through a wall
-    ui.say("h")
+    ui.say("j")
 
     # Then he tries to go south through a wall
-    ui.say("j")
+    ui.say("k")
 
     # These walls are solid and prevent me from travelling there.  So he travels north twice.
     # The second movement is prevented by a wall
-    ui.say("k")
-    ui.say("k")
+    ui.say("i")
+    ui.say("i")
 
     # Now he tries the last wall by travelling east twice.  But cannot travel through the east wall
     ui.say("l")

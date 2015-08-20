@@ -87,8 +87,8 @@ def test_engine_will_prompt_and_exit_with_q(ui):
     ui.say("Q")
     engine.main_loop()
     assert ">" in prompt
-    assert ui.output_on_line(prompt, 4)
-    # prompt is at index 4, after setting direction keys
+    assert ui.output_on_line(prompt, 9)
+    # prompt is at index 9, after setting direction keys
 
 def test_engine_commands_are_not_case_sensitive(ui):
     ui, engine = init_test_room(ui)
@@ -96,7 +96,7 @@ def test_engine_commands_are_not_case_sensitive(ui):
     ui.say("q")
     engine.main_loop()
     assert ">" in prompt
-    assert ui.output_on_line(prompt, 4)
+    assert ui.output_on_line(prompt, 9)
 
 def test_invalid_engine_commands_receive_error_message(ui):
     ui, engine = init_test_room(ui)

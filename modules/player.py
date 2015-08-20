@@ -2,14 +2,14 @@
 from modules.hp import HealthPoints
 """ This is the module for all things player related"""
 from modules.locatable import Locatable
-from modules.hp import Health_Points
+from modules.hp import HealthPoints
 from modules.weapon import Weapon
 
-class Player(Locatable, Health_Points):
+class Player(Locatable, HealthPoints):
     """This class holds information about the player."""
     def __init__(self, name):
         Locatable.__init__(self)
-        Health_Points.__init__(self, 100)
+        HealthPoints.__init__(self, 100)
         self.description = name
         self.name = "player"
         self.display = "@"

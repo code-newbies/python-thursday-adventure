@@ -2,7 +2,7 @@ import pytest
 from tests.helpers import ui, test_room
 from modules.monsters import Monster, Cockroach
 from modules.locatable import Locatable
-from modules.hp import Health_Points
+from modules.hp import HealthPoints
 
 @pytest.fixture
 def roach():
@@ -54,7 +54,7 @@ def test_Cockroach_Inheritance():
 
 def test_Monster_Inheritance():
     assert Locatable in Monster.__bases__
-    assert Health_Points in Monster.__bases__
+    assert HealthPoints in Monster.__bases__
 
 def test_cockroach_damage(roach):
     assert roach.damage == 1

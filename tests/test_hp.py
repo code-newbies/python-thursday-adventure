@@ -37,10 +37,8 @@ def test_calc_health_returns_total(player_with_bonus):
     assert player_with_bonus.calc_health() == 125
     player_with_bonus.take_damage(31)
     assert player_with_bonus.calc_health() == 94
-    total = player.calc_health()
-    assert total == 125
 
 def test_print_health_function(capsys, player_with_bonus):
-    print(player_with_bonus)
+    print(player_with_bonus.show_health())
     output, err = capsys.readouterr()
     assert "Current Health: 125 hp\n" == output

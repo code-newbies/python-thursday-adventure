@@ -90,6 +90,7 @@ def ui():
 class UserInterfaceForTests:
     def __init__(self):
         self.commands = ["i", "l", "k", "j"] #dummy game input keys for setup
+        #North, East, South, West
         self.printed = []
         self.command_count = 0
     
