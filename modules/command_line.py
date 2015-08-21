@@ -14,22 +14,16 @@ class CommandLine:
         """Returns a list of valid commands in tuple form
         tuple is (command, function, description, valid_outside_room)
         """
-        n_response = self.prompt("Please choose a key to be your north movement: ")
-        e_response = self.prompt("Please choose a key to be your east movement: ")
-        s_response = self.prompt("Please choose a key to be your south movement: ")
-        w_response = self.prompt("Please choose a key to be your west movement: ")
         command_list = OrderedDict([
-            ("help", (engine.display_help, "display this help menu", True)),
+            ("q", (None, "quit the game", True)),
+            ("help", (engine.display_help, "display the help menu", True)),
             ("begin", (engine.start, "start the game", True)),
-            (w_response, (engine.west, "move west", False)),
-            (s_response, (engine.south, "move south", False)),
-            (n_response, (engine.north, "move north", False)),
-            (e_response, (engine.east, "move east", False)),
             ("x", (engine.coordinates, "display current tile co-ordinates", False)),
             ("e", (engine.exit, "exit the map", False)),
-            ("a", (engine.item_count, "returns item count", False)),
+            ("c", (engine.item_count, "returns item count", False)),
             ("m", (self.map_key, "display map key", True))
             ])
+
         return command_list
 
     def current_commands(self, in_room):
@@ -53,12 +47,9 @@ class CommandLine:
 You asked for help and here it is!
 
 The commands that you can use are as follows:
-
-q - quit the game"""
+"""
 
         self.display(help_text)
-        #for command in possible_commands:
-        #    self.display("{0} - {1}".format(command[0], command[2]))
         for command, command_list in possible_commands.items():
             self.display("{0} - {1}".format(command, command_list[1]))
 
