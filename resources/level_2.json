@@ -1,7 +1,7 @@
 {   
     "room": "level 2",
     "size": 4,
-    "exit_text": "You have unlocked the exit and proceed through it into a dark and ominous hallway",
+    "exit_text": "final",
     "description": "The smell of the bacon even stronger now, but you can hear footsteps in the shadows.",
     "locations":
     { 
@@ -16,6 +16,12 @@
             "x": 0,
             "y": 1,
             "display": "<"
+        },
+        "bacon":
+        {
+            "x": 3,
+            "y": 3,
+            "display": "="
         }
     }
 }

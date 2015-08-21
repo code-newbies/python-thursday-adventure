@@ -1,6 +1,7 @@
 # engine.py
 """This module ties all of the disparate components together"""
-from modules.world import initial_narration
+from modules.world import initial_narration, final_narration_lose
+from modules.world import final_narration_win
 from modules.command_line import CommandLine
 from modules.bag import Bag
 from modules.level_loader import LevelLoader
@@ -144,6 +145,10 @@ class Engine:
         """Displays the level's exit text to the user if it exists"""
         if self.room.exit_text == None:
             self.interface.display("You have exited {0}".format(self.room.name))
+        elif self.room.exit_text == "final" and "bacon" in self.bag.items:
+            self.interface.display(final_narration_win())
+        elif self.room.exit_text == "final" and "bacon" not in self.bag.items:
+            self.interface.display(final_narration_lose())
         else:
             self.interface.display(self.room.exit_text)
 
@@ -175,6 +180,8 @@ class Engine:
             self.interface.display("You picked up the key!")
         if self.pick_up_item("gold"):
             self.interface.display("You picked up the gold!")
+        if self.pick_up_item("bacon"):
+            self.interface.display("You picked up the bacon!")
 
     def vaccum_weapons(self):
         """Swiftly picks up Excalibur"""
