@@ -218,7 +218,7 @@ class Engine:
                 play &= self.move_creatures()
                 if play:
                     self.interface.display(self.level.draw_map())
-                    self.interface.display(self.player.health.show_health())
+                    self.interface.display(self.player.show_health())
 
     def move_player(self):
         """Gets the command from the player and moves (or quits)"""

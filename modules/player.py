@@ -15,7 +15,6 @@ class Player(Locatable, HealthPoints):
         self.display = "@"
         self.display_priority = 1
         self.inside = False
-        self.health = HealthPoints(10)
 
     def in_room(self):
         """Called to determine if the player is inside or outside a level"""
