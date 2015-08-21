@@ -4,7 +4,7 @@
 from os.path import join
 import json
 from modules.item import Item
-from modules.monsters import Cockroach
+from modules.monsters import Cockroach, Monster
 from modules.level import Level
 from modules.weapon import Weapon
 
@@ -112,13 +112,14 @@ def hydrate(data):
 
             if content_type == "creature":
                 locatable = Cockroach(key, description)
-                if target != None:
-                    for itm in contents:
-                        if itm.name == target:
-                            locatable.set_target(itm)
-                    else:
-                        #What should go here?
-                        pass
+                locatable.target = target
+                # if target:
+                #     for itm in contents:
+                #         if itm.name == target:
+                #             locatable.set_target(itm)
+                #     else:
+                #         #What should go here?
+                #         pass
             else:
                 locatable = Item(key, description)
 
@@ -133,5 +134,16 @@ def hydrate(data):
                 locatable.set_display(value["display"])
 
             contents.append(locatable)
+    
+    index = None        
+    for item in contents:
+        if isinstance(item, Monster):
+            index = contents.index(item)
+    if index is not None:
+        creature = contents.pop(index)
+        for itm in contents:
+            if itm.name == creature.target: 
+                creature.set_target(itm)
+        contents.append(creature)
 
     return contents
