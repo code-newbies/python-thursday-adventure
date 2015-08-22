@@ -20,4 +20,30 @@ It is dark and you light a torch...
         """
     return text
 
+def final_narration_win():
+    text = """
+After exploring all the rooms and levels of the low-sodium cartel's secret
+underground lair, our hero emerges victorious. The planned shortage of delicious 
+pork belly has been thwarted, and our hero even leaves with the spoils of her
+courageous quest.
 
+With sword in hand, gold in pocket, and a heap of giant cockroach carcasses in
+the corner, our hero departs for home and breakfast, bacon in hand.
+
+TL;DR She brought home the bacon. Congratulations!
+        """
+    return text
+
+def final_narration_lose():
+    text = """
+After exploring all the rooms and levels of the low-sodium cartel's secret
+underground lair, our hero emerges slightly worn, but with morale high.
+The planned shortage of delicious pork belly has been thwarted, but no where
+during the quest did our hero stumble upon the stash of wonderful wood-smoked,
+salty bacon.
+
+With sword in hand, gold in pocket, and a heap of giant cockroach carcasses in
+the corner, our hero departs for home and breakfast, dreaming of bacon to come.
+        """
+    return text
+    
