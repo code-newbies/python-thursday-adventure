@@ -9,9 +9,9 @@ prompt = ">"
 # aliased from ui fixture in modules/helpers.py
 info_ui = ui()
 NORTH = info_ui.commands[0]
-EAST = info_ui.commands[1]
-SOUTH = info_ui.commands[2]
-WEST = info_ui.commands[3]
+SOUTH = info_ui.commands[1]
+EAST  = info_ui.commands[2]
+WEST  = info_ui.commands[3]
 
 def test_can_pass_map_file_to_engine(ui):
     ui, engine = init_test_room(ui)
