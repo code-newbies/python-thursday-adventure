@@ -30,6 +30,13 @@ class Engine:
         self.player_in_room = None
         self.room = None
 
+        for direction in ("north", "south", "east", "west"):
+            while not self.add_direction_to_commands(direction):
+                pass
+                # The heart of what we want to do within this while loop is contained within 
+                # The add_direction_to_commands function.  We just want to keep calling it
+                # until it returns True.
+
     def start(self):
         """Use this method to start the game"""
         player_name = self.interface.greet()
@@ -265,4 +272,17 @@ class Engine:
                     return False
             else:
                 creature.move()
+        return True
+
+    def add_direction_to_commands(self, direction):
+        if not hasattr(self, direction):
+            self.interface.display("That is not a valid direction")
+            return False
+
+        response = self.interface.prompt("Please choose a key to be your {} movement: ".format(direction))
+        if response in self.interface.command_mapping:
+            self.interface.display("That key is already in use to {}".format(self.interface.command_mapping[response][1]))
+            return False
+
+        self.interface.command_mapping[response] = (getattr(self, direction), "move {}".format(direction), False)
         return True
